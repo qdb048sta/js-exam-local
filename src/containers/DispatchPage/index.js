@@ -29,6 +29,7 @@ import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
+import User from 'utils/user';
 
 import styles from './DispatchPage.module.scss';
 
@@ -286,10 +287,10 @@ class Page extends Component {
 
   onCreateComment = async data => {
     const { id } = this.props.record;
-    const { author, content } = data.input;
+    const { content } = data.input;
     const params = {
       commentRecordId: id,
-      author,
+      author: User.getUserName(),
       content,
     };
     await createComment(params);
