@@ -196,8 +196,6 @@ class Playback extends React.Component {
     return (
       <>
         <ControlWidget
-          testDate={testData.timeBegin}
-          interviewee={testData.subjectId}
           recordIndex={recordIndex}
           onChangeRecord={onChangeRecord}
           recordList={records}
@@ -209,6 +207,8 @@ class Playback extends React.Component {
           onCancel={onCancelSummary}
         />
         <PlaybackView
+          testDate={testData.timeBegin}
+          interviewee={testData.subjectId}
           handleCodeChange={handleCodeChange}
           addTape={addTape}
           resetTape={resetTape}
