@@ -32,7 +32,7 @@ const MOUNT_NODE = document.getElementById('root');
 // );
 
 // for graphql test
-Auth.signIn('Admin', 'Admin@123456')
+/*Auth.signIn('Admin', 'Admin@123456')
   .then(user => {
     console.log(user);
     Auth.currentSession()
@@ -40,5 +40,5 @@ Auth.signIn('Admin', 'Admin@123456')
       .catch(error => console.log(error));
   })
   .catch(error => console.log(error));
-
+*/
 ReactDOM.render(<Provider store={store}>{route()}</Provider>, MOUNT_NODE);

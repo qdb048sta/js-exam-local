@@ -1,11 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { setUsername } from 'redux/login/actions';
 
 import { Modal, Input, message, Icon } from 'antd';
 
 class SignOnModal extends React.Component {
   state = {
     visible: false,
-    userName: '',
+    username: '',
   };
 
   componentDidMount() {
@@ -20,53 +23,58 @@ class SignOnModal extends React.Component {
   showModal = () => {
     this.setState({
       visible: true,
-      userName: '',
+      username: '',
     });
   };
 
   onChangeUserName = e => {
-    this.setState({ userName: e.target.value });
+    this.setState({ username: e.target.value });
   };
 
   emitEmpty = () => {
-    this.setState({ userName: '' });
+    this.setState({ username: '' });
   };
 
   handleOk = () => {
-    localStorage.setItem('username', JSON.stringify(this.state.userName));
-    console.log('User: ', this.state.userName);
-
-    if (this.signedOn()) {
-      message.success(`Signed on as "${this.state.userName}"!`);
+    const username = this.state.username;
+    try {
+      localStorage.setItem('username', username);
+      console.log('User: ', username);
+      message.success(`Signed on as "${username}"`);
+      this.props.onSetUsername(username);
       this.setState({
         visible: false,
-        userName: '',
+        username: '',
       });
-    } else {
-      message.error('Failed to sign on!');
+    } catch (error) {
+      message.error('Fail to sign on!');
     }
   };
 
   render() {
-    const { visible, userName } = this.state;
-    const suffix = userName ? (
+    const { visible, username } = this.state;
+    const suffix = username ? (
       <Icon type="close-circle" onClick={this.emitEmpty} />
     ) : null;
     return (
       <Modal
-        title="Sign On"
+        title={
+          <div>
+            <Icon type="login" /> Sign On
+          </div>
+        }
         closable={false}
         visible={visible}
         onOk={this.handleOk}
         okText="Sign on"
-        okButtonProps={{ disabled: !userName }}
+        okButtonProps={{ disabled: !username }}
         cancelButtonProps={{ disabled: true }}
       >
         <Input
           placeholder="Enter a username"
           prefix={<Icon type="user" />}
           suffix={suffix}
-          value={userName}
+          value={username}
           onChange={this.onChangeUserName}
         />
       </Modal>
@@ -74,4 +82,11 @@ class SignOnModal extends React.Component {
   }
 }
 
-export default SignOnModal;
+const mapDispatchToProps = dispatch => ({
+  onSetUsername: data => dispatch(setUsername(data)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SignOnModal);

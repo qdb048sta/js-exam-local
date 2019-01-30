@@ -7,13 +7,11 @@ import { onCreateRoom } from 'graphql/subscriptions';
 
 import RoomList from './RoomList';
 import CreateRoomView from './CreateRoomView';
-import SignOnModal from './SignOnModal';
 
 import style from './MainPage.module.scss';
 
 const MainPage = props => (
   <div className={style.Mainpage}>
-    <SignOnModal />
     <div className={`${style.column} ${style.list}`}>
       {/* TODO: Room list with with lazy-loading next dataset. Here we load 1000 rooms instead. */}
       <Connect
