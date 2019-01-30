@@ -50,13 +50,12 @@ const isValid = variable => {
   return true;
 };
 
-const ResultBin = ({ tests, isLoading }) => {
+const ResultBin = ({ tests }) => {
   let currentD;
   let currentT;
   let nextD;
   let head;
 
-  console.log('test: ', tests);
   if (tests) tests.sort(byTime(false));
 
   return tests ? (
@@ -89,7 +88,6 @@ const ResultBin = ({ tests, isLoading }) => {
 
 ResultBin.propTypes = {
   tests: PropTypes.array,
-  isLoading: PropTypes.bool,
 };
 
 export default ResultBin;
