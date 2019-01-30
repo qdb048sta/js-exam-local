@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button, Icon, Dropdown, Menu, message } from 'antd';
+import { Input, Button, Icon, Dropdown, Menu, message, Popconfirm } from 'antd';
 
 import PageControlBar from 'components/PageControlBar';
 import CategorySelector from 'components/Selectors/CategorySelector';
@@ -89,10 +89,12 @@ const ControlWidget = ({
               list={questionList}
             />
             {isInRecording &&
-              <Button type="primary" onClick={onEndExam}>
-                End Exam
-                <Icon type="right" />
-              </Button>
+              <Popconfirm placement="bottom" title="Are you sure to end the exam?" onConfirm={onEndExam} okText="End it" cancelText="No">
+                <Button type="danger">
+                  End Exam
+                  <Icon type="right" />
+                </Button>
+              </Popconfirm>
             }
             {!isInRecording &&
               <Button type="primary" onClick={onDispatchQuestion}>
