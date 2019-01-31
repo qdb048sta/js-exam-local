@@ -9,15 +9,16 @@ import { Menu, Icon } from 'antd';
 
 const SubMenu = Menu.SubMenu;
 
-function signOut() {
+function logOut(history) {
   Auth.signOut()
     .then(data => console.log(data))
     .catch(err => console.log(err));
   localStorage.removeItem('username');
+  history.push('/admin');
   window.location.reload();
 }
 
-const TabWidget = ({ location: { pathname }, username }) => {
+const TabWidget = ({ location: { pathname }, history, username }) => {
   const currentKey = pathname.split('/')[2] || 'room';
   return (
     <Menu selectedKeys={[currentKey]} mode="horizontal" theme="dark">
@@ -77,7 +78,12 @@ const TabWidget = ({ location: { pathname }, username }) => {
           </div>
         }
       >
-        <Menu.Item key="signout" onClick={signOut}>
+        <Menu.Item
+          key="signout"
+          onClick={() => {
+            logOut(history)
+          }}
+        >
           <Icon type="logout" />
           Sign out
         </Menu.Item>
@@ -88,6 +94,7 @@ const TabWidget = ({ location: { pathname }, username }) => {
 
 TabWidget.propTypes = {
   location: PropTypes.object,
+  history: PropTypes.object,
   username: PropTypes.string,
 };
 
