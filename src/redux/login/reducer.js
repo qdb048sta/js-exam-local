@@ -9,10 +9,16 @@ const initialState = {
 const login = (state = initialState, action) => {
   switch (action.type) {
     case 'LOGIN/LOGIN': {
-      return { isLogin: authLogin(action.password) };
+      return {
+        ...state,
+        isLogin: authLogin(action.password),
+      };
     }
     case SET_USERNAME: {
-      return { username: action.data };
+      return {
+        ...state,
+        username: action.data,
+      };
     }
     default:
       return state;
