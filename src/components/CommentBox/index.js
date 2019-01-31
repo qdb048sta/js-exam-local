@@ -12,15 +12,14 @@ class CommentBox extends React.Component {
     return (
       <>
         <Modal visible={visible} footer={false} onCancel={setVisible}>
-          <h1>Write a Comment</h1>
+          <h1>Write a Summary</h1>
           <form onSubmit={handleSubmit(data => onSubmit({ input: data }))}>
-            <Field name="author" component={RfInput} placeholder="Your Name" />
             <Field
               name="content"
               component={RfTextArea}
-              placeholder="Enter Comment"
+              placeholder="Enter Summary"
             />
-            <Button htmlType="submit"> Add Comment </Button>
+            <Button htmlType="submit"> Add Summary </Button>
           </form>
         </Modal>
       </>

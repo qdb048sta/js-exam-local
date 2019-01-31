@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { transform } from '@babel/standalone';
-import { message, Spin, Modal } from 'antd';
+import { Modal } from 'antd';
 
 import createWrappedConsole from 'utils/consoleFactory';
 import { subscribeOnCreateRecord } from 'utils/record';
 import { getRoomInfo, updateRoomInfo } from 'redux/room/actions';
 import { setCurrentRecord } from 'redux/record/actions';
 
+import PageSpin from 'components/PageSpin';
+import PageEmpty from 'components/PageEmpty';
 import ControlWidget from 'components/Widgets/ExamControlWidget';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
@@ -18,6 +20,7 @@ import { changeCode, resetCode } from 'redux/code/actions';
 import { addConsole, resetConsole } from 'redux/consoleMsg/actions';
 import { addTape, resetTape } from 'redux/tape/actions';
 
+import styles from './ExamPage.module.scss';
 import { updateRecordData } from './actions';
 import { QUESTION_TYPE } from './constants';
 
@@ -77,7 +80,6 @@ class ExamPage extends Component {
     } else if (localStorage.examRoomPassword === room.password) {
       this.getRecordOnEntry(record);
     } else {
-      message.error("You Can't Not Enter the Page");
       this.setState({
         enableEnter: false,
       });
@@ -170,9 +172,10 @@ class ExamPage extends Component {
 
     return (
       <div>
-        <Spin spinning={isLoading}>
-          {enableEnter ? (
-            <>
+        <PageSpin spinning={isLoading} className={styles.spin}>
+
+          {enableEnter && 
+            <React.Fragment>
               <ControlWidget
                 roomDescription={room.description}
                 intervieweeName={room.subjectId}
@@ -192,13 +195,15 @@ class ExamPage extends Component {
                 tape={tape}
                 test={record.ques && record.ques.test}
               />
-            </>
-          ) : (
-            <div>
-              <h1>WRONG EXAM ROOM</h1>
-            </div>
-          )}
-        </Spin>
+            </React.Fragment>
+          }  
+
+          {!enableEnter &&
+            <PageEmpty
+               description={<span>You don't have authorization to enter this room</span>}
+            />           
+          }
+        </PageSpin>
       </div>
     );
   }

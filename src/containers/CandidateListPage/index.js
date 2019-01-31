@@ -5,7 +5,8 @@ import { graphqlOperation } from 'aws-amplify';
 import { listTests } from 'graphql/queries';
 import { onCreateTest } from 'graphql/subscriptions';
 
-import { Skeleton } from 'antd';
+import PageEmpty from 'components/PageEmpty';
+import PageSpin from 'components/PageSpin';
 
 import ResultBin from './ResultBin';
 
@@ -19,11 +20,25 @@ const CandidateListPage = () => (
     }}
   >
     {({ data: { listTests: tests }, loading, error }) => {
-      if (error) return <h3>Error</h3>;
-      if (loading || !tests) {
-        return <Skeleton avatar active paragraph={{ rows: 6 }} />;
-      }
-      return <ResultBin tests={tests.items} isLoading={loading} />;
+
+      return (
+        <PageSpin
+          spinning={loading}
+        >
+          {!loading && error &&
+            <PageEmpty description={<span>Error Occuring</span>}/>
+          }
+
+          {!loading && !tests &&
+            <PageEmpty description={<span>Data Not Found</span>} image="default"/>
+          }
+
+          {!loading && tests &&
+            <ResultBin tests={tests.items} isLoading={loading} />
+          }
+
+        </PageSpin>
+      );
     }}
   </Connect>
 );
