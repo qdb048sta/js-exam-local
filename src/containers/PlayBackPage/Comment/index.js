@@ -1,13 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { transform } from '@babel/standalone';
-
-import PlaybackControlWidget from 'components/Widgets/PlaybackControlWidget';
+import { findLastIndex } from 'lodash';
 import ReactPage from 'components/PlaybackView/React';
 import JavaScriptPage from 'components/PlaybackView/JavaScript';
-
 import { resetCurrentRecord } from 'redux/record/actions';
-import { fetchRecordWithHistory } from './actions';
+import injectReducer from 'utils/injectReducer';
+import { changeCode } from 'redux/code/actions';
+import { addTape, resetTape } from 'redux/tape/actions';
+import Summary from '../Summary';
+import ControlWidget from '../ControlWidget';
+import HistorySlider from '../HistorySlider';
+import {
+  fetchRecordWithHistory,
+  setCategoryIndex,
+  setRecordIndex,
+  setHistoryIndex,
+} from './actions';
+import playbackReducer from './reducer';
+
 const PlaybackView = args => {
   switch (args.categoryIndex) {
     case 1: {
@@ -20,13 +33,8 @@ const PlaybackView = args => {
 };
 class Playback extends React.Component {
   state = {
-    categoryIndex: 0,
-    recordIndex: 0,
-    code: '',
-    compiledCode: '',
-    tape: [],
     isLoading: false,
-    historyIndex: 0,
+    summaryVisible: false,
   };
 
   async componentDidMount() {
@@ -47,33 +55,19 @@ class Playback extends React.Component {
         ],
         plugins: ['proposal-object-rest-spread'],
       });
-      this.setState({ code: newCode, compiledCode });
+      this.props.actions.changeCode({ rawCode: newCode, compiledCode });
     } catch (e) {
-      this.setState({ code: newCode });
+      this.props.actions.changeCode({ rawCode: newCode });
     }
   };
 
   onChangeRecord = async index => {
+    const { actions } = this.props;
     this.setState({ isLoading: true });
-    this.props.actions.resetCurrentRecord();
+    actions.resetCurrentRecord();
     const { id } = this.props.records[index];
-    await this.props.actions.fetchRecordWithHistory(id);
-    const { record } = this.props;
-    if (record.history.items.length > 0) {
-      this.setState({
-        historyIndex: 0,
-        categoryIndex: record.ques.type === 'javascript' ? 0 : 1,
-        recordIndex: index,
-        isLoading: false,
-      });
-      this.handleCodeChange(record.history.items[0].code);
-    } else {
-      this.setState({
-        isLoading: false,
-        historyIndex: 0,
-        code: '',
-      });
-    }
+    await actions.fetchRecordWithHistory(id, index);
+    this.setState({ isLoading: false });
   };
 
   getNextSetHistory = async () => {
@@ -82,14 +76,12 @@ class Playback extends React.Component {
   };
 
   onForward = async () => {
-    const { historyIndex } = this.state;
+    const { historyIndex, actions } = this.props;
     const { items, nextToken } = this.props.record.history;
 
     if (historyIndex < items.length - 1) {
-      this.setState({
-        code: items[historyIndex + 1].code || '',
-        historyIndex: historyIndex + 1,
-      });
+      actions.changeCode({ rawCode: items[historyIndex + 1].code || '' });
+      actions.setHistoryIndex(historyIndex + 1);
     }
 
     if (nextToken && historyIndex === items.length - 2) {
@@ -98,71 +90,188 @@ class Playback extends React.Component {
   };
 
   onBackward = () => {
-    const { historyIndex } = this.state;
+    const { historyIndex, actions } = this.props;
     const { items } = this.props.record.history;
     if (historyIndex > 0) {
-      this.setState({
-        code: items[historyIndex - 1].code || '',
-        historyIndex: historyIndex - 1,
+      actions.changeCode({ rawCode: items[historyIndex].code || '' });
+      actions.setHistoryIndex(historyIndex - 1);
+    }
+  };
+
+  onForwardSnapComment = () => {
+    const { snapComments } = this.props;
+    const { items } = this.props.record.history;
+    const { historyIndex, actions } = this.props;
+    const nextSnapCommentIndex = snapComments.findIndex(
+      item => item.historyIndex > historyIndex,
+    );
+    if (nextSnapCommentIndex > -1) {
+      const newHistoryIndex = snapComments[nextSnapCommentIndex].historyIndex;
+      actions.changeCode({ rawCode: items[newHistoryIndex].code || '' });
+      actions.setHistoryIndex(newHistoryIndex);
+    }
+  };
+
+  onBackwardSnapComment = () => {
+    const { snapComments } = this.props;
+    const { items } = this.props.record.history;
+    const { historyIndex, actions } = this.props;
+    const previousSnapCommentIndex = findLastIndex(
+      snapComments,
+      item => item.historyIndex < historyIndex,
+    );
+    if (previousSnapCommentIndex > -1) {
+      const newHistoryIndex =
+        snapComments[previousSnapCommentIndex].historyIndex;
+      actions.changeCode({ rawCode: items[newHistoryIndex].code || '' });
+      actions.setHistoryIndex(newHistoryIndex);
+    }
+  };
+
+  onSliderChange = value => {
+    if (value >= 0) {
+      const {
+        code: { rawCode },
+        actions,
+      } = this.props;
+      const { items } = this.props.record.history;
+      actions.setHistoryIndex(value);
+      actions.changeCode({
+        rawCode: (items[value] && items[value].code) || rawCode || '',
       });
     }
   };
 
-  addTape = newTape => {
-    const { tape } = this.state;
-    this.setState({ tape: [...tape, newTape] });
+  onClickSummary = () => {
+    this.setState({ summaryVisible: true });
   };
 
-  resetTape = () => {
-    this.setState({ tape: [] });
+  onCancelSummary = () => {
+    this.setState({ summaryVisible: false });
+  };
+
+  onSliderChange = value => {
+    console.log(value);
+    const { code } = this.state;
+    const { items } = this.props.record.history;
+    console.log(items);
+    this.setState({
+      historyIndex: value,
+      code: items[value].code || code,
+    });
   };
 
   render() {
     const {
       handleCodeChange,
       onChangeRecord,
-      addTape,
-      resetTape,
       onForward,
       onBackward,
+      onForwardSnapComment,
+      onBackwardSnapComment,
+      onSliderChange,
     } = this;
-    const { recordIndex, historyIndex } = this.state;
-    const { testData, records, record } = this.props;
+    const { summaryVisible } = this.state;
+    const {
+      testData,
+      records,
+      record,
+      code,
+      tape,
+      snapComments,
+      categoryIndex,
+      recordIndex,
+      historyIndex,
+      actions,
+    } = this.props;
     return (
       <>
-        <PlaybackControlWidget
+        <ControlWidget
           testDate={testData.timeBegin}
           interviewee={testData.subjectId}
           recordIndex={recordIndex}
           onChangeRecord={onChangeRecord}
-          onForward={onForward}
-          onBackward={onBackward}
           recordList={records}
-          hasNextHistory={Boolean(record.nextToken)}
-          historyAmount={record.history.items.length}
-          historyIndex={historyIndex}
+          onClickSummary={() => {
+            this.setState({ summaryVisible: true });
+          }}
+        />
+        <Summary
+          summaryList={record.comment.items}
+          visible={summaryVisible}
+          onCancel={() => {
+            this.setState({ summaryVisible: false });
+          }}
         />
         <PlaybackView
+          categoryIndex={categoryIndex}
+          testDate={testData.timeBegin}
+          interviewee={testData.subjectId}
           handleCodeChange={handleCodeChange}
-          addTape={addTape}
-          resetTape={resetTape}
-          test={record.ques.test}
+          addTape={actions.addTape}
+          resetTape={actions.resetTape}
           comments={record.comment}
+          code={code.rawCode}
+          compiledCode={code.compiledCode}
+          test={record.ques && record.ques.test}
+          tape={tape}
           {...this.state}
+        />
+        <HistorySlider
+          onForward={onForward}
+          onBackward={onBackward}
+          onForwardSnapComment={onForwardSnapComment}
+          onBackwardSnapComment={onBackwardSnapComment}
+          historyIndex={historyIndex}
+          historyList={record.history.items}
+          snapComments={snapComments}
+          onChange={onSliderChange}
         />
       </>
     );
   }
 }
 
-export default connect(
-  state => ({
-    record: state.record,
-  }),
-  dispatch => ({
-    actions: {
-      fetchRecordWithHistory: id => dispatch(fetchRecordWithHistory(id)),
-      resetCurrentRecord: () => dispatch(resetCurrentRecord()),
-    },
-  }),
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    fetchRecordWithHistory: (id, index) =>
+      dispatch(fetchRecordWithHistory(id, index)),
+    resetCurrentRecord: () => dispatch(resetCurrentRecord()),
+    changeCode: code => dispatch(changeCode(code)),
+    setCategoryIndex: index => dispatch(setCategoryIndex(index)),
+    setRecordIndex: index => dispatch(setRecordIndex(index)),
+    setHistoryIndex: index => dispatch(setHistoryIndex(index)),
+    addTape: data => dispatch(addTape(data)),
+    resetTape: () => dispatch(resetTape()),
+  },
+});
+const mapStateToProps = state => ({
+  code: state.code,
+  tape: state.tape,
+  record: state.record,
+  categoryIndex: state.playback.categoryIndex,
+  recordIndex: state.playback.recordIndex,
+  historyIndex: state.playback.historyIndex,
+  snapComments: state.playback.snapComments,
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+const withReducer = injectReducer({
+  key: 'playback',
+  reducer: playbackReducer,
+});
+
+Playback.propTypes = {
+  code: PropTypes.object,
+  tape: PropTypes.array,
+  record: PropTypes.object,
+  snapComment: PropTypes.object,
+};
+export default compose(
+  withReducer,
+  withConnect,
 )(Playback);
