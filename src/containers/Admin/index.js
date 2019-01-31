@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withAuthenticator } from 'aws-amplify-react';
 
 import TabWidget from 'components/Widgets/TabWidget';
-import SignOnModal from 'containers/MainPage/SignOnModal';
+import SignOnModal from 'components/SignOnModal';
 
 const Admin = props => (
   <React.Fragment>
