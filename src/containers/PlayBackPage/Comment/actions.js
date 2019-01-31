@@ -1,7 +1,7 @@
 import { API, graphqlOperation } from 'aws-amplify';
+import { changeCode } from 'redux/code/actions';
 import { queryRecordWithHistory } from './queries';
-
-export function fetchRecordWithHistory(id) {
+export function fetchRecordWithHistory(id, index) {
   return async (dispatch, getState) => {
     try {
       const {
@@ -17,14 +17,22 @@ export function fetchRecordWithHistory(id) {
         graphqlOperation(queryRecordWithHistory, query),
       );
 
-      const histories = data.history.items;
+      const histories = data.getRecord.history.items;
       const result = {
         history: sortByTime(histories),
         ...data.getRecord,
       };
-      console.log(result);
+      dispatch(setHistoryIndex(0));
       dispatch(setCurrentRecordWithHistory(result));
-      dispatch(setSnapComments(getSnapComments(result.history.items)));
+      dispatch(setCategoryIndex(result.ques.type === 'javascript' ? 0 : 1));
+      dispatch(setRecordIndex(index));
+      if (result.history.items.length > 0) {
+        dispatch(changeCode({ rawCode: result.history.items[0].code }));
+        dispatch(setSnapComments(getSnapComments(result.history.items)));
+      } else {
+        dispatch(changeCode({ rawCode: result.ques.content }));
+      }
+      console.log(result);
     } catch (e) {
       console.log(e);
     }
@@ -45,9 +53,22 @@ function setSnapComments(snapComments) {
   };
 }
 
-export function setCurrentSnapComment(index) {
+export function setCategoryIndex(index) {
   return {
-    type: 'SET_SNAP_COMMENTS',
+    type: 'SET_CATEGORY_INDEX',
+    index,
+  };
+}
+export function setRecordIndex(index) {
+  return {
+    type: 'SET_RECORD_INDEX',
+    index,
+  };
+}
+
+export function setHistoryIndex(index) {
+  return {
+    type: 'SET_HISTORY_INDEX',
     index,
   };
 }
