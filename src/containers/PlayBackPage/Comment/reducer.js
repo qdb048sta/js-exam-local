@@ -27,7 +27,6 @@ function playback(state = initialState, action) {
         ...state,
         historyIndex: action.index,
       };
-
     default:
       return state;
   }

@@ -20,6 +20,7 @@ import {
   setHistoryIndex,
 } from './actions';
 import playbackReducer from './reducer';
+
 const PlaybackView = args => {
   switch (args.categoryIndex) {
     case 1: {
@@ -141,6 +142,25 @@ class Playback extends React.Component {
     }
   };
 
+  onClickSummary = () => {
+    this.setState({ summaryVisible: true });
+  };
+
+  onCancelSummary = () => {
+    this.setState({ summaryVisible: false });
+  };
+
+  onSliderChange = value => {
+    console.log(value);
+    const { code } = this.state;
+    const { items } = this.props.record.history;
+    console.log(items);
+    this.setState({
+      historyIndex: value,
+      code: items[value].code || code,
+    });
+  };
+
   render() {
     const {
       handleCodeChange,
@@ -185,6 +205,8 @@ class Playback extends React.Component {
         />
         <PlaybackView
           categoryIndex={categoryIndex}
+          testDate={testData.timeBegin}
+          interviewee={testData.subjectId}
           handleCodeChange={handleCodeChange}
           addTape={actions.addTape}
           resetTape={actions.resetTape}
