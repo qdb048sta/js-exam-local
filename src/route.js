@@ -43,11 +43,7 @@ export default () => (
             path="/admin/edit"
             render={props => <EditQuestionPage {...props} type="edit" />}
           />
-          <Route
-            exact
-            path="/admin/candidates"
-            component={CandidateListPage}
-          />
+          <Route exact path="/admin/candidates" component={CandidateListPage} />
         </Admin>
       </Route>
       <Route exact path="/exam/:roomId" component={ExamPage} />
