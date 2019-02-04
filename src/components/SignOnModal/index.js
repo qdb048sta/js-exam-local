@@ -33,10 +33,15 @@ class SignOnModal extends React.Component {
 
   handleOk = () => {
     const username = this.state.username;
+    const hostings = [];
     try {
       localStorage.setItem('username', username);
-      message.success(`Signed on as "${username}"`);
       this.props.onSetUsername(username);
+
+      localStorage.setItem('hostings', JSON.stringify(hostings));
+      console.log('create room: ', JSON.parse(localStorage.getItem('hostings')));
+
+      message.success(`Signed on as "${username}"`);
       this.setState({
         visible: false,
         username: '',

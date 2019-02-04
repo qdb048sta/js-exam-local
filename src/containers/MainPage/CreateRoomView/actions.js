@@ -52,6 +52,12 @@ export function createRoom(data) {
         }),
       );
       dispatch(createRoomActions.success(roomData.createRoom));
+
+      /* add a hosting room into 'hostings' array in local storage */
+      let hostings = JSON.parse(localStorage.getItem('hostings'));
+      if (hostings === undefined) hostings = [];
+      hostings.push(roomData.createRoom.id);
+      localStorage.setItem('hostings', JSON.stringify(hostings));
     } catch (error) {
       dispatch(createRoomActions.failure(error));
       message.error('Create room failed');

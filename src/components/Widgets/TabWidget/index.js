@@ -18,6 +18,7 @@ class TabWidget extends React.Component {
       .catch(err => console.log(err));
     localStorage.removeItem('username');
     this.props.onSetUsername('');
+    localStorage.removeItem('hostings');
   };
 
   render() {
