@@ -11,6 +11,7 @@ const initialState = {
     type: '',
   },
   history: { items: [], nextToken: null },
+  comment: { items: [], nextToken: null },
 };
 
 const record = (state = initialState, action) => {
