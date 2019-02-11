@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { transform } from '@babel/standalone';
 import { findLastIndex } from 'lodash';
 import ReactPage from 'components/PlaybackView/React';
@@ -19,8 +19,10 @@ import {
   setCategoryIndex,
   setRecordIndex,
   setHistoryIndex,
+  resetPlayback,
 } from './actions';
 import playbackReducer from './reducer';
+import { REDUCER_KEY } from './constants';
 
 const PlaybackView = args => {
   switch (args.categoryIndex) {
@@ -37,6 +39,11 @@ class Playback extends React.Component {
     isLoading: false,
     summaryVisible: false,
   };
+
+  componentWillUnmount() {
+    // to prevent old data state still exist
+    this.props.resetPlayback();
+  }
 
   async componentDidMount() {
     if (this.props.records.length > 0) {
@@ -56,33 +63,32 @@ class Playback extends React.Component {
         ],
         plugins: ['proposal-object-rest-spread'],
       });
-      this.props.actions.changeCode({ rawCode: newCode, compiledCode });
+      this.props.changeCode({ rawCode: newCode, compiledCode });
     } catch (e) {
-      this.props.actions.changeCode({ rawCode: newCode });
+      this.props.changeCode({ rawCode: newCode });
     }
   };
 
   onChangeRecord = async index => {
-    const { actions } = this.props;
     this.setState({ isLoading: true });
-    actions.resetCurrentRecord();
+    this.props.resetCurrentRecord();
     const { id } = this.props.records[index];
-    await actions.fetchRecordWithHistory(id, index);
+    await this.props.fetchRecordWithHistory(id, index);
     this.setState({ isLoading: false });
   };
 
   getNextSetHistory = async () => {
     const { id } = this.props.record;
-    await this.props.actions.fetchRecordWithHistory(id);
+    await this.props.fetchRecordWithHistory(id);
   };
 
   onForward = async () => {
-    const { historyIndex, actions } = this.props;
+    const { historyIndex } = this.props;
     const { items, nextToken } = this.props.record.history;
 
     if (historyIndex < items.length - 1) {
-      actions.changeCode({ rawCode: items[historyIndex + 1].code || '' });
-      actions.setHistoryIndex(historyIndex + 1);
+      this.props.changeCode({ rawCode: items[historyIndex + 1].code || '' });
+      this.props.setHistoryIndex(historyIndex + 1);
     }
 
     if (nextToken && historyIndex === items.length - 2) {
@@ -91,32 +97,32 @@ class Playback extends React.Component {
   };
 
   onBackward = () => {
-    const { historyIndex, actions } = this.props;
+    const { historyIndex } = this.props;
     const { items } = this.props.record.history;
     if (historyIndex > 0) {
-      actions.changeCode({ rawCode: items[historyIndex].code || '' });
-      actions.setHistoryIndex(historyIndex - 1);
+      this.props.changeCode({ rawCode: items[historyIndex].code || '' });
+      this.props.setHistoryIndex(historyIndex - 1);
     }
   };
 
   onForwardSnapComment = () => {
     const { snapComments } = this.props;
     const { items } = this.props.record.history;
-    const { historyIndex, actions } = this.props;
+    const { historyIndex } = this.props;
     const nextSnapCommentIndex = snapComments.findIndex(
       item => item.historyIndex > historyIndex,
     );
     if (nextSnapCommentIndex > -1) {
       const newHistoryIndex = snapComments[nextSnapCommentIndex].historyIndex;
-      actions.changeCode({ rawCode: items[newHistoryIndex].code || '' });
-      actions.setHistoryIndex(newHistoryIndex);
+      this.props.changeCode({ rawCode: items[newHistoryIndex].code || '' });
+      this.props.setHistoryIndex(newHistoryIndex);
     }
   };
 
   onBackwardSnapComment = () => {
     const { snapComments } = this.props;
     const { items } = this.props.record.history;
-    const { historyIndex, actions } = this.props;
+    const { historyIndex } = this.props;
     const previousSnapCommentIndex = findLastIndex(
       snapComments,
       item => item.historyIndex < historyIndex,
@@ -124,8 +130,8 @@ class Playback extends React.Component {
     if (previousSnapCommentIndex > -1) {
       const newHistoryIndex =
         snapComments[previousSnapCommentIndex].historyIndex;
-      actions.changeCode({ rawCode: items[newHistoryIndex].code || '' });
-      actions.setHistoryIndex(newHistoryIndex);
+      this.props.changeCode({ rawCode: items[newHistoryIndex].code || '' });
+      this.props.setHistoryIndex(newHistoryIndex);
     }
   };
 
@@ -133,11 +139,10 @@ class Playback extends React.Component {
     if (value >= 0) {
       const {
         code: { rawCode },
-        actions,
       } = this.props;
       const { items } = this.props.record.history;
-      actions.setHistoryIndex(value);
-      actions.changeCode({
+      this.props.setHistoryIndex(value);
+      this.props.changeCode({
         rawCode: (items[value] && items[value].code) || rawCode || '',
       });
     }
@@ -172,7 +177,8 @@ class Playback extends React.Component {
       categoryIndex,
       recordIndex,
       historyIndex,
-      actions,
+      addTape,
+      resetTape,
     } = this.props;
     return (
       <>
@@ -182,6 +188,7 @@ class Playback extends React.Component {
           recordIndex={recordIndex}
           onChangeRecord={onChangeRecord}
           recordList={records}
+          summaryDisabled={record.comment.items.length === 0}
           onClickSummary={() => {
             this.setState({ summaryVisible: true });
           }}
@@ -195,14 +202,10 @@ class Playback extends React.Component {
         />
         <div style={{ display: 'flex' }}>
           <PlaybackView
-            historyIndex={historyIndex}
-            snapComments={snapComments}
             categoryIndex={categoryIndex}
-            testDate={testData.timeBegin}
-            interviewee={testData.subjectId}
             handleCodeChange={handleCodeChange}
-            addTape={actions.addTape}
-            resetTape={actions.resetTape}
+            addTape={addTape}
+            resetTape={resetTape}
             comments={record.comment}
             code={code.rawCode}
             compiledCode={code.compiledCode}
@@ -227,19 +230,22 @@ class Playback extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: {
-    fetchRecordWithHistory: (id, index) =>
-      dispatch(fetchRecordWithHistory(id, index)),
-    resetCurrentRecord: () => dispatch(resetCurrentRecord()),
-    changeCode: code => dispatch(changeCode(code)),
-    setCategoryIndex: index => dispatch(setCategoryIndex(index)),
-    setRecordIndex: index => dispatch(setRecordIndex(index)),
-    setHistoryIndex: index => dispatch(setHistoryIndex(index)),
-    addTape: data => dispatch(addTape(data)),
-    resetTape: () => dispatch(resetTape()),
-  },
-});
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      resetCurrentRecord,
+      changeCode,
+      addTape,
+      resetTape,
+      fetchRecordWithHistory,
+      setCategoryIndex,
+      setRecordIndex,
+      setHistoryIndex,
+      resetPlayback,
+    },
+    dispatch,
+  );
+
 const mapStateToProps = state => ({
   code: state.code,
   tape: state.tape,
@@ -256,7 +262,7 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({
-  key: 'playback',
+  key: REDUCER_KEY,
   reducer: playbackReducer,
 });
 
@@ -264,7 +270,10 @@ Playback.propTypes = {
   code: PropTypes.object,
   tape: PropTypes.array,
   record: PropTypes.object,
-  snapComment: PropTypes.object,
+  categoryIndex: PropTypes.number,
+  recordIndex: PropTypes.number,
+  historyIndex: PropTypes.number,
+  snapComments: PropTypes.array,
 };
 export default compose(
   withReducer,

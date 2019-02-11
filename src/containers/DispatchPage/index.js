@@ -5,8 +5,8 @@ import queryString from 'query-string';
 import { transform } from '@babel/standalone';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as subscriptions from 'graphql/subscriptions';
-import { Spin, Empty, Modal, message } from 'antd';
-
+import { Modal, message } from 'antd';
+ 
 import {
   subscribeOnCreateRecord,
   subscribeOnUpdateRecordByRecordId,
@@ -23,14 +23,14 @@ import {
   endRecordData,
 } from 'redux/record/actions';
 
+import PageEmpty from 'components/PageEmpty';
+import PageSpin from 'components/PageSpin';
 import CommentBox from 'components/CommentBox';
-import notFoundIcon from 'asset/image/not-found.jpg';
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
-
-import styles from './DispatchPage.module.scss';
+import User from 'utils/user';
 
 const MainView = args => {
   switch (args.categoryIndex) {
@@ -286,10 +286,10 @@ class Page extends Component {
 
   onCreateComment = async data => {
     const { id } = this.props.record;
-    const { author, content } = data.input;
+    const { content } = data.input;
     const params = {
       commentRecordId: id,
-      author,
+      author: User.getUserName(),
       content,
     };
     await createComment(params);
@@ -362,10 +362,12 @@ class Page extends Component {
     } = this;
     const { room, question, record } = this.props;
     return (
-      <React.Fragment>
-        <Spin className={styles.spin} spinning={isLoading} size="large">
-          {!isLoading && !room.error && (
-            <React.Fragment>
+      <React.Fragment>                             
+        <PageSpin
+          spinning={isLoading}
+        >
+          {!isLoading && !room.error &&
+            <React.Fragment>  
               <ControlWidget
                 isHost={room.isHost}
                 record={record}
@@ -396,15 +398,15 @@ class Page extends Component {
               />
               <SnapCommentBar />
             </React.Fragment>
-          )}
-          {!isLoading && room.error && (
-            <Empty
-              className={styles.empty}
-              image={notFoundIcon}
+          }
+          
+          {!isLoading && room.error &&
+            <PageEmpty
               description={<span>Room Not Found</span>}
             />
-          )}
-        </Spin>
+          }
+        </PageSpin>
+     
         <CommentBox
           onSubmit={this.onCreateComment}
           visible={commentBoxVisible}
