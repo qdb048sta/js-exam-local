@@ -11,7 +11,10 @@ const PageSpin = ({ children, spinning }) => (
 );
 
 PageSpin.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.array.isRequired,
+    PropTypes.object.isRequired,
+  ]),
   spinning: PropTypes.bool.isRequired,
 };
 
