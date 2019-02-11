@@ -61,7 +61,6 @@ class Page extends Component {
   async componentDidMount() {
     const roomId = this.props.match.params.roomId;
     if (JSON.parse(localStorage.getItem('hostings')).includes(roomId)) {
-      console.log('hosting rooms');
       this.props.actions.setRoomHost(true);
     } else {
       this.props.actions.setRoomHost(false);

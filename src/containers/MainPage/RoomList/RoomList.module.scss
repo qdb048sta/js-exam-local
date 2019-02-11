@@ -10,6 +10,11 @@
   }
 }
 
+.listMeta {
+  display: flex;
+  flex: 4 1;
+}
+
 .avatar {
   background-color: #7EAED0;
 }
@@ -23,7 +28,7 @@
 
 .roomName {
   display: inline;
-  padding: 0px 45px;
+  padding: 0px 0px 0px 45px;
   font-size: 18px;
   font-weight: bold;
 }
@@ -36,11 +41,11 @@
 
 .subjectId {
   display: inline;
-  padding: 0px 20px;
+  padding: 0px 0px 0px 20px;
   font-weight: 500;
 }
 
-.roomStatus {
-  float: right;
+.listContent {
   color: rgb(27, 81, 117);
+  font-weight: bold;
 }
