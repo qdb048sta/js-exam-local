@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import 'brace';
 import 'brace/mode/javascript';
 import 'brace/theme/textmate';
 import 'brace/theme/monokai';
 
-import { Spin, Icon } from 'antd';
+import { Spin } from 'antd';
 
-import Grid from 'components/Grid';
-import GridItem from 'components/Grid/GridItem';
 import CodeWidget from 'components/Widgets/CodeWidget';
 import TestWidget from 'components/Widgets/TestWidget';
 import TapeWidget from 'components/Widgets/TapeWidget';
@@ -16,11 +15,24 @@ import debouncedRunCode from 'utils/runCode';
 import { JAVASCRIPT as GRID_LABEL_JAVASCRIPT } from 'utils/gridLabel';
 
 import styles from './JavaScriptPage.module.scss';
-import CommentArea from '../Comment';
 
 class JavaScriptPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      height: props.height,
+      widthCode: props.width,
+      widthTests: props.width,
+    };
+  }
+
   componentDidMount() {
     const { compiledCode, addTape } = this.props;
+    this.setState({
+      height: `${window.innerHeight - 160}px`,
+      widthCode: `${window.innerWidth * 0.45}px`,
+      widthTests: `${window.innerWidth * 0.3}px`,
+    });
     debouncedRunCode({ code: compiledCode, onTapeUpdate: addTape });
   }
 
@@ -38,90 +50,41 @@ class JavaScriptPage extends Component {
     return true;
   }
 
-  getDateOutput(dateTime) {
-    const date = new Date(dateTime);
-    return date.toLocaleString();
-  }
-
   render() {
-    const { handleCodeChange, code, test, tape, isLoading, comments, testDate, interviewee } = this.props;
-    // const layout = [
-    //   {
-    //     key: 'code',
-    //     x: 0,
-    //     y: 0,
-    //     width: window.innerWidth / 2,
-    //     height: window.innerHeight / 2,
-    //     minWidth: 100,
-    //     minHeight: 100,
-    //     maxWidth: 700,
-    //     maxHeight: 500,
-    //   },
-    //   {
-    //     key: 'test',
-    //     x: 0,
-    //     y: 1,
-    //     width: window.innerWidth / 2,
-    //     height: window.innerHeight / 2,
-    //     minWidth: 100,
-    //     maxWidth: 700,
-    //   },
-    //   {
-    //     key: 'tape',
-    //     x: 1,
-    //     y: 0,
-    //     width: window.innerWidth / 2,
-    //     height: window.innerHeight / 2,
-    //     minWidth: 100,
-    //     minHeight: 100,
-    //     maxWidth: 700,
-    //     maxHeight: 500,
-    //   },
-    //   {
-    //     key: 'comment',
-    //     x: 1,
-    //     y: 1,
-    //     width: window.innerWidth / 2,
-    //     height: window.innerHeight / 2,
-    //     minWidth: 100,
-    //     minHeight: 100,
-    //     maxWidth: 700,
-    //     maxHeight: 500,
-    //   },
-    // ];
+    this.codeWidgetstyle = {
+      height: this.state.height,
+      width: this.state.widthCode,
+      position: 'relative',
+    };
+    this.testWidgetStyle = {
+      height: this.state.height,
+      width: this.state.widthTests,
+      position: 'relative',
+    };
+    const { handleCodeChange, code, test, tape, isLoading } = this.props;
     return (
       <>
         <Spin spinning={isLoading} size="large">
-          <div style={{display: 'flex'}}>
-            <div style={{display: 'flex', flexDirection: 'row', border: '2px solid #000'}}>
-              <div style={{width: '500px', height: '450px'}}>
-                <CodeWidget
-                  handleCodeChange={handleCodeChange}
-                  data={code}
-                  mode="javascript"
-                  theme="monokai"
-                  readOnly
-                />
-              </div>
-              <div style={{width: '300px', height: '450px'}}>
-                <div style={{height: '225px'}}>
-                  <TapeWidget data={tape} />
-                </div>
-                <div style={{height: '225px'}}>
-                  <TestWidget data={test} readOnly />
-                </div>
-              </div>
+          <div className={styles.app}>
+            <div style={this.codeWidgetstyle}>
+              <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.code}</div>
+              <CodeWidget
+                handleCodeChange={handleCodeChange}
+                data={code}
+                mode="javascript"
+                theme="monokai"
+                readOnly
+              />
             </div>
-            <div>
-              <div className={styles.icon} id={styles.date}>
-                <Icon className={styles.icon} type="calendar" />
-                {this.getDateOutput(testDate)}
+            <div style={this.testWidgetStyle}>
+              <div className={styles.rightWidget}>
+                <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.tape}</div>
+                <TapeWidget data={tape} />
               </div>
-              <div className={styles.icon} id={styles.name}>
-                <Icon type="user" />
-                {interviewee}
+              <div className={styles.rightWidget}>
+                <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.test}</div>
+                <TestWidget data={test} readOnly />
               </div>
-              <CommentArea />
             </div>
           </div>
         </Spin>
@@ -129,5 +92,23 @@ class JavaScriptPage extends Component {
     );
   }
 }
+
+JavaScriptPage.propTypes = {
+  compiledCode: PropTypes.string,
+  code: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  test: PropTypes.string,
+  tape: PropTypes.array,
+  isLoading: PropTypes.bool,
+  handleCodeChange: PropTypes.func,
+  resetTape: PropTypes.func,
+  addTape: PropTypes.func,
+};
+
+JavaScriptPage.defaultProps = {
+  height: '500px',
+  width: '500px',
+};
 
 export default JavaScriptPage;

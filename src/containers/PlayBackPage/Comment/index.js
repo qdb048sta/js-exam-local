@@ -10,6 +10,7 @@ import { resetCurrentRecord } from 'redux/record/actions';
 import injectReducer from 'utils/injectReducer';
 import { changeCode } from 'redux/code/actions';
 import { addTape, resetTape } from 'redux/tape/actions';
+import CommentArea from 'components/PlaybackView/Comment';
 import Summary from '../Summary';
 import ControlWidget from '../ControlWidget';
 import HistorySlider from '../HistorySlider';
@@ -150,17 +151,6 @@ class Playback extends React.Component {
     this.setState({ summaryVisible: false });
   };
 
-  onSliderChange = value => {
-    console.log(value);
-    const { code } = this.state;
-    const { items } = this.props.record.history;
-    console.log(items);
-    this.setState({
-      historyIndex: value,
-      code: items[value].code || code,
-    });
-  };
-
   render() {
     const {
       handleCodeChange,
@@ -203,20 +193,25 @@ class Playback extends React.Component {
             this.setState({ summaryVisible: false });
           }}
         />
-        <PlaybackView
-          categoryIndex={categoryIndex}
-          testDate={testData.timeBegin}
-          interviewee={testData.subjectId}
-          handleCodeChange={handleCodeChange}
-          addTape={actions.addTape}
-          resetTape={actions.resetTape}
-          comments={record.comment}
-          code={code.rawCode}
-          compiledCode={code.compiledCode}
-          test={record.ques && record.ques.test}
-          tape={tape}
-          {...this.state}
-        />
+        <div style={{ display: 'flex' }}>
+          <PlaybackView
+            historyIndex={historyIndex}
+            snapComments={snapComments}
+            categoryIndex={categoryIndex}
+            testDate={testData.timeBegin}
+            interviewee={testData.subjectId}
+            handleCodeChange={handleCodeChange}
+            addTape={actions.addTape}
+            resetTape={actions.resetTape}
+            comments={record.comment}
+            code={code.rawCode}
+            compiledCode={code.compiledCode}
+            test={record.ques && record.ques.test}
+            tape={tape}
+            {...this.state}
+          />
+          <CommentArea />
+        </div>
         <HistorySlider
           onForward={onForward}
           onBackward={onBackward}

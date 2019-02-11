@@ -7,13 +7,30 @@ import styles from './ControlWidget.module.scss';
 
 const InputGroup = Input.Group;
 
+function getDateOutput(dateTime) {
+  const date = new Date(dateTime);
+  return date.toLocaleString();
+}
+
 const ControlWidget = ({
   recordIndex,
   onChangeRecord,
   recordList,
   onClickSummary,
+  interviewee,
+  testDate,
 }) => (
   <PageControlBar>
+    <div className={styles.info}>
+      <span className={styles.icon} id={styles.date}>
+        <Icon className={styles.icon} type="calendar" />
+        {getDateOutput(testDate)}
+      </span>
+      <span className={styles.icon} id={styles.name}>
+        <Icon className={styles.icon} type="user" />
+        {interviewee}
+      </span>
+    </div>
     <div>
       <InputGroup compact style={{ width: 'auto', display: 'inline-block' }}>
         <Button type="primary" onClick={onClickSummary}>

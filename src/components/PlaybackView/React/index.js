@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import 'brace';
 import 'brace/mode/jsx';
 import 'brace/mode/javascript';
@@ -7,12 +8,9 @@ import 'brace/theme/monokai';
 
 import { Spin } from 'antd';
 
-import Grid from 'components/Grid';
-import GridItem from 'components/Grid/GridItem';
 import CodeWidget from 'components/Widgets/CodeWidget';
 import ResultWidget from 'components/Widgets/ResultWidget';
 import AnswerWidget from 'components/Widgets/AnswerWidget';
-import CommentArea from '../Comment';
 
 import debouncedRunCode from 'utils/runCode';
 import { REACT as GRID_LABEL_REACT } from 'utils/gridLabel';
@@ -20,10 +18,22 @@ import { REACT as GRID_LABEL_REACT } from 'utils/gridLabel';
 import styles from './ReactPage.module.scss';
 
 class ReactPage extends Component {
-  controlHeight = 70;
+  constructor(props) {
+    super(props);
+    this.state = {
+      height: props.height,
+      widthCode: props.width,
+      widthTests: props.width,
+    };
+  }
 
   async componentDidMount() {
     const { compiledCode, addTape } = this.props;
+    this.setState({
+      height: `${window.innerHeight - 160}px`,
+      widthCode: `${window.innerWidth * 0.45}px`,
+      widthTests: `${window.innerWidth * 0.3}px`,
+    });
     debouncedRunCode({ code: compiledCode, onTapeUpdate: addTape });
   }
 
@@ -37,67 +47,23 @@ class ReactPage extends Component {
   }
 
   render() {
-    const { handleCodeChange, test, code, isLoading, comments } = this.props;
-    const layout = [
-      {
-        key: 'code',
-        x: 0,
-        y: 0,
-        width: window.innerWidth / 2,
-        height: window.innerHeight / 2,
-        minWidth: 100,
-        minHeight: 100,
-        maxWidth: 700,
-        maxHeight: 500,
-      },
-      {
-        key: 'test',
-        x: 0,
-        y: 1,
-        width: window.innerWidth / 2,
-        height: window.innerHeight / 2,
-        minWidth: 100,
-        maxWidth: 700,
-      },
-      {
-        key: 'result',
-        x: 1,
-        y: 0,
-        width: window.innerWidth / 2,
-        height: (window.innerHeight - this.controlHeight) / 2 - 100,
-        minWidth: 100,
-        minHeight: 100,
-        maxWidth: 700,
-        maxHeight: 500,
-      },
-      {
-        key: 'answer',
-        x: 1,
-        y: 1,
-        width: window.innerWidth / 2,
-        height: (window.innerHeight - this.controlHeight) / 2 - 100,
-        minWidth: 100,
-        minHeight: 100,
-        maxWidth: 700,
-        maxHeight: 500,
-      },
-      {
-        key: 'comment',
-        x: 1,
-        y: 3,
-        width: window.innerWidth / 2,
-        height: 200,
-        minWidth: 100,
-        minHeight: 100,
-        maxWidth: 700,
-        maxHeight: 500,
-      },
-    ];
+    this.codeWidgetstyle = {
+      height: this.state.height,
+      width: this.state.widthCode,
+      position: 'relative',
+    };
+    this.testWidgetStyle = {
+      height: this.state.height,
+      width: this.state.widthTests,
+      position: 'relative',
+    };
+    const { handleCodeChange, test, code, isLoading } = this.props;
     return (
-      <div className={styles.app}>
+      <>
         <Spin spinning={isLoading} size="large">
-          <Grid layout={layout} totalWidth="100%" totalHeight="100%" autoResize>
-            <GridItem key="code" label={GRID_LABEL_REACT.code}>
+          <div className={styles.app}>
+            <div style={this.codeWidgetstyle}>
+              <div className={styles.label}>Code</div>
               <CodeWidget
                 handleCodeChange={handleCodeChange}
                 data={code}
@@ -105,24 +71,37 @@ class ReactPage extends Component {
                 theme="monokai"
                 readOnly
               />
-            </GridItem>
-            <GridItem key="test" label={GRID_LABEL_REACT.test}>
-              <CodeWidget data={test} mode="jsx" theme="textmate" readOnly />
-            </GridItem>
-            <GridItem key="answer" label={GRID_LABEL_REACT.answer}>
-              <AnswerWidget />
-            </GridItem>
-            <GridItem key="result" label={GRID_LABEL_REACT.result}>
-              <ResultWidget />
-            </GridItem>
-            <GridItem key="comment" label="comment">
-              <CommentArea comments={comments} />
-            </GridItem>
-          </Grid>
+            </div>
+            <div style={this.testWidgetStyle}>
+              <div className={styles.rightWidget}>
+                <div className={styles.label}>{GRID_LABEL_REACT.test}</div>
+                <CodeWidget data={test} mode="jsx" theme="textmate" readOnly />
+              </div>
+              <div className={styles.rightWidget}>
+                <div className={styles.label}>{GRID_LABEL_REACT.answer}</div>
+                <AnswerWidget />
+              </div>
+              <div className={styles.rightWidget}>
+                <div className={styles.label}>{GRID_LABEL_REACT.result}</div>
+                <ResultWidget />
+              </div>
+            </div>
+          </div>
         </Spin>
-      </div>
+      </>
     );
   }
 }
+
+ReactPage.propTypes = {
+  compiledCode: PropTypes.string,
+  code: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string,
+  test: PropTypes.string,
+  isLoading: PropTypes.bool,
+  handleCodeChange: PropTypes.func,
+  addTape: PropTypes.func,
+};
 
 export default ReactPage;
