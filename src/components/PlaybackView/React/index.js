@@ -29,6 +29,7 @@ class ReactPage extends Component {
 
   async componentDidMount() {
     const { compiledCode, addTape } = this.props;
+
     this.setState({
       height: `${window.innerHeight - 160}px`,
       widthCode: `${window.innerWidth * 0.45}px`,
@@ -38,6 +39,7 @@ class ReactPage extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
+    
     const { compiledCode: previousCompiledCode } = this.props;
     const { compiledCode } = nextProps;
     if (previousCompiledCode !== compiledCode) {
@@ -57,38 +59,36 @@ class ReactPage extends Component {
       width: this.state.widthTests,
       position: 'relative',
     };
-    const { handleCodeChange, test, code, isLoading } = this.props;
+    const { handleCodeChange, test, code } = this.props;
     return (
-      <>
-        <Spin spinning={isLoading} size="large">
-          <div className={styles.app}>
-            <div style={this.codeWidgetstyle}>
-              <div className={styles.label}>Code</div>
-              <CodeWidget
-                handleCodeChange={handleCodeChange}
-                data={code}
-                mode="jsx"
-                theme="monokai"
-                readOnly
-              />
+      <React.Fragment>
+        <div className={styles.app}>
+          <div style={this.codeWidgetstyle}>
+            <div className={styles.label}>Code</div>
+            <CodeWidget
+              handleCodeChange={handleCodeChange}
+              data={code}
+              mode="jsx"
+              theme="monokai"
+              readOnly
+            />
+          </div>
+          <div style={this.testWidgetStyle}>
+            <div className={styles.rightWidget}>
+              <div className={styles.label}>{GRID_LABEL_REACT.test}</div>
+              <CodeWidget data={test} mode="jsx" theme="textmate" readOnly />
             </div>
-            <div style={this.testWidgetStyle}>
-              <div className={styles.rightWidget}>
-                <div className={styles.label}>{GRID_LABEL_REACT.test}</div>
-                <CodeWidget data={test} mode="jsx" theme="textmate" readOnly />
-              </div>
-              <div className={styles.rightWidget}>
-                <div className={styles.label}>{GRID_LABEL_REACT.answer}</div>
-                <AnswerWidget />
-              </div>
-              <div className={styles.rightWidget}>
-                <div className={styles.label}>{GRID_LABEL_REACT.result}</div>
-                <ResultWidget />
-              </div>
+            <div className={styles.rightWidget}>
+              <div className={styles.label}>{GRID_LABEL_REACT.answer}</div>
+              <AnswerWidget />
+            </div>
+            <div className={styles.rightWidget}>
+              <div className={styles.label}>{GRID_LABEL_REACT.result}</div>
+              <ResultWidget />
             </div>
           </div>
-        </Spin>
-      </>
+        </div>
+      </React.Fragment>
     );
   }
 }
@@ -99,7 +99,6 @@ ReactPage.propTypes = {
   height: PropTypes.string,
   width: PropTypes.string,
   test: PropTypes.string,
-  isLoading: PropTypes.bool,
   handleCodeChange: PropTypes.func,
   addTape: PropTypes.func,
 };
