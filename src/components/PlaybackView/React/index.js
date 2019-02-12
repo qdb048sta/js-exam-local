@@ -29,6 +29,7 @@ class ReactPage extends Component {
 
   async componentDidMount() {
     const { compiledCode, addTape } = this.props;
+
     this.setState({
       height: `${window.innerHeight - 160}px`,
       widthCode: `${window.innerWidth * 0.45}px`,
@@ -38,6 +39,7 @@ class ReactPage extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
+    
     const { compiledCode: previousCompiledCode } = this.props;
     const { compiledCode } = nextProps;
     if (previousCompiledCode !== compiledCode) {
