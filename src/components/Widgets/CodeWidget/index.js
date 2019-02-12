@@ -9,10 +9,11 @@ class CodeWidget extends PureComponent {
     super(props);
   }
 
-  componentDidMount() {
+  handleOnLoad = (editor) => {
+
     setTimeout(() => {
-      this.refs.editor.editor.resize();
-    },200);
+      editor.resize();
+    }, 200);
   }
 
   render() {
@@ -20,12 +21,12 @@ class CodeWidget extends PureComponent {
 
     return (
       <AceEditor
-        ref="editor"
         className={styles.code}
         showPrintMargin={false}
         mode={mode}
         theme={theme}
         readOnly={readOnly}
+        onLoad={this.handleOnLoad}
         onChange={handleCodeChange}
         value={data}
         tabSize={2}
