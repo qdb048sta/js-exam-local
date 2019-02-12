@@ -1,6 +1,10 @@
 .commentarea {
   background-color: #eeeeff;
-  height: 100%;
+  margin: 15px;
+  width: 100%;
+  height: auto;
+  border: 1px solid #b0b4fb;
+  border-radius: 5px;
   
   h4 {
     margin: 10px 0 0 10px;
@@ -11,7 +15,7 @@
   .comments {
     margin: 5px 20px;
     background-color: #ffffff;
-    height: 100%;
+    height: auto;
   }
 
   .listItem {

@@ -64,6 +64,7 @@ function setSnapComments(snapComments) {
     snapComments,
   };
 }
+
 export function setCategoryIndex(index) {
   return {
     type: SET_CATEGORY_INDEX,

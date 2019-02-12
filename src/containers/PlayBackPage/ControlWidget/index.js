@@ -9,28 +9,16 @@ const InputGroup = Input.Group;
 
 function getDateOutput(dateTime) {
   const date = new Date(dateTime);
-
-  function addZeroOutput(time) {
-    if (time < 10) {
-      return `0${time}`;
-    }
-    return time;
-  }
-
-  return `${date.getFullYear()}/${addZeroOutput(
-    date.getMonth() + 1,
-  )}/${addZeroOutput(date.getDate())} ${addZeroOutput(
-    date.getHours(),
-  )}:${addZeroOutput(date.getMinutes())}:${addZeroOutput(date.getSeconds())}`;
+  return date.toLocaleString();
 }
 
 const ControlWidget = ({
-  testDate,
-  interviewee,
   recordIndex,
   onChangeRecord,
   recordList,
   onClickSummary,
+  interviewee,
+  testDate,
   summaryDisabled,
 }) => (
   <PageControlBar>
