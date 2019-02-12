@@ -61,34 +61,32 @@ class JavaScriptPage extends Component {
       width: this.state.widthTests,
       position: 'relative',
     };
-    const { handleCodeChange, code, test, tape, isLoading } = this.props;
+    const { handleCodeChange, code, test, tape } = this.props;
     return (
-      <>
-        <Spin spinning={isLoading} size="large">
-          <div className={styles.app}>
-            <div style={this.codeWidgetstyle}>
-              <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.code}</div>
-              <CodeWidget
-                handleCodeChange={handleCodeChange}
-                data={code}
-                mode="javascript"
-                theme="monokai"
-                readOnly
-              />
+      <React.Fragment>
+        <div className={styles.app}>
+          <div style={this.codeWidgetstyle}>
+            <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.code}</div>
+            <CodeWidget
+              handleCodeChange={handleCodeChange}
+              data={code}
+              mode="javascript"
+              theme="monokai"
+              readOnly
+            />
+          </div>
+          <div style={this.testWidgetStyle}>
+            <div className={styles.rightWidget}>
+              <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.tape}</div>
+              <TapeWidget data={tape} />
             </div>
-            <div style={this.testWidgetStyle}>
-              <div className={styles.rightWidget}>
-                <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.tape}</div>
-                <TapeWidget data={tape} />
-              </div>
-              <div className={styles.rightWidget}>
-                <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.test}</div>
-                <TestWidget data={test} readOnly />
-              </div>
+            <div className={styles.rightWidget}>
+              <div className={styles.label}>{GRID_LABEL_JAVASCRIPT.test}</div>
+              <TestWidget data={test} readOnly />
             </div>
           </div>
-        </Spin>
-      </>
+        </div>
+      </React.Fragment>
     );
   }
 }
@@ -100,7 +98,6 @@ JavaScriptPage.propTypes = {
   width: PropTypes.string,
   test: PropTypes.string,
   tape: PropTypes.array,
-  isLoading: PropTypes.bool,
   handleCodeChange: PropTypes.func,
   resetTape: PropTypes.func,
   addTape: PropTypes.func,
