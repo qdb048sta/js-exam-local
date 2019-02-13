@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -7,16 +7,23 @@ import { Auth } from 'aws-amplify';
 
 import { clearUser } from 'redux/login/actions';
 
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Modal } from 'antd';
 
 const SubMenu = Menu.SubMenu;
 
-class TabWidget extends React.Component {
+class TabWidget extends PureComponent {
   logOut = history => {
-    Auth.signOut()
-      .then(() => history.push('/'))
-      .catch(err => console.log(err));
-    this.props.onClearUser();
+    Modal.confirm({
+      title: 'Are you sure you want to sign out?',
+      okText: 'Sign out',
+      onOk: () => {
+        Auth.signOut()
+          .then(() => history.push('/'))
+          .catch(err => console.log(err));
+        this.props.onClearUser();
+      },
+      onCancel: () => {},
+    });
   };
 
   render() {

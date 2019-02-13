@@ -4,15 +4,22 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { transform } from '@babel/standalone';
 import { findLastIndex } from 'lodash';
-import ReactPage from 'components/PlaybackView/React';
-import JavaScriptPage from 'components/PlaybackView/JavaScript';
+
 import { resetCurrentRecord } from 'redux/record/actions';
-import injectReducer from 'utils/injectReducer';
 import { changeCode } from 'redux/code/actions';
 import { addTape, resetTape } from 'redux/tape/actions';
+
+import injectReducer from 'utils/injectReducer';
+
+import PageSpin from 'components/PageSpin';
+import ReactPage from 'components/PlaybackView/React';
+import JavaScriptPage from 'components/PlaybackView/JavaScript';
+import CommentArea from 'components/PlaybackView/Comment';
+
 import Summary from '../Summary';
 import ControlWidget from '../ControlWidget';
 import HistorySlider from '../HistorySlider';
+
 import {
   fetchRecordWithHistory,
   setCategoryIndex,
@@ -22,6 +29,7 @@ import {
 } from './actions';
 import playbackReducer from './reducer';
 import { REDUCER_KEY } from './constants';
+
 const PlaybackView = args => {
   switch (args.categoryIndex) {
     case 1: {
@@ -146,6 +154,14 @@ class Playback extends React.Component {
     }
   };
 
+  onClickSummary = () => {
+    this.setState({ summaryVisible: true });
+  };
+
+  onCancelSummary = () => {
+    this.setState({ summaryVisible: false });
+  };
+
   render() {
     const {
       handleCodeChange,
@@ -156,7 +172,7 @@ class Playback extends React.Component {
       onBackwardSnapComment,
       onSliderChange,
     } = this;
-    const { summaryVisible } = this.state;
+    const { isLoading, summaryVisible } = this.state;
     const {
       testData,
       records,
@@ -171,48 +187,52 @@ class Playback extends React.Component {
       resetTape,
     } = this.props;
     return (
-      <>
-        <ControlWidget
-          testDate={testData.timeBegin}
-          interviewee={testData.subjectId}
-          recordIndex={recordIndex}
-          onChangeRecord={onChangeRecord}
-          recordList={records}
-          summaryDisabled={record.comment.items.length === 0}
-          onClickSummary={() => {
-            this.setState({ summaryVisible: true });
-          }}
-        />
-        <Summary
-          summaryList={record.comment.items}
-          visible={summaryVisible}
-          onCancel={() => {
-            this.setState({ summaryVisible: false });
-          }}
-        />
-        <PlaybackView
-          categoryIndex={categoryIndex}
-          handleCodeChange={handleCodeChange}
-          addTape={addTape}
-          resetTape={resetTape}
-          comments={record.comment}
-          code={code.rawCode}
-          compiledCode={code.compiledCode}
-          test={record.ques && record.ques.test}
-          tape={tape}
-          {...this.state}
-        />
-        <HistorySlider
-          onForward={onForward}
-          onBackward={onBackward}
-          onForwardSnapComment={onForwardSnapComment}
-          onBackwardSnapComment={onBackwardSnapComment}
-          historyIndex={historyIndex}
-          historyList={record.history.items}
-          snapComments={snapComments}
-          onChange={onSliderChange}
-        />
-      </>
+      <React.Fragment>
+        <PageSpin spinning={isLoading}>
+          <ControlWidget
+            testDate={testData.timeBegin}
+            interviewee={testData.subjectId}
+            recordIndex={recordIndex}
+            onChangeRecord={onChangeRecord}
+            recordList={records}
+            summaryDisabled={record.comment.items.length === 0}
+            onClickSummary={() => {
+              this.setState({ summaryVisible: true });
+            }}
+          />
+          <Summary
+            summaryList={record.comment.items}
+            visible={summaryVisible}
+            onCancel={() => {
+              this.setState({ summaryVisible: false });
+            }}
+          />
+          <div style={{ display: 'flex' }}>
+            <PlaybackView
+              categoryIndex={categoryIndex}
+              handleCodeChange={handleCodeChange}
+              addTape={addTape}
+              resetTape={resetTape}
+              comments={record.comment}
+              code={code.rawCode}
+              compiledCode={code.compiledCode}
+              test={record.ques && record.ques.test}
+              tape={tape}
+            />
+            <CommentArea />
+          </div>
+          <HistorySlider
+            onForward={onForward}
+            onBackward={onBackward}
+            onForwardSnapComment={onForwardSnapComment}
+            onBackwardSnapComment={onBackwardSnapComment}
+            historyIndex={historyIndex}
+            historyList={record.history.items}
+            snapComments={snapComments}
+            onChange={onSliderChange}
+          />
+        </PageSpin>
+      </React.Fragment>
     );
   }
 }

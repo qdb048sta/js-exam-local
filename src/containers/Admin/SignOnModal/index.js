@@ -34,6 +34,7 @@ class SignOnModal extends React.Component {
   handleOk = () => {
     const username = this.state.username;
     try {
+      //message.success(`Signed on as "${username}"`);
       this.props.onSetUsername(username);
       this.props.onSetHostings();
       message.success(`Signed on as "${username}"`);
@@ -42,7 +43,7 @@ class SignOnModal extends React.Component {
         username: '',
       });
     } catch (error) {
-      message.error('Fail to sign on!');
+      //message.error('Fail to sign on!');
     }
   };
 
@@ -55,18 +56,18 @@ class SignOnModal extends React.Component {
       <Modal
         title={
           <div>
-            <Icon type="login" /> Sign On
+            <Icon type="login" /> Setting Your Name
           </div>
         }
         closable={false}
         visible={visible}
         onOk={this.handleOk}
-        okText="Sign on"
+        okText="Save"
         okButtonProps={{ disabled: !username }}
         cancelButtonProps={{ disabled: true }}
       >
         <Input
-          placeholder="Enter a username"
+          placeholder="Please enter your username"
           prefix={<Icon type="user" />}
           suffix={suffix}
           value={username}
