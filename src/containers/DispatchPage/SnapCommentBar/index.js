@@ -16,6 +16,7 @@ import { createSnapComment } from 'redux/snapComment/actions';
 import { cannedMessages } from './constants';
 import styles from './SnapCommentBar.module.scss';
 
+export const FORM_ID = 'SnapCommentBar';
 class SnapCommentBar extends PureComponent {
   handleClickTag = content => () => {
     if (content) this.props.onChangeSnapComment(content);
@@ -36,6 +37,15 @@ class SnapCommentBar extends PureComponent {
     </Menu>
   );
 
+  renderTags = () => {
+    const messages = cannedMessages.slice(0, 3);
+    return messages.map(message => (
+      <Tag color={message.color} onClick={this.handleClickTag(message.content)}>
+        {message.content}
+      </Tag>
+    ));
+  };
+
   render() {
     const {
       handleSubmit,
@@ -49,17 +59,7 @@ class SnapCommentBar extends PureComponent {
           <Button className={styles.dropdownBtn}>Canned Messages</Button>
         </Dropdown>
         <div className={styles.rightSide}>
-          <div className={styles.tags}>
-            <Tag onClick={this.handleClickTag(cannedMessages[0].content)}>
-              {cannedMessages[0].content}
-            </Tag>
-            <Tag onClick={this.handleClickTag(cannedMessages[1].content)}>
-              {cannedMessages[1].content}
-            </Tag>
-            <Tag onClick={this.handleClickTag(cannedMessages[2].content)}>
-              {cannedMessages[2].content}
-            </Tag>
-          </div>
+          <div className={styles.tags}>{this.renderTags()}</div>
           <form
             className={styles.form}
             onSubmit={handleSubmit(onCreateSnapComment)}
@@ -91,7 +91,7 @@ SnapCommentBar.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     onChangeSnapComment: content =>
-      dispatch(actions.change('SnapCommentBar', 'content', content)),
+      dispatch(actions.change(FORM_ID, 'content', content)),
     onCreateSnapComment: data => {
       dispatch(createSnapComment(data));
     },
@@ -104,7 +104,7 @@ const withConnect = connect(
 );
 
 const withReduxForm = reduxForm({
-  form: 'SnapCommentBar',
+  form: FORM_ID,
 });
 
 export default compose(

@@ -1,7 +1,10 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
+import actions from 'redux-form/es/actions';
 import get from 'lodash/get';
 import { message } from 'antd';
+
+import { FORM_ID as SNAP_COMMENT_FORM_ID } from 'containers/DispatchPage/SnapCommentBar';
 
 export function createSnapComment(data) {
   return async (dispatch, getState) => {
@@ -45,6 +48,8 @@ export function createSnapComment(data) {
         await API.graphql(
           graphqlOperation(mutations.createSnapComment, params),
         );
+        // Reset snap-comment form field
+        dispatch(actions.reset(SNAP_COMMENT_FORM_ID));
         message.success('Add comment succeeded');
       } catch (error) {
         console.log(error);
