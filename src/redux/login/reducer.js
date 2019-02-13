@@ -34,7 +34,11 @@ const login = (state = initialState, action) => {
       };
     }
     case LOGOUT: {
-      return initialState;
+      return {
+        ...state,
+        username: null,
+        hostings: null,
+      };
     }
     default:
       return state;
