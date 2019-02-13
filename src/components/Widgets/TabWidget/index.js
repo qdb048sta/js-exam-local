@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Auth } from 'aws-amplify';
 
-import { setUsername } from 'redux/login/actions';
+import { clearUser } from 'redux/login/actions';
 
 import { Menu, Icon } from 'antd';
 
@@ -16,9 +16,7 @@ class TabWidget extends React.Component {
     Auth.signOut()
       .then(() => history.push('/'))
       .catch(err => console.log(err));
-    localStorage.removeItem('username');
-    this.props.onSetUsername('');
-    localStorage.removeItem('hostings');
+    this.props.onClearUser();
   };
 
   render() {
@@ -105,7 +103,7 @@ TabWidget.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   username: PropTypes.string,
-  onSetUsername: PropTypes.func.isRequired,
+  onClearUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -113,7 +111,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetUsername: data => dispatch(setUsername(data)),
+  onClearUser: () => dispatch(clearUser()),
 });
 
 const withConnect = connect(

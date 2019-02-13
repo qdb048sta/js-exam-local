@@ -60,7 +60,7 @@ class Page extends Component {
 
   async componentDidMount() {
     const roomId = this.props.match.params.roomId;
-    if (JSON.parse(localStorage.getItem('hostings')).includes(roomId)) {
+    if (this.props.hostings.includes(roomId)) {
       this.props.actions.setRoomHost(true);
     } else {
       this.props.actions.setRoomHost(false);
@@ -431,6 +431,7 @@ export default withRouter(
       record: state.record,
       code: state.code,
       question: state.question,
+      hostings: state.login.hostings,
     }),
     dispatch => ({
       actions: {

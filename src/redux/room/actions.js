@@ -1,6 +1,7 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
 import { setCurrentRecord, resetCurrentRecord } from 'redux/record/actions';
+import { deleteHostings } from 'redux/login/actions';
 import graphqlActionHelper, { ACTION_STATE } from 'utils/graphqlActionHelper';
 
 function getRoomInfo(id) {
@@ -161,7 +162,11 @@ function deleteRoomAction(id) {
         }),
       );
 
-      const action = delResult.data.deleteRoom ? ACTION_STATE.SUCCESS : ACTION_STATE.FAILURE;
+      dispatch(deleteHostings(id));
+
+      const action = delResult.data.deleteRoom
+        ? ACTION_STATE.SUCCESS
+        : ACTION_STATE.FAILURE;
 
       dispatch(
         graphqlActionHelper({
@@ -170,7 +175,6 @@ function deleteRoomAction(id) {
           actionState: action,
         }),
       );
-    
       dispatch(resetCurrentRecord());
     } catch (error) {
       dispatch(

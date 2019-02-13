@@ -17,6 +17,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
 import { action } from 'utils/actionsHelper';
 import { message } from 'antd';
+import { setHostings } from 'redux/login/actions';
 import { CREATE_ROOM } from './constants';
 
 export const createRoomActions = {
@@ -54,10 +55,7 @@ export function createRoom(data) {
       dispatch(createRoomActions.success(roomData.createRoom));
 
       /* add a hosting room into 'hostings' array in local storage */
-      let hostings = JSON.parse(localStorage.getItem('hostings'));
-      if (hostings === undefined) hostings = [];
-      hostings.push(roomData.createRoom.id);
-      localStorage.setItem('hostings', JSON.stringify(hostings));
+      dispatch(setHostings(roomData.createRoom.id));
     } catch (error) {
       dispatch(createRoomActions.failure(error));
       message.error('Create room failed');
