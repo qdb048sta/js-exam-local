@@ -36,7 +36,6 @@ class SignOnModal extends React.Component {
     try {
       //message.success(`Signed on as "${username}"`);
       this.props.onSetUsername(username);
-      this.props.onSetHostings();
       message.success(`Signed on as "${username}"`);
       this.setState({
         visible: false,

@@ -1,3 +1,4 @@
+import filter from 'lodash/filter';
 import {
   LOGIN,
   SET_USERNAME,
@@ -15,17 +16,16 @@ export function submitPassword(password) {
 
 export function setUsername(data) {
   localStorage.setItem('username', data);
-  localStorage.setItem('hostings', JSON.stringify([]));
   return {
     type: SET_USERNAME,
     data,
   };
 }
 
-export function setHostings(data) {
+export function setHostings(roomId) {
   let hostings = JSON.parse(localStorage.getItem('hostings'));
   if (!hostings) hostings = [];
-  if (data) hostings.push(data);
+  hostings.push(roomId);
   localStorage.setItem('hostings', JSON.stringify(hostings));
   return {
     type: SET_HOSTINGS,
@@ -33,9 +33,9 @@ export function setHostings(data) {
   };
 }
 
-export function deleteHostings(data) {
-  const hostings = JSON.parse(localStorage.getItem('hostings'));
-  hostings.splice(hostings.indexOf(data), 1);
+export function deleteHostings(roomId) {
+  let hostings = JSON.parse(localStorage.getItem('hostings'));
+  hostings = filter(hostings, id => id !== roomId);
   localStorage.setItem('hostings', JSON.stringify(hostings));
   return {
     type: DEL_HOSTINGS,

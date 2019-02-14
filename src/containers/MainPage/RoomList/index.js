@@ -1,4 +1,5 @@
 import React from 'react';
+import includes from 'lodash/includes';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +37,7 @@ const RoomList = ({ rooms, isLoading, signedOn, hostings }) => (
               </div>
             }
           />
-          {signedOn && hostings.includes(room.id) && (
+          {signedOn && includes(hostings, room.id) && (
             <div className={style.listContent}>Host</div>
           )}
         </List.Item>
