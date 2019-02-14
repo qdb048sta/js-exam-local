@@ -1,11 +1,12 @@
 import React from 'react';
+import includes from 'lodash/includes';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import { List, Avatar } from 'antd';
 import style from './RoomList.module.scss';
 
-const RoomList = ({ rooms, isLoading }) => (
+const RoomList = ({ rooms, isLoading, signedOn, hostings }) => (
   <List
     itemLayout="horizontal"
     dataSource={rooms}
@@ -21,6 +22,7 @@ const RoomList = ({ rooms, isLoading }) => (
           className={style.listItem}
         >
           <List.Item.Meta
+            className={style.listMeta}
             avatar={<Avatar icon="home" className={style.avatar} />}
             title={
               <div>
@@ -35,6 +37,9 @@ const RoomList = ({ rooms, isLoading }) => (
               </div>
             }
           />
+          {signedOn && includes(hostings, room.id) && (
+            <div className={style.listContent}>Host</div>
+          )}
         </List.Item>
       </Link>
     )}
@@ -44,6 +49,8 @@ const RoomList = ({ rooms, isLoading }) => (
 RoomList.propTypes = {
   rooms: PropTypes.array,
   isLoading: PropTypes.bool,
+  signedOn: PropTypes.bool,
+  hostings: PropTypes.array,
 };
 
 export default RoomList;

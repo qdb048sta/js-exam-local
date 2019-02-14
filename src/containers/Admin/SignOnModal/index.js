@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { setUsername } from 'redux/login/actions';
+import { setUsername, setHostings } from 'redux/login/actions';
 
 import { Modal, Input, message, Icon } from 'antd';
 
@@ -34,9 +34,9 @@ class SignOnModal extends React.Component {
   handleOk = () => {
     const username = this.state.username;
     try {
-      localStorage.setItem('username', username);
       //message.success(`Signed on as "${username}"`);
       this.props.onSetUsername(username);
+      message.success(`Signed on as "${username}"`);
       this.setState({
         visible: false,
         username: '',
@@ -80,6 +80,7 @@ class SignOnModal extends React.Component {
 
 SignOnModal.propTypes = {
   onSetUsername: PropTypes.func.isRequired,
+  onSetHostings: PropTypes.func.isRequired,
   signedOn: PropTypes.bool,
 };
 
@@ -89,6 +90,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSetUsername: data => dispatch(setUsername(data)),
+  onSetHostings: data => dispatch(setHostings(data)),
 });
 
 export default connect(

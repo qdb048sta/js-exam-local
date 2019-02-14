@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import queryString from 'query-string';
 import { transform } from '@babel/standalone';
 import { API, graphqlOperation } from 'aws-amplify';
 import * as subscriptions from 'graphql/subscriptions';
 import { Modal, message } from 'antd';
- 
+
 import {
   subscribeOnCreateRecord,
   subscribeOnUpdateRecordByRecordId,
   RECORD_STATUS,
 } from 'utils/record';
 import createComment from 'utils/comment';
+import User from 'utils/user';
 
 import { getRoomInfo, deleteRoomAction, setRoomHost } from 'redux/room/actions';
 import { fetchQuestionList, fetchQuestion } from 'redux/question/actions';
@@ -30,7 +30,6 @@ import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
-import User from 'utils/user';
 
 const MainView = args => {
   switch (args.categoryIndex) {
@@ -60,10 +59,13 @@ class Page extends Component {
   };
 
   async componentDidMount() {
-    if (queryString.parse(this.props.location.search).host) {
+    const roomId = this.props.match.params.roomId;
+    if (this.props.hostings.includes(roomId)) {
       this.props.actions.setRoomHost(true);
+    } else {
+      this.props.actions.setRoomHost(false);
     }
-    await this.getRoom(this.props.match.params.roomId);
+    await this.getRoom(roomId);
     this.subscribeOnCreateHistory();
   }
 
@@ -362,12 +364,10 @@ class Page extends Component {
     } = this;
     const { room, question, record } = this.props;
     return (
-      <React.Fragment>                             
-        <PageSpin
-          spinning={isLoading}
-        >
-          {!isLoading && !room.error &&
-            <React.Fragment>  
+      <React.Fragment>
+        <PageSpin spinning={isLoading}>
+          {!isLoading && !room.error && (
+            <React.Fragment>
               <ControlWidget
                 isHost={room.isHost}
                 record={record}
@@ -398,15 +398,11 @@ class Page extends Component {
               />
               <SnapCommentBar />
             </React.Fragment>
-          }
-          
-          {!isLoading && room.error &&
-            <PageEmpty
-              description={<span>Room Not Found</span>}
-            />
-          }
+          )}
+          {!isLoading && room.error && (
+            <PageEmpty description={<span>Room Not Found</span>} />
+          )}
         </PageSpin>
-     
         <CommentBox
           onSubmit={this.onCreateComment}
           visible={commentBoxVisible}
@@ -435,6 +431,7 @@ export default withRouter(
       record: state.record,
       code: state.code,
       question: state.question,
+      hostings: state.login.hostings,
     }),
     dispatch => ({
       actions: {

@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { Auth } from 'aws-amplify';
 
-import { setUsername } from 'redux/login/actions';
+import { clearUser } from 'redux/login/actions';
 
 import { Menu, Icon, Modal } from 'antd';
 
@@ -17,10 +17,10 @@ class TabWidget extends PureComponent {
       title: 'Are you sure you want to sign out?',
       okText: 'Sign out',
       onOk: () => {
-        Auth.signOut().then(() => history.push('/'))
-                      .catch(err => console.log(err));
-        localStorage.removeItem('username');
-        this.props.onSetUsername('');
+        Auth.signOut()
+          .then(() => history.push('/'))
+          .catch(err => console.log(err));
+        this.props.onClearUser();
       },
       onCancel: () => {},
     });
@@ -110,7 +110,7 @@ TabWidget.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
   username: PropTypes.string,
-  onSetUsername: PropTypes.func.isRequired,
+  onClearUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -118,7 +118,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSetUsername: data => dispatch(setUsername(data)),
+  onClearUser: () => dispatch(clearUser()),
 });
 
 const withConnect = connect(

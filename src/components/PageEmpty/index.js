@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Empty } from 'antd';
 
-import styles from './PageEmpty.module.scss';
 import notFoundIcon from 'asset/image/not-found.jpg';
+
+import styles from './PageEmpty.module.scss';
 
 const PageEmpty = ({ image, description }) => {
   const imageFinal = image === 'default' ? '' : notFoundIcon;
@@ -13,14 +14,13 @@ const PageEmpty = ({ image, description }) => {
       className={styles.empty}
       image={imageFinal}
       description={description}
-    >
-    </Empty>
+    />
   );
 };
 
 PageEmpty.propTypes = {
   image: PropTypes.string,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.object.isRequired,
 };
-  
+
 export default PageEmpty;
