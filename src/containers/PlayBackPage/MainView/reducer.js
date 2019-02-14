@@ -4,6 +4,7 @@ import {
   SET_RECORD_INDEX,
   SET_HISTORY_INDEX,
   RESET_PLAYBACK,
+  CHANGE_SNAP_COMMENT,
 } from './constants';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   categoryIndex: 0,
   recordIndex: 0,
   historyIndex: 0,
+  currentComment: [],
 };
 
 function playback(state = initialState, action) {
@@ -37,6 +39,11 @@ function playback(state = initialState, action) {
       };
     case RESET_PLAYBACK:
       return initialState;
+    case CHANGE_SNAP_COMMENT:
+      return {
+        ...state,
+        currentComment: action.currentComment,
+      };
     default:
       return state;
   }

@@ -6,7 +6,7 @@ import style from './comment.module.scss';
 const ListItem = List.Item;
 const ListItemMeta = List.Item.Meta;
 
-const CommentArea = ({ comments }) => {
+const CommentArea = comments => {
   return (
     <div className={style.commentarea}>
       <h4>Comments</h4>
@@ -14,7 +14,7 @@ const CommentArea = ({ comments }) => {
         {comments ? (
           <List
             itemLayout="horizontal"
-            dataSource={comments.items}
+            dataSource={comments.comments}
             renderItem={item => (
               <ListItem className={style.listItem}>
                 <ListItemMeta

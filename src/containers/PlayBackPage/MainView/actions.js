@@ -11,6 +11,7 @@ import {
   SET_RECORD_INDEX,
   SET_HISTORY_INDEX,
   RESET_PLAYBACK,
+  CHANGE_SNAP_COMMENT,
 } from './constants';
 
 export function fetchRecordWithHistory(id, index) {
@@ -41,6 +42,11 @@ export function fetchRecordWithHistory(id, index) {
       if (result.history.items.length > 0) {
         dispatch(changeCode({ rawCode: result.history.items[0].code }));
         dispatch(setSnapComments(getSnapComments(result.history.items)));
+        dispatch(
+          changeSnapComment({
+            currentComment: result.history.items[0].snapComments.items || [],
+          }),
+        );
       } else {
         dispatch(changeCode({ rawCode: result.ques.content }));
       }
@@ -111,4 +117,11 @@ function getSnapComments(histories) {
     }
   });
   return snapComments;
+}
+
+export function changeSnapComment({ currentComment }) {
+  return {
+    type: CHANGE_SNAP_COMMENT,
+    currentComment,
+  };
 }
