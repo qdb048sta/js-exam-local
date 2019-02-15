@@ -26,6 +26,7 @@ import {
   setRecordIndex,
   setHistoryIndex,
   resetPlayback,
+  changeSnapComment,
 } from './actions';
 import playbackReducer from './reducer';
 import { REDUCER_KEY } from './constants';
@@ -94,6 +95,9 @@ class Playback extends React.Component {
 
     if (historyIndex < items.length - 1) {
       this.props.changeCode({ rawCode: items[historyIndex + 1].code || '' });
+      this.props.changeSnapComment({
+        currentComment: items[historyIndex + 1].snapComments.items || [],
+      });
       this.props.setHistoryIndex(historyIndex + 1);
     }
 
@@ -107,6 +111,9 @@ class Playback extends React.Component {
     const { items } = this.props.record.history;
     if (historyIndex > 0) {
       this.props.changeCode({ rawCode: items[historyIndex].code || '' });
+      this.props.changeSnapComment({
+        currentComment: items[historyIndex].snapComments.items || [],
+      });
       this.props.setHistoryIndex(historyIndex - 1);
     }
   };
@@ -121,6 +128,9 @@ class Playback extends React.Component {
     if (nextSnapCommentIndex > -1) {
       const newHistoryIndex = snapComments[nextSnapCommentIndex].historyIndex;
       this.props.changeCode({ rawCode: items[newHistoryIndex].code || '' });
+      this.props.changeSnapComment({
+        currentComment: items[newHistoryIndex].snapComments.items || [],
+      });
       this.props.setHistoryIndex(newHistoryIndex);
     }
   };
@@ -137,6 +147,9 @@ class Playback extends React.Component {
       const newHistoryIndex =
         snapComments[previousSnapCommentIndex].historyIndex;
       this.props.changeCode({ rawCode: items[newHistoryIndex].code || '' });
+      this.props.changeSnapComment({
+        currentComment: items[newHistoryIndex].snapComments.items || [],
+      });
       this.props.setHistoryIndex(newHistoryIndex);
     }
   };
@@ -150,6 +163,9 @@ class Playback extends React.Component {
       this.props.setHistoryIndex(value);
       this.props.changeCode({
         rawCode: (items[value] && items[value].code) || rawCode || '',
+      });
+      this.props.changeSnapComment({
+        currentComment: items[value].snapComments.items || [],
       });
     }
   };
@@ -185,6 +201,7 @@ class Playback extends React.Component {
       historyIndex,
       addTape,
       resetTape,
+      currentComment,
     } = this.props;
     return (
       <React.Fragment>
@@ -219,7 +236,7 @@ class Playback extends React.Component {
               test={record.ques && record.ques.test}
               tape={tape}
             />
-            <CommentArea />
+            <CommentArea comments={currentComment} />
           </div>
           <HistorySlider
             onForward={onForward}
@@ -249,6 +266,7 @@ const mapDispatchToProps = dispatch =>
       setRecordIndex,
       setHistoryIndex,
       resetPlayback,
+      changeSnapComment,
     },
     dispatch,
   );
@@ -261,6 +279,7 @@ const mapStateToProps = state => ({
   recordIndex: state.playback.recordIndex,
   historyIndex: state.playback.historyIndex,
   snapComments: state.playback.snapComments,
+  currentComment: state.playback.currentComment,
 });
 
 const withConnect = connect(
@@ -276,11 +295,13 @@ const withReducer = injectReducer({
 Playback.propTypes = {
   code: PropTypes.object,
   tape: PropTypes.array,
+  currentComment: PropTypes.array,
   record: PropTypes.object,
   categoryIndex: PropTypes.number,
   recordIndex: PropTypes.number,
   historyIndex: PropTypes.number,
   snapComments: PropTypes.array,
+  changeSnapComment: PropTypes.func,
 };
 export default compose(
   withReducer,
