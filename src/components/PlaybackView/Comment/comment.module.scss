@@ -6,7 +6,7 @@
   border: 1px solid #b0b4fb;
   border-radius: 5px;
   
-  h4 {
+  .title {
     margin: 10px 0 0 10px;
     font-size: 20px;
     font-weight: bold;
@@ -28,6 +28,10 @@
       .avatar {
         color: #1890ff;
         background-color: #fff;
+      }
+
+      h4 {
+        font-weight: 600;
       }
     }
   }
