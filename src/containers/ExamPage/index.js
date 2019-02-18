@@ -4,14 +4,20 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { transform } from '@babel/standalone';
 import { Modal } from 'antd';
+import get from 'lodash/get';
 
 import createWrappedConsole from 'utils/consoleFactory';
-import { subscribeOnCreateRecord } from 'utils/record';
+import { 
+  subscribeOnCreateRecord, 
+  subscribeOnUpdateRecordByRecordId,
+  RECORD_STATUS,
+} from 'utils/record';
 import { getRoomInfo, updateRoomInfo } from 'redux/room/actions';
 import { setCurrentRecord } from 'redux/record/actions';
 
 import PageSpin from 'components/PageSpin';
 import PageEmpty from 'components/PageEmpty';
+import FullScreenMask from 'components/FullScreenMask';
 import ControlWidget from 'components/Widgets/ExamControlWidget';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
@@ -40,6 +46,7 @@ class ExamPage extends Component {
     categoryIndex: 0,
     isLoading: false,
     enableEnter: true,
+    isExaming: false,
   };
 
   roomId = this.props.match.params.roomId;
@@ -49,6 +56,17 @@ class ExamPage extends Component {
   componentDidMount() {
     this.getRoom();
     this.subscribeCreateRecord();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { record } = this.props;
+    const { record: nextRecord } = nextProps;
+
+    if (!get(record, 'status') && get(nextRecord, 'status') === 'inprogress') {
+      this.setState({
+        isExaming: true,
+      });
+    }
   }
 
   getRoom = async () => {
@@ -136,17 +154,45 @@ class ExamPage extends Component {
     subscribeOnCreateRecord(data => {
       const { room, ques } = data;
       if (room.id === this.props.room.id) {
+
+        // unsubscribe the old record
+        if (this.subscriptionForUpdateRecordByRecordId) {
+          this.subscriptionForUpdateRecordByRecordId.unsubscribe();
+        }
+
         this.props.actions.setCurrentRecord(data);
         this.setState({
           categoryIndex: data.ques.type === QUESTION_TYPE.JAVASCRIPT ? 0 : 1,
+          isExaming: true,
         });
         this.handleCodeChange(ques.content);
         this.props.actions.resetTape();
         this.props.actions.resetConsole();
         this.onRunCode();
+
+        this.subscribeRecordUpdate();
       }
     });
   };
+
+  subscribeRecordUpdate = () => {
+    this.subscriptionForUpdateRecordByRecordId = subscribeOnUpdateRecordByRecordId(
+      this.props.record.id,
+      data => {
+        const { room, syncCode } = data;
+        if (room.id === this.props.room.id) {
+          if (
+            data.status === RECORD_STATUS.closed &&
+            this.props.record.status !== RECORD_STATUS.closed
+          ) {
+            this.setState({
+              isExaming: false,
+            })
+          }
+        }
+      },
+    );
+  }
 
   showResetAlert = () => {
     const self = this;
@@ -166,7 +212,7 @@ class ExamPage extends Component {
       onRunCode,
       showResetAlert,
     } = this;
-    const { categoryIndex, isLoading, enableEnter } = this.state;
+    const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
     const { room, record, code, consoleMsg, tape } = this.props;
     const { addTape, resetTape, resetConsole } = this.props.actions;
 
@@ -204,6 +250,9 @@ class ExamPage extends Component {
             />           
           }
         </PageSpin>
+
+        <FullScreenMask isShow={!isExaming} text="Waiting for questions..." />
+
       </div>
     );
   }
