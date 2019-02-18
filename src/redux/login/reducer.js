@@ -4,7 +4,7 @@ import { LOGIN, SET_USERNAME, SET_HOSTINGS, DEL_HOSTINGS, LOGOUT } from './const
 const initialState = {
   isLogin: false,
   username: localStorage.getItem('username'),
-  hostings: JSON.parse(localStorage.getItem('hostings')),
+  hostings: JSON.parse(localStorage.getItem('hostings')) || [],
 };
 
 const login = (state = initialState, action) => {
