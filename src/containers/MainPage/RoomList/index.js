@@ -3,48 +3,72 @@ import includes from 'lodash/includes';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { List, Avatar } from 'antd';
+
+import { Card, Avatar, Tag  } from 'antd';
+import { SpringGrid, measureItems, makeResponsive } from 'react-stonecutter';
+
+import avatarIcon1 from 'asset/image/avatar1.png';
+import avatarIcon2 from 'asset/image/avatar2.png';
+import avatarIcon3 from 'asset/image/avatar3.png';
+import avatarIcon4 from 'asset/image/avatar4.png';
 import style from './RoomList.module.scss';
 
-const RoomList = ({ rooms, isLoading, signedOn, hostings }) => (
-  <List
-    itemLayout="horizontal"
-    dataSource={rooms}
-    loading={isLoading}
-    renderItem={room => (
-      <Link
-        to={{
-          pathname: `/admin/dispatch/${room.id}`,
-        }}
+const { Meta } = Card;
+const Grid = makeResponsive(measureItems(SpringGrid), {
+  maxWidth: 1920,
+  minPadding: 100
+});
+const AVATAR_LIST = [avatarIcon1, avatarIcon2, avatarIcon3, avatarIcon4];
+
+
+const RoomList = ({ rooms = [], signedOn, hostings }) => {
+
+  return (
+      <Grid
+        className={style.list}
+        component="ul"
+        columns={5}
+        columnWidth={270}
+        gutterWidth={5}
+        gutterHeight={5}
+        itemHeight={200}
+        springConfig={{ stiffness: 170, damping: 26 }}
       >
-        <List.Item
-          style={{ borderBottom: '1px solid #ddd' }}
-          className={style.listItem}
-        >
-          <List.Item.Meta
-            className={style.listMeta}
-            avatar={<Avatar icon="home" className={style.avatar} />}
-            title={
-              <div>
-                <div className={style.roomNameHeader}>Room </div>
-                <div className={style.roomName}>{room.description}</div>
-              </div>
-            }
-            description={
-              <div>
-                <div className={style.subjectIdHeader}>Candidate </div>
-                <div className={style.subjectId}>{room.subjectId}</div>
-              </div>
-            }
-          />
-          {signedOn && includes(hostings, room.id) && (
-            <div className={style.listContent}>Host</div>
-          )}
-        </List.Item>
-      </Link>
-    )}
-  />
-);
+        {rooms.map((room) => {
+          const avatarIndex =  Math.floor(room.description.slice(-2) % 10 / 3) || 0;
+
+          return (
+            <li key={room.id} className={style.listItem}>
+              {signedOn && includes(hostings, room.id) && 
+                <Tag className={style.tag} color="#108ee9">Host</Tag>
+              }
+              <Link
+                to={{
+                  pathname: `/admin/dispatch/${room.id}`,
+                }}
+              >
+                <Card
+                  hoverable
+                  cover={
+                    <div className={style.cover}>
+                      <span className={style.room}>Room</span>
+                      {room.description}
+                    </div>
+                  }
+                >
+                  <Meta 
+                    avatar={<Avatar src={AVATAR_LIST[avatarIndex]} />}
+                    title={room.subjectId}
+                    description={room.createTime}
+                  />
+                </Card>
+              </Link>
+            </li>
+          );
+        })}
+      </Grid>
+  );
+};
 
 RoomList.propTypes = {
   rooms: PropTypes.array,

@@ -1,48 +1,111 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Connect } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { graphqlOperation } from 'aws-amplify';
+import { Input } from 'antd';
+import debounce from 'lodash/debounce';
 
 import { listRooms } from 'graphql/queries';
 import { onCreateRoom } from 'graphql/subscriptions';
 
+import PageEmpty from 'components/PageEmpty';
+import PageSpin from 'components/PageSpin';
+import PageControlBar from 'components/PageControlBar';
 import RoomList from './RoomList';
 import CreateRoomView from './CreateRoomView';
 
+
+
 import style from './MainPage.module.scss';
 
-const MainPage = ({ history, signedOn, hostings }) => (
-  <div className={style.Mainpage}>
-    <div className={`${style.column} ${style.list}`}>
-      {/* TODO: Room list with with lazy-loading next dataset. Here we load 1000 rooms instead. */}
-      <Connect
-        query={graphqlOperation(listRooms, { limit: 1000 })}
-        subscription={graphqlOperation(onCreateRoom)}
-        onSubscriptionMsg={(prev, { onCreateRoom: createdRoom }) => {
-          prev.listRooms.items.unshift(createdRoom);
-          return prev;
-        }}
-      >
-        {({ data: { listRooms: rooms }, loading, error }) => {
-          if (error) return <h3>Error</h3>;
-          if (loading || !listRooms) return <RoomList isLoading={loading} />;
-          return (
-            <RoomList
-              rooms={rooms.items}
-              isLoading={loading}
-              signedOn={signedOn}
-              hostings={hostings}
+const Search = Input.Search;
+
+
+class MainPage extends Component {
+
+  state = {
+    searchKeyword: '',
+  };
+
+  handleOnSearch = (e) => {
+    debounce((value) => {
+      this.setState({
+        searchKeyword: value.toLowerCase(),
+      });
+    }, 300)(e.target.value);
+  }
+
+  render() {
+    const { history, signedOn, hostings } = this.props;
+    const { searchKeyword } = this.state;
+
+
+    return (
+      <div className={style.Mainpage}>
+        <PageControlBar>
+          <div>
+            <Search
+              style={{ width: 300 }}
+              placeholder="input search text"
+              onChange={this.handleOnSearch}
             />
-          );
-        }}
-      </Connect>
-    </div>
-    <div className={`${style.column} ${style.createRoom}`}>
-      <CreateRoomView history={history} />
-    </div>
-  </div>
-);
+          </div>
+        </PageControlBar>
+        <div className={`${style.content}`}>
+          {/* TODO: Room list with with lazy-loading next dataset. Here we load 1000 rooms instead. */}
+          <Connect
+            query={graphqlOperation(listRooms, { limit: 1000 })}
+            subscription={graphqlOperation(onCreateRoom)}
+            onSubscriptionMsg={(prev, { onCreateRoom: createdRoom }) => {
+              prev.listRooms.items.unshift(createdRoom);
+              return prev;
+            }}
+          >
+            {({ data: { listRooms: rooms }, loading, error }) => {
+             
+              const outputRooms = rooms && rooms.items.map((room) => {
+                room.createTimeByDate = new Date(room.createTime);
+
+                return room;
+              }).sort((a, b) => {
+                return b.createTimeByDate - a.createTimeByDate;
+              }).filter((room) => {
+                return room.subjectId.toLowerCase().includes(searchKeyword) ||
+                       room.description.toLowerCase().includes(searchKeyword);
+              });
+
+              return (
+                <PageSpin spinning={loading}>
+                  {!loading && error &&
+                    <PageEmpty description={<span>Error Occuring</span>}/>
+                  }
+
+                  {!loading && !outputRooms.length &&
+                    <PageEmpty description={<span>Room Not Found</span>} image="default"/>
+                  }
+
+                  {!loading && outputRooms.length &&
+                    <RoomList
+                      rooms={outputRooms}
+                      signedOn={signedOn}
+                      hostings={hostings}
+                    />
+                  }
+                </PageSpin>
+              );
+            }}
+          </Connect>
+        </div>
+        {/*
+        <div className={`${style.column} ${style.createRoom}`}>
+          <CreateRoomView history={history} />
+        </div>
+        */}
+      </div>
+    );
+  }
+};
 
 MainPage.propTypes = {
   history: PropTypes.object.isRequired,
