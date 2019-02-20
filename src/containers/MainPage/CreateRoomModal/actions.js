@@ -21,10 +21,18 @@ import { setHostings } from 'redux/login/actions';
 import { CREATE_ROOM } from './constants';
 
 export const createRoomActions = {
+  reset: data => action(CREATE_ROOM.RESET),
   request: data => action(CREATE_ROOM.REQUEST, { data }),
   success: data => action(CREATE_ROOM.SUCCESS, { data }),
   failure: error => action(CREATE_ROOM.FAILURE, { error }),
 };
+
+
+export function reset() {
+  return dispatch => {
+    dispatch(createRoomActions.reset());
+  };
+}
 
 export function createRoom(data) {
   return async dispatch => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Connect } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { graphqlOperation } from 'aws-amplify';
-import { Input } from 'antd';
+import { Button, Input } from 'antd';
 import debounce from 'lodash/debounce';
 
 import { listRooms } from 'graphql/queries';
@@ -13,7 +13,7 @@ import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
 import PageControlBar from 'components/PageControlBar';
 import RoomList from './RoomList';
-import CreateRoomView from './CreateRoomView';
+import CreateRoomModal from './CreateRoomModal';
 
 
 
@@ -26,6 +26,7 @@ class MainPage extends Component {
 
   state = {
     searchKeyword: '',
+    isModalVisible: false,
   };
 
   handleOnSearch = (e) => {
@@ -36,17 +37,37 @@ class MainPage extends Component {
     }, 300)(e.target.value);
   }
 
+  handleNewModalButtonOnClick = () => {
+    this.setState({
+      isModalVisible: true,
+    });
+  }
+  
+  handleModalOnClose = () => {
+    this.setState({
+      isModalVisible: false,
+    });
+  }
+
+
   render() {
     const { history, signedOn, hostings } = this.props;
-    const { searchKeyword } = this.state;
+    const { isModalVisible, searchKeyword } = this.state;
 
 
     return (
       <div className={style.Mainpage}>
         <PageControlBar>
           <div>
+           <Button type="primary" shape="round" icon="plus" onClick={this.handleNewModalButtonOnClick}>
+              Create a room
+           </Button>
+            
+            
+          </div>
+          <div>
             <Search
-              style={{ width: 300 }}
+              style={{ width: 400 }}
               placeholder="input search text"
               onChange={this.handleOnSearch}
             />
@@ -97,11 +118,12 @@ class MainPage extends Component {
             }}
           </Connect>
         </div>
-        {/*
-        <div className={`${style.column} ${style.createRoom}`}>
-          <CreateRoomView history={history} />
-        </div>
-        */}
+
+        <CreateRoomModal
+          visible={isModalVisible} 
+          history={history} 
+          onClose={this.handleModalOnClose}
+        />
       </div>
     );
   }
