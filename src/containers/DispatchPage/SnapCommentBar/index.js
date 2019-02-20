@@ -40,7 +40,7 @@ class SnapCommentBar extends PureComponent {
   renderTags = () => {
     const messages = cannedMessages.slice(0, 3);
     return messages.map(message => (
-      <Tag color={message.color} onClick={this.handleClickTag(message.content)}>
+      <Tag key={message.content} color={message.color} onClick={this.handleClickTag(message.content)}>
         {message.content}
       </Tag>
     ));
