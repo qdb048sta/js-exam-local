@@ -3,7 +3,9 @@ import PageControlBar from 'components/PageControlBar';
 import CategorySelector from 'components/Selectors/CategorySelector';
 import QuestionSelector from 'components/Selectors/QuestionSelector';
 
-import { Button, Input } from 'antd';
+import { Button, Input, Popconfirm } from 'antd';
+
+const InputGroup = Input.Group;
 
 const ControlWidget = ({
   type,
@@ -20,12 +22,14 @@ const ControlWidget = ({
 }) => (
   <PageControlBar>
     <div>
-      <CategorySelector
-        onChange={onChangeCategory}
-        categoryIndex={categoryIndex}
-      />
-      {type === 'add' ? (
-        <>
+      
+
+      {type === 'add' && 
+        <InputGroup compact>
+          <CategorySelector
+            onChange={onChangeCategory}
+            categoryIndex={categoryIndex}
+          />
           <Input
             placeholder="Question name"
             onChange={e => onChangeName(e.target.value)}
@@ -33,34 +37,39 @@ const ControlWidget = ({
           />
           <Button
             type="primary"
-            icon="check-circle"
             onClick={onSubmit}
             disabled={disableSubmit}
           >
-            Submit
+            Add
           </Button>
-        </>
-      ) : (
-        <>
+        </InputGroup>
+      }
+
+      {type !== 'add' &&
+        <InputGroup compact>
           <QuestionSelector
             onChange={onChangeQuestion}
             questionIndex={questionIndex}
             list={questionList}
           />
-          <Button type="primary" icon="check-circle" onClick={onSubmit}>
-            Submit
+          <Button type="primary" onClick={onSubmit} style={{ marginRight: 5, marginLeft: 5 }}>
+            Save
           </Button>
-          <Button type="danger" icon="delete" onClick={onDelete}>
-            Delete
-          </Button>
-          <Button
-            style={{ float: 'right' }}
-            shape="circle"
-            icon="sync"
-            onClick={onSync}
-          />
-        </>
-      )}
+
+          <Popconfirm 
+            placement="bottom" 
+            title="Are you sure to delete the question?" 
+            onConfirm={onDelete}
+            okType="danger"
+            okText="Delete it" 
+            cancelText="No"
+          >
+            <Button type="danger" icon="delete">
+              Delete
+            </Button>
+          </Popconfirm>
+        </InputGroup>
+      }
     </div>
   </PageControlBar>
 );

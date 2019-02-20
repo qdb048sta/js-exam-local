@@ -62,19 +62,6 @@ const ControlWidget = ({
   return (
     <PageControlBar>
       <div>
-        <div className={styles.roomInfoBar}>
-          <Dropdown overlay={menu} placement="bottomLeft">
-            <span className={styles.roomInfoBar_room}>
-              Room:
-              <span className={styles.roomInfoBar_label}>{roomDescription}</span>
-              <Icon type="down" />
-            </span>
-          </Dropdown>
-          <span>
-            Interviewee:
-            <span className={styles.roomInfoBar_label}>{intervieweeName}</span>
-          </span>
-        </div>
         {isHost &&
           <InputGroup compact style={{ width: 'auto', display: 'inline-block' }}>
             <CategorySelector
@@ -89,21 +76,43 @@ const ControlWidget = ({
               list={questionList}
             />
             {isInRecording &&
-              <Popconfirm placement="bottom" title="Are you sure to end the exam?" onConfirm={onEndExam} okText="End it" cancelText="No">
-                <Button type="danger">
+              <Popconfirm
+                placement="bottom" 
+                title="Are you sure to end the exam?" 
+                onConfirm={onEndExam} 
+                okType="danger"
+                okText="End it" 
+                cancelText="No"
+              >
+                <Button type="danger" style={{ marginLeft: 5 }}>
                   End Exam
                   <Icon type="right" />
                 </Button>
               </Popconfirm>
             }
             {!isInRecording &&
-              <Button type="primary" onClick={onDispatchQuestion}>
+              <Button type="primary" style={{ marginLeft: 5 }} onClick={onDispatchQuestion}>
                 Dispatch
                 <Icon type="right" />
               </Button>
             }
           </InputGroup>
         }
+      </div>
+      <div>
+        <div className={styles.roomInfoBar}>
+          <Dropdown overlay={menu} placement="bottomLeft">
+            <span className={styles.roomInfoBar_room}>
+              Room:
+              <span className={styles.roomInfoBar_label}>{roomDescription}</span>
+              <Icon type="down" />
+            </span>
+          </Dropdown>
+          <span>
+            Interviewee:
+            <span className={styles.roomInfoBar_label}>{intervieweeName}</span>
+          </span>
+        </div>
       </div>
     </PageControlBar>
   );

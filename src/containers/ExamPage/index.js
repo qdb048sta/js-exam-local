@@ -18,7 +18,6 @@ import { setCurrentRecord } from 'redux/record/actions';
 import PageSpin from 'components/PageSpin';
 import PageEmpty from 'components/PageEmpty';
 import FullScreenMask from 'components/FullScreenMask';
-import ControlWidget from 'components/Widgets/ExamControlWidget';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
 
@@ -29,6 +28,7 @@ import { addTape, resetTape } from 'redux/tape/actions';
 import styles from './ExamPage.module.scss';
 import { updateRecordData } from './actions';
 import { QUESTION_TYPE } from './constants';
+import ControlWidget from './ControlWidget';
 
 const GetPageComponent = args => {
   switch (args.categoryIndex) {
