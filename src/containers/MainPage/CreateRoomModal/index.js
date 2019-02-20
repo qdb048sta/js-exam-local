@@ -10,7 +10,7 @@ import { Modal, Button, Input, message, Icon } from 'antd';
 
 import { setRoomHost } from 'redux/room/actions';
 import { REDUCER_KEY } from './constants';
-import { reset, createRoom } from './actions';
+import { createRoomActions, createRoom } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import style from './CreateRoomModal.module.scss';
@@ -144,7 +144,7 @@ CreateRoomModal.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onReset: () => dispatch(reset()),
+  onReset: () => dispatch(createRoomActions.reset()),
   onCreateRoom: data => dispatch(createRoom(data)),
   onSetRoomHost: data => dispatch(setRoomHost(data)),
 });
