@@ -7,7 +7,9 @@ import { Auth } from 'aws-amplify';
 
 import { clearUser } from 'redux/login/actions';
 
-import { Menu, Icon, Modal } from 'antd';
+import { Menu, Icon, Modal, Button } from 'antd';
+
+const ButtonGroup = Button.Group;
 
 const SubMenu = Menu.SubMenu;
 

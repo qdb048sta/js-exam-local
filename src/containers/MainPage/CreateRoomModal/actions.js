@@ -21,6 +21,7 @@ import { setHostings } from 'redux/login/actions';
 import { CREATE_ROOM } from './constants';
 
 export const createRoomActions = {
+  reset: () => action(CREATE_ROOM.RESET),
   request: data => action(CREATE_ROOM.REQUEST, { data }),
   success: data => action(CREATE_ROOM.SUCCESS, { data }),
   failure: error => action(CREATE_ROOM.FAILURE, { error }),

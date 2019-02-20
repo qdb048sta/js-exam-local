@@ -32,7 +32,7 @@ export const createRequestTypes = (base, ...extraTypes) => {
  */
 export const makeActionType = (
   baseName,
-  types = [REQUEST, SUCCESS, FAILURE],
+  types = [REQUEST, SUCCESS, FAILURE, RESET],
 ) => {
   if (Object.prototype.toString.call(types) !== '[object Array]') {
     throw new TypeError('Second parameter "types" is not array.');

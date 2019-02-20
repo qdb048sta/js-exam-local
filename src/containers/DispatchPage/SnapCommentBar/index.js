@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 import reduxForm from 'redux-form/es/reduxForm';
 import Field from 'redux-form/es/Field';
 import actions from 'redux-form/es/actions';
-import Button from 'antd/lib/button';
-import Menu from 'antd/lib/menu';
-import Dropdown from 'antd/lib/dropdown';
-import Tag from 'antd/lib/tag';
-import { RfInput } from 'components/RfInput';
+import { Button, Menu, Dropdown, Tag, Input, Icon } from 'antd';
 
+import { RfInput } from 'components/RfInput';
 import { createSnapComment } from 'redux/snapComment/actions';
 
 import { cannedMessages } from './constants';
 import styles from './SnapCommentBar.module.scss';
 
+
 export const FORM_ID = 'SnapCommentBar';
+const InputGroup = Input.Group;
+
 class SnapCommentBar extends PureComponent {
   handleClickTag = content => () => {
     if (content) this.props.onChangeSnapComment(content);
@@ -40,7 +40,7 @@ class SnapCommentBar extends PureComponent {
   renderTags = () => {
     const messages = cannedMessages.slice(0, 3);
     return messages.map(message => (
-      <Tag color={message.color} onClick={this.handleClickTag(message.content)}>
+      <Tag key={message.content} color={message.color} onClick={this.handleClickTag(message.content)}>
         {message.content}
       </Tag>
     ));
@@ -55,24 +55,35 @@ class SnapCommentBar extends PureComponent {
     } = this.props;
     return (
       <div className={styles.root}>
+        {/*
         <Dropdown overlay={this.renderCannedMessagesMenu()} placement="topLeft">
           <Button className={styles.dropdownBtn}>Canned Messages</Button>
         </Dropdown>
+        */}
+
         <div className={styles.rightSide}>
           <div className={styles.tags}>{this.renderTags()}</div>
           <form
             className={styles.form}
             onSubmit={handleSubmit(onCreateSnapComment)}
-          >
-            <Field
-              className={styles.input}
-              name="content"
-              component={RfInput}
-              placeholder="Comment"
-            />
-            <Button htmlType="submit" disabled={pristine || submitting}>
-              Send
-            </Button>
+          >  
+            <InputGroup compact>
+              <Dropdown overlay={this.renderCannedMessagesMenu()} placement="topLeft">
+                <Button className={styles.dropdownBtn}>
+                  Canned Messages
+                  <Icon type="up" />
+                </Button>
+              </Dropdown>
+              <Field
+                className={styles.input}
+                name="content"
+                component={RfInput}
+                placeholder="Comment"
+              />
+              <Button type="primary" htmlType="submit" disabled={pristine || submitting}>
+                Send
+              </Button>
+            </InputGroup>
           </form>
         </div>
       </div>
