@@ -67,7 +67,7 @@ class SnapCommentBar extends PureComponent {
             className={styles.form}
             onSubmit={handleSubmit(onCreateSnapComment)}
           >  
-            <InputGroup compact>
+            <InputGroup compact style={{ display: 'flex' }}>
               <Dropdown overlay={this.renderCannedMessagesMenu()} placement="topLeft">
                 <Button className={styles.dropdownBtn}>
                   Canned Messages
@@ -75,7 +75,6 @@ class SnapCommentBar extends PureComponent {
                 </Button>
               </Dropdown>
               <Field
-                className={styles.input}
                 name="content"
                 component={RfInput}
                 placeholder="Comment"
