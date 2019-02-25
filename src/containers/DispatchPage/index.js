@@ -125,7 +125,7 @@ class Page extends Component {
       const { ques, syncCode } = this.props.record;
       if (ques) {
         const { type, content, test } = ques;
-        this.getQuestionList(type);
+        // this.getQuestionList(type);
         this.setState({
           categoryIndex: type === 'javascript' ? 0 : 1,
           code: syncCode || content,
@@ -366,39 +366,36 @@ class Page extends Component {
     return (
       <React.Fragment>
         <PageSpin spinning={isLoading}>
-          {!isLoading && !room.error && (
-            <React.Fragment>
-              <ControlWidget
-                isHost={room.isHost}
-                record={record}
-                question={question}
-                onDispatchQuestion={onDispatchQuestion}
-                onEndExam={onEndExam}
-                onChangeCategory={onChangeCategory}
-                categoryIndex={categoryIndex}
-                questionIndex={questionIndex}
-                questionList={question.list}
-                onChangeQuestion={onChangeQuestion}
-                setIntervieweeModal={setIntervieweeModal}
-                intervieweeName={room.subjectId}
-                roomId={room.id}
-                roomDescription={room.description}
-                showDelConfirmModal={showDelConfirmModal}
-                hideDelConfirmModal={hideDelConfirmModal}
-              />
-              <MainView
-                onDispatchQuestion={onDispatchQuestion}
-                onChangeCategory={onChangeCategory}
-                onChangeQuestion={onChangeQuestion}
-                handleCodeChange={handleCodeChange}
-                addTape={addTape}
-                resetTape={resetTape}
-                onTagUpdate={onTagUpdate}
-                {...this.state}
-              />
-              <SnapCommentBar />
-            </React.Fragment>
-          )}
+          <React.Fragment>
+            <ControlWidget
+              isHost={room.isHost}
+              record={record}
+              onDispatchQuestion={onDispatchQuestion}
+              onEndExam={onEndExam}
+              onChangeCategory={onChangeCategory}
+              categoryIndex={categoryIndex}
+              questionIndex={questionIndex}
+              questionList={question.list}
+              onChangeQuestion={onChangeQuestion}
+              setIntervieweeModal={setIntervieweeModal}
+              intervieweeName={room.subjectId}
+              roomId={room.id}
+              roomDescription={room.description}
+              showDelConfirmModal={showDelConfirmModal}
+              hideDelConfirmModal={hideDelConfirmModal}
+            />
+            <MainView
+              onDispatchQuestion={onDispatchQuestion}
+              onChangeCategory={onChangeCategory}
+              onChangeQuestion={onChangeQuestion}
+              handleCodeChange={handleCodeChange}
+              addTape={addTape}
+              resetTape={resetTape}
+              onTagUpdate={onTagUpdate}
+              {...this.state}
+            />
+            <SnapCommentBar />
+          </React.Fragment>
           {!isLoading && room.error && (
             <PageEmpty description={<span>Room Not Found</span>} />
           )}

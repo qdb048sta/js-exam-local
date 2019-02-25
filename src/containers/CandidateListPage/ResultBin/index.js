@@ -81,6 +81,7 @@ const ResultBin = ({ tests }) => {
             );
           }
         }
+        return null;
       })}
     </Collapse>
   ) : null;

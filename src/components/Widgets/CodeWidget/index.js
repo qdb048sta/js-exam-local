@@ -5,16 +5,11 @@ import AceEditor from 'react-ace';
 import styles from './CodeWidget.module.scss';
 
 class CodeWidget extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
-  handleOnLoad = (editor) => {
-
+  handleOnLoad = editor => {
     setTimeout(() => {
       editor.resize();
     }, 200);
-  }
+  };
 
   render() {
     const { mode, theme, readOnly, handleCodeChange, data } = this.props;

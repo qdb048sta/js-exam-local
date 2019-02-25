@@ -5,8 +5,6 @@ import 'brace/mode/javascript';
 import 'brace/theme/textmate';
 import 'brace/theme/monokai';
 
-import { Spin } from 'antd';
-
 import CodeWidget from 'components/Widgets/CodeWidget';
 import TestWidget from 'components/Widgets/TestWidget';
 import TapeWidget from 'components/Widgets/TapeWidget';
