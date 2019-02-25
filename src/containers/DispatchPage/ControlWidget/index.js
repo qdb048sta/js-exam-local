@@ -42,8 +42,8 @@ const ControlWidget = ({
         key="link"
         onClick={() => {
           const link = `${window.location.origin}${
-            window.location.hash ? '/#' : ''
-          }/exam/${roomId}`;
+            window.location.pathname
+          }${window.location.hash.replace('admin/dispatch', 'exam')}`;
           navigator.clipboard.writeText(link).then(() => {
             message.success(`Successfully copied the link!`);
           });

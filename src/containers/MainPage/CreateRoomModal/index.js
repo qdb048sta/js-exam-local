@@ -81,8 +81,8 @@ class CreateRoomModal extends React.PureComponent {
     if (createRoomSuc) {
       title = `Welcome to Room - ${createdRoomData.description}`;
       examLink = `${window.location.origin}${
-        window.location.hash ? '/#' : ''
-      }/exam/${createdRoomData.id}`;
+        window.location.pathname
+      }${window.location.hash.replace('admin', 'exam')}/${createdRoomData.id}`;
       okButtonLabel = 'Enter Room';
       onOK = this.toRoom;
     }
