@@ -12,6 +12,7 @@ import styles from './ControlWidget.module.scss';
 const InputGroup = Input.Group;
 
 function getRecordStatus(question, record) {
+  if (!question || !record) return null;
   if (question.name === record.ques.name) {
     return record.status;
   }
@@ -20,7 +21,6 @@ function getRecordStatus(question, record) {
 
 const ControlWidget = ({
   record,
-  question,
   intervieweeName,
   roomId,
   roomDescription,
@@ -34,13 +34,16 @@ const ControlWidget = ({
   isHost,
   showDelConfirmModal,
 }) => {
-  const recordStatus = getRecordStatus(question, record);
+  const recordStatus = getRecordStatus(questionList[questionIndex], record);
   const isInRecording = recordStatus === RECORD_STATUS.inprogress;
   const menu = (
     <Menu>
-      <Menu.Item key="link"
+      <Menu.Item
+        key="link"
         onClick={() => {
-          const link = `${document.location.host}/exam/${roomId}`;
+          const link = `${window.location.origin}${
+            window.location.pathname
+          }${window.location.hash.replace('admin/dispatch', 'exam')}`;
           navigator.clipboard.writeText(link).then(() => {
             message.success(`Successfully copied the link!`);
           });
@@ -48,22 +51,22 @@ const ControlWidget = ({
       >
         <Icon type="share-alt" /> Copy Exam Link
       </Menu.Item>
-      {isHost &&
-        <Menu.Item
-          key="delete"
-          onClick={showDelConfirmModal}
-        >
+      {isHost && (
+        <Menu.Item key="delete" onClick={showDelConfirmModal}>
           <Icon type="delete" style={{ color: 'red' }} /> Delete Room
         </Menu.Item>
-      }
+      )}
     </Menu>
   );
 
   return (
     <PageControlBar>
       <div>
-        {isHost &&
-          <InputGroup compact style={{ width: 'auto', display: 'inline-block' }}>
+        {isHost && (
+          <InputGroup
+            compact
+            style={{ width: 'auto', display: 'inline-block' }}
+          >
             <CategorySelector
               disabled={isInRecording}
               onChange={onChangeCategory}
@@ -75,13 +78,13 @@ const ControlWidget = ({
               questionIndex={questionIndex}
               list={questionList}
             />
-            {isInRecording &&
+            {isInRecording && (
               <Popconfirm
-                placement="bottom" 
-                title="Are you sure to end the exam?" 
-                onConfirm={onEndExam} 
+                placement="bottom"
+                title="Are you sure to end the exam?"
+                onConfirm={onEndExam}
                 okType="danger"
-                okText="End it" 
+                okText="End it"
                 cancelText="No"
               >
                 <Button type="danger" style={{ marginLeft: 5 }}>
@@ -89,22 +92,28 @@ const ControlWidget = ({
                   <Icon type="right" />
                 </Button>
               </Popconfirm>
-            }
-            {!isInRecording &&
-              <Button type="primary" style={{ marginLeft: 5 }} onClick={onDispatchQuestion}>
+            )}
+            {!isInRecording && (
+              <Button
+                type="primary"
+                style={{ marginLeft: 5 }}
+                onClick={onDispatchQuestion}
+              >
                 Dispatch
                 <Icon type="right" />
               </Button>
-            }
+            )}
           </InputGroup>
-        }
+        )}
       </div>
       <div>
         <div className={styles.roomInfoBar}>
           <Dropdown overlay={menu} placement="bottomLeft">
             <span className={styles.roomInfoBar_room}>
               Room:
-              <span className={styles.roomInfoBar_label}>{roomDescription}</span>
+              <span className={styles.roomInfoBar_label}>
+                {roomDescription}
+              </span>
               <Icon type="down" />
             </span>
           </Dropdown>
@@ -120,7 +129,6 @@ const ControlWidget = ({
 
 ControlWidget.propTypes = {
   isHost: PropTypes.bool.isRequired,
-  question: PropTypes.object.isRequired,
   record: PropTypes.object.isRequired,
   intervieweeName: PropTypes.string.isRequired,
   roomId: PropTypes.string.isRequired,

@@ -12,14 +12,14 @@ function getDateTime(string) {
     ${T.getMinutes()}:${T.getSeconds()}`;
 }
 
-const TestList = ({ data, isLoading }) => (
+const TestList = ({ data }) => (
   <List
     itemLayout="horizontal"
     dataSource={data}
     renderItem={item => (
       <List.Item
         actions={[
-          <a>Overview</a>,
+          // <span>Overview</span>,
           <Link
             to={{
               pathname: `/admin/playback/${item.id}`,
@@ -41,7 +41,6 @@ const TestList = ({ data, isLoading }) => (
 
 TestList.propTypes = {
   data: PropTypes.array,
-  isLoading: PropTypes.bool,
 };
 
 export default TestList;

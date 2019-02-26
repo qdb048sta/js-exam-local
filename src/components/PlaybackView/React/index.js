@@ -6,8 +6,6 @@ import 'brace/mode/javascript';
 import 'brace/theme/textmate';
 import 'brace/theme/monokai';
 
-import { Spin } from 'antd';
-
 import CodeWidget from 'components/Widgets/CodeWidget';
 import ResultWidget from 'components/Widgets/ResultWidget';
 import AnswerWidget from 'components/Widgets/AnswerWidget';
@@ -39,7 +37,6 @@ class ReactPage extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    
     const { compiledCode: previousCompiledCode } = this.props;
     const { compiledCode } = nextProps;
     if (previousCompiledCode !== compiledCode) {

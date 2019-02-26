@@ -32,7 +32,7 @@ class ReactPage extends Component {
   }
 
   render() {
-    const { onTagUpdate, handleCodeChange, test, code } = this.props;
+    const { handleCodeChange, test, code } = this.props;
     const layout = [
       {
         key: 'code',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Tooltip, Popconfirm } from 'antd';
+import { Button, Icon, Tooltip } from 'antd';
 import styles from './ControlWidget.module.scss';
 
 const ControlWidget = ({

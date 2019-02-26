@@ -179,7 +179,7 @@ class ExamPage extends Component {
     this.subscriptionForUpdateRecordByRecordId = subscribeOnUpdateRecordByRecordId(
       this.props.record.id,
       data => {
-        const { room, syncCode } = data;
+        const { room } = data;
         if (room.id === this.props.room.id) {
           if (
             data.status === RECORD_STATUS.closed &&
@@ -187,12 +187,12 @@ class ExamPage extends Component {
           ) {
             this.setState({
               isExaming: false,
-            })
+            });
           }
         }
       },
     );
-  }
+  };
 
   showResetAlert = () => {
     const self = this;

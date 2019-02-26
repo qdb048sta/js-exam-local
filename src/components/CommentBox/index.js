@@ -1,9 +1,8 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
 import Field from 'redux-form/es/Field';
-import Button from 'antd/lib/button';
 import { RfTextArea } from 'components/RfInput';
 
 class CommentBox extends React.Component {

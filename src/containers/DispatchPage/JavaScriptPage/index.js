@@ -4,8 +4,6 @@ import 'brace/mode/javascript';
 import 'brace/theme/textmate';
 import 'brace/theme/monokai';
 
-import { Spin } from 'antd';
-
 import Grid from 'components/Grid';
 import GridItem from 'components/Grid/GridItem';
 import CodeWidget from 'components/Widgets/CodeWidget';
@@ -13,7 +11,7 @@ import TestWidget from 'components/Widgets/TestWidget';
 import TapeWidget from 'components/Widgets/TapeWidget';
 
 import debouncedRunCode from 'utils/runCode';
-import { JAVASCRIPT as GRID_LABEL_JAVASCRIPT  } from 'utils/gridLabel';
+import { JAVASCRIPT as GRID_LABEL_JAVASCRIPT } from 'utils/gridLabel';
 
 import styles from './JavaScriptPage.module.scss';
 
@@ -38,13 +36,7 @@ class JavaScriptPage extends Component {
   }
 
   render() {
-    const {
-      onTagUpdate,
-      handleCodeChange,
-      code,
-      test,
-      tape,
-    } = this.props;
+    const { handleCodeChange, code, test, tape } = this.props;
     const layout = [
       {
         key: 'code',

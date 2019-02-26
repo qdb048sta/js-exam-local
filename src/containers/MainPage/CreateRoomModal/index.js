@@ -26,12 +26,12 @@ class CreateRoomModal extends React.PureComponent {
     this.examLinkInput = React.createRef();
   }
 
-  handleInputOnChange = (e) => {
+  handleInputOnChange = e => {
     this.setState({
       name: e.target.value,
       disabled: e.target.value === '',
     });
-  }
+  };
 
   handleOnOK = () => {
     const { name } = this.state;
@@ -39,7 +39,7 @@ class CreateRoomModal extends React.PureComponent {
     this.props.onCreateRoom({
       subjectId: name,
     });
-  }
+  };
 
   handleOnAfterClose = () => {
     this.setState({
@@ -47,7 +47,7 @@ class CreateRoomModal extends React.PureComponent {
       disabled: true,
     });
     this.props.onReset();
-  }
+  };
 
   copyLink = () => {
     this.examLinkInput.current.select();
@@ -66,7 +66,7 @@ class CreateRoomModal extends React.PureComponent {
     const {
       visible,
       onClose,
-      createRoom,
+      isCreatingRoom,
       createRoomSuc,
       createdRoomData,
     } = this.props;
@@ -74,71 +74,74 @@ class CreateRoomModal extends React.PureComponent {
     const { name, disabled } = this.state;
 
     let title = 'Create a room';
-    let okButtonLabel = createRoom ? 'Creating...' : 'Create';
+    let okButtonLabel = isCreatingRoom ? 'Creating...' : 'Create';
     let onOK = this.handleOnOK;
+    let examLink = '';
 
     if (createRoomSuc) {
       title = `Welcome to Room - ${createdRoomData.description}`;
+      examLink = `${window.location.origin}${
+        window.location.pathname
+      }${window.location.hash.replace('admin', 'exam')}/${createdRoomData.id}`;
       okButtonLabel = 'Enter Room';
       onOK = this.toRoom;
     }
-    
+
     return (
       <Modal
         visible={visible}
         maskClosable={false}
         title={title}
-        closable={!createRoom}
+        closable={!isCreatingRoom}
         okText={okButtonLabel}
         cancelButtonProps={{
-          disabled: createRoom,
+          disabled: isCreatingRoom,
         }}
         okButtonProps={{
-          disabled: disabled || createRoom,
+          disabled: disabled || isCreatingRoom,
         }}
         onOk={onOK}
         onCancel={onClose}
         afterClose={this.handleOnAfterClose}
       >
-        {!createRoomSuc &&
+        {!createRoomSuc && (
           <Input
             placeholder="Please enter interviewee name"
             prefix={<Icon type="user" />}
             value={name}
             onChange={this.handleInputOnChange}
           />
-        }
+        )}
 
-        {createRoomSuc &&
+        {createRoomSuc && (
           <React.Fragment>
             <p>Interviewee: {createdRoomData.subjectId}</p>
             <div className={style.content}>
               <Input
                 size="large"
                 readOnly
-                value={`${window.location.origin}/exam/${createdRoomData.id}`}
+                value={examLink}
                 ref={this.examLinkInput}
               />
               <Button className={style.copyButton} onClick={this.copyLink}>
                 <Icon type="copy" />
               </Button>
             </div>
-          </React.Fragment> 
-        }
+          </React.Fragment>
+        )}
       </Modal>
     );
   }
 }
 
 CreateRoomModal.propTypes = {
-  
   visible: PropTypes.bool,
   history: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
   onCreateRoom: PropTypes.func,
   onSetRoomHost: PropTypes.func,
-  createRoom: PropTypes.bool,
+  isCreatingRoom: PropTypes.bool,
   createRoomSuc: PropTypes.bool,
   createdRoomData: PropTypes.object,
 };
@@ -150,7 +153,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  createRoom: state[REDUCER_KEY].createRoom,
+  isCreatingRoom: state[REDUCER_KEY].createRoom,
   createRoomSuc: state[REDUCER_KEY].createRoomSuc,
   createdRoomData: state[REDUCER_KEY].createdRoomData,
 });

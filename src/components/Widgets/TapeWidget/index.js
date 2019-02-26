@@ -69,7 +69,7 @@ const getRow = (row) => {
 
 const TapeWidget = ({ data }) => {
   return (
-    <div className={styles.tape}>{ data.map(getRow) }</div>
+    <div className={styles.tape}>{data.map(getRow)}</div>
   );
 };
 
