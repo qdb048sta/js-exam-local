@@ -84,6 +84,7 @@ class ExamPage extends Component {
     } else {
       this.setState({
         enableEnter: false,
+        isExaming: true
       });
     }
     this.setState({ isLoading: false });
