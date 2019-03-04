@@ -25,13 +25,11 @@ class MainPage extends Component {
     isModalVisible: false,
   };
 
-  handleOnSearch = e => {
-    debounce(value => {
-      this.setState({
-        searchKeyword: value.toLowerCase(),
-      });
-    }, 300)(e.target.value);
-  };
+  handleOnSearch = debounce(value => {
+    this.setState({
+      searchKeyword: value.toLowerCase(),
+    });
+  }, 300);
 
   handleNewModalButtonOnClick = () => {
     this.setState({
@@ -65,7 +63,7 @@ class MainPage extends Component {
             <Search
               style={{ width: 400 }}
               placeholder="input search text"
-              onChange={this.handleOnSearch}
+              onChange={e => this.handleOnSearch(e.target.value)}
             />
           </div>
         </PageControlBar>
