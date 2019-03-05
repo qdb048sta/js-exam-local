@@ -139,6 +139,7 @@ class Page extends Component {
             question => question.name === ques.name,
           ),
         });
+        await this.onChangeQuestion(this.state.questionIndex);
       } else {
         await this.getQuestionList('javascript');
         await this.onChangeQuestion(0);
@@ -153,7 +154,6 @@ class Page extends Component {
 
   getQuestionList = async category => {
     await this.props.actions.fetchQuestionList(category);
-    this.props.actions.fetchQuestion(this.props.question.list[0].id);
   };
 
   onChangeCategory = async index => {
