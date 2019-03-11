@@ -47,9 +47,9 @@ class Page extends Component {
     if (this.props.type === 'edit') {
       const { compiledCode } = this.state;
       this.setState({ isLoading: true });
-      this.getQuestionList();
       debouncedRunCode({ code: compiledCode, onTapeUpdate: this.addTape });
     }
+    await this.getQuestionList();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -83,7 +83,9 @@ class Page extends Component {
       categoryIndex === 0 ? 'javascript' : 'react',
     );
     this.setState({ questionList: result.items, isLoading: false });
-    this.onChangeQuestion(0);
+    if (this.props.type !== 'add') {
+      this.onChangeQuestion(0);
+    }
   };
 
   onChangeQuestion = async questionIndex => {
@@ -105,13 +107,39 @@ class Page extends Component {
     const { categoryIndex, tags, name, code: content, test, id } = this.state;
     this.setState({ isLoading: true });
     if (this.props.type === 'add') {
-      await this.onCreateQuestion({
-        tags,
-        name,
-        content,
-        test,
-        type: categoryIndex === 0 ? 'javascript' : 'react',
-      });
+      const { questionList } = this.state;
+      let isQuestionExist = questionList.find(
+        question => question.name === name,
+      );
+
+      if (!isQuestionExist) {
+        // Submit question
+        await this.onCreateQuestion({
+          tags,
+          name,
+          content,
+          test,
+          type: categoryIndex === 0 ? 'javascript' : 'react',
+        });
+
+        // Append new question into questionList
+        questionList.push({
+          id: id,
+          name: name,
+          type: categoryIndex === 0 ? 'javascript' : 'react',
+        });
+
+        // Update questionList and clear screen
+        this.setState({
+          questionList: questionList,
+          name: '',
+          tags: [],
+          code: '',
+          test: '',
+        });
+      } else {
+        message.error('Question: ' + name + ' is already exists.');
+      }
     } else {
       await this.onUpdateQuestion({
         id,
@@ -210,6 +238,7 @@ class Page extends Component {
       <React.Fragment>
         <ControlWidget
           type={this.props.type}
+          currentInputName={name}
           onChangeName={questionName => this.setState({ name: questionName })}
           onSubmit={this.onSubmit}
           onDelete={this.onDelete}
