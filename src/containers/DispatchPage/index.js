@@ -134,10 +134,11 @@ class Page extends Component {
         this.handleCodeChange(syncCode || content);
         // to show the question name
         await this.getQuestionList(type);
+        let index = this.props.question.list.findIndex(
+          question => question.name === ques.name,
+        );
         this.setState({
-          questionIndex: this.props.question.list.findIndex(
-            question => question.name === ques.name,
-          ),
+          questionIndex: index >= 0 ? index : 0,
         });
         await this.onChangeQuestion(this.state.questionIndex);
       } else {
