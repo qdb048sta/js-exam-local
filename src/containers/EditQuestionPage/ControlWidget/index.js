@@ -9,6 +9,7 @@ const InputGroup = Input.Group;
 
 const ControlWidget = ({
   type,
+  currentInputName,
   categoryIndex,
   questionIndex,
   onChangeName,
@@ -22,46 +23,52 @@ const ControlWidget = ({
 }) => (
   <PageControlBar>
     <div>
-      
-
-      {type === 'add' && 
+      {type === 'add' && (
         <InputGroup compact>
           <CategorySelector
             onChange={onChangeCategory}
             categoryIndex={categoryIndex}
+            disabled={false}
           />
           <Input
             placeholder="Question name"
             onChange={e => onChangeName(e.target.value)}
             style={{ width: 200, marginRight: 5 }}
+            value={currentInputName}
           />
-          <Button
-            type="primary"
-            onClick={onSubmit}
-            disabled={disableSubmit}
-          >
+          <Button type="primary" onClick={onSubmit} disabled={disableSubmit}>
             Add
           </Button>
         </InputGroup>
-      }
+      )}
 
-      {type !== 'add' &&
+      {type !== 'add' && (
         <InputGroup compact>
+          <CategorySelector
+            onChange={onChangeCategory}
+            categoryIndex={categoryIndex}
+            disabled={false}
+          />
           <QuestionSelector
             onChange={onChangeQuestion}
             questionIndex={questionIndex}
             list={questionList}
+            disabled={false}
           />
-          <Button type="primary" onClick={onSubmit} style={{ marginRight: 5, marginLeft: 5 }}>
+          <Button
+            type="primary"
+            onClick={onSubmit}
+            style={{ marginRight: 5, marginLeft: 5 }}
+          >
             Save
           </Button>
 
-          <Popconfirm 
-            placement="bottom" 
-            title="Are you sure to delete the question?" 
+          <Popconfirm
+            placement="bottom"
+            title="Are you sure to delete the question?"
             onConfirm={onDelete}
             okType="danger"
-            okText="Delete it" 
+            okText="Delete it"
             cancelText="No"
           >
             <Button type="danger" icon="delete">
@@ -69,7 +76,7 @@ const ControlWidget = ({
             </Button>
           </Popconfirm>
         </InputGroup>
-      }
+      )}
     </div>
   </PageControlBar>
 );

@@ -4,19 +4,21 @@ import { transform } from '@babel/standalone';
 
 import { message } from 'antd';
 
-import {
-  createQuestion,
-  updateQuestion,
-  deleteQuestion,
-  listQuestions,
-  getQuestion,
-} from 'utils/question';
 import debouncedRunCode from 'utils/runCode';
 
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 
 import ControlWidget from './ControlWidget';
+
+import { connect } from 'react-redux';
+import {
+  createQuestionAction,
+  updateQuestionAction,
+  deleteQuestionAction,
+  fetchQuestionList,
+  fetchQuestion,
+} from '../../redux/question/actions';
 
 const getPageComponent = args => {
   switch (args.categoryIndex) {
@@ -38,17 +40,18 @@ class Page extends Component {
     compiledCode: '',
     test: '',
     id: null,
-    questionList: [],
     questionIndex: 0,
     isLoading: false,
   };
 
   async componentDidMount() {
+    await this.getQuestionList();
     if (this.props.type === 'edit') {
       const { compiledCode } = this.state;
       this.setState({ isLoading: true });
-      this.getQuestionList();
       debouncedRunCode({ code: compiledCode, onTapeUpdate: this.addTape });
+      await this.onChangeQuestion(0);
+      this.setState({ isLoading: false });
     }
   }
 
@@ -57,7 +60,6 @@ class Page extends Component {
       if (nextProps.currentTab === 'edit') {
         const { compiledCode } = this.state;
         this.setState({ isLoading: true });
-        this.getQuestionList();
         debouncedRunCode({ code: compiledCode, onTapeUpdate: this.addTape });
       } else {
         this.setState({
@@ -74,24 +76,24 @@ class Page extends Component {
   }
 
   onChangeCategory = async index => {
-    this.setState({ categoryIndex: index }, await this.getQuestionList);
+    this.setState({ categoryIndex: index }, async () => {
+      await this.getQuestionList();
+      await this.onChangeQuestion(0);
+    });
   };
 
   getQuestionList = async () => {
     const { categoryIndex } = this.state;
-    const result = await listQuestions(
+    await this.props.actions.fetchQuestionList(
       categoryIndex === 0 ? 'javascript' : 'react',
     );
-    this.setState({ questionList: result.items, isLoading: false });
-    this.onChangeQuestion(0);
   };
 
   onChangeQuestion = async questionIndex => {
-    const { questionList } = this.state;
-    const { id } = questionList[questionIndex];
+    const { id } = this.props.question.list[questionIndex];
     this.setState({ isLoading: true, questionIndex });
-    const result = await getQuestion(id);
-    const { tags, content: code, test } = result;
+    await this.props.actions.fetchQuestion(id);
+    const { tags, content: code, test } = this.props.question;
     this.setState({
       tags,
       code,
@@ -105,13 +107,29 @@ class Page extends Component {
     const { categoryIndex, tags, name, code: content, test, id } = this.state;
     this.setState({ isLoading: true });
     if (this.props.type === 'add') {
-      await this.onCreateQuestion({
-        tags,
-        name,
-        content,
-        test,
-        type: categoryIndex === 0 ? 'javascript' : 'react',
-      });
+      let isQuestionExist = this.props.question.list.find(
+        question => question.name === name,
+      );
+
+      if (!isQuestionExist) {
+        // Submit question
+        await this.onCreateQuestion({
+          tags,
+          name,
+          content,
+          test,
+          type: categoryIndex === 0 ? 'javascript' : 'react',
+        });
+
+        this.setState({
+          name: '',
+          tags: [],
+          code: '',
+          test: '',
+        });
+      } else {
+        message.error('Question: ' + name + ' is already exists.');
+      }
     } else {
       await this.onUpdateQuestion({
         id,
@@ -125,7 +143,7 @@ class Page extends Component {
 
   onCreateQuestion = async data => {
     try {
-      await createQuestion(data);
+      await this.props.actions.createQuestionAction(data);
       message.success(`Successfully add the question "${data.name}"!`, 0.5);
     } catch (e) {
       message.error(e.errors[0].message);
@@ -134,7 +152,7 @@ class Page extends Component {
 
   onUpdateQuestion = async data => {
     try {
-      await updateQuestion(data);
+      await this.props.actions.updateQuestionAction(data);
       message.success('Successfully edited!', 0.5);
     } catch (e) {
       message.error(e);
@@ -145,7 +163,7 @@ class Page extends Component {
     const { id } = this.state;
     this.setState({ isLoading: true });
     try {
-      await deleteQuestion({
+      await this.props.actions.deleteQuestionAction({
         input: {
           id,
         },
@@ -154,7 +172,7 @@ class Page extends Component {
     } catch (e) {
       message.error(e);
     }
-    await this.getQuestionList();
+    await this.onChangeQuestion(0);
     this.setState({ isLoading: false });
   };
 
@@ -191,25 +209,19 @@ class Page extends Component {
   onSync = async () => {
     const { categoryIndex } = this.state;
     this.setState({ isLoading: true });
-    const result = await listQuestions(
+    await this.props.actions.fetchQuestionList(
       categoryIndex === 0 ? 'javascript' : 'react',
     );
-    this.setState({ questionList: result.items, isLoading: false });
+    this.setState({ isLoading: false });
   };
 
   render() {
-    const {
-      categoryIndex,
-      name,
-      code,
-      test,
-      questionIndex,
-      questionList,
-    } = this.state;
+    const { categoryIndex, name, code, test, questionIndex } = this.state;
     return (
       <React.Fragment>
         <ControlWidget
           type={this.props.type}
+          currentInputName={name}
           onChangeName={questionName => this.setState({ name: questionName })}
           onSubmit={this.onSubmit}
           onDelete={this.onDelete}
@@ -218,7 +230,7 @@ class Page extends Component {
           onSync={this.onSync}
           categoryIndex={categoryIndex}
           questionIndex={questionIndex}
-          questionList={questionList}
+          questionList={this.props.question.list}
           disableSubmit={!name || !code || !test}
         />
         {getPageComponent({
@@ -235,4 +247,35 @@ class Page extends Component {
   }
 }
 
-export default Page;
+const mapStateToProps = state => {
+  return {
+    question: state.question,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: {
+      createQuestionAction: async type => {
+        await dispatch(createQuestionAction(type));
+      },
+      updateQuestionAction: async id => {
+        await dispatch(updateQuestionAction(id));
+      },
+      deleteQuestionAction: async type => {
+        await dispatch(deleteQuestionAction(type));
+      },
+      fetchQuestion: async id => {
+        await dispatch(fetchQuestion(id));
+      },
+      fetchQuestionList: async type => {
+        await dispatch(fetchQuestionList(type));
+      },
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Page);

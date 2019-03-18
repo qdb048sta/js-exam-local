@@ -134,11 +134,13 @@ class Page extends Component {
         this.handleCodeChange(syncCode || content);
         // to show the question name
         await this.getQuestionList(type);
+        let index = this.props.question.list.findIndex(
+          question => question.name === ques.name,
+        );
         this.setState({
-          questionIndex: this.props.question.list.findIndex(
-            question => question.name === ques.name,
-          ),
+          questionIndex: index >= 0 ? index : 0,
         });
+        await this.onChangeQuestion(this.state.questionIndex);
       } else {
         await this.getQuestionList('javascript');
         await this.onChangeQuestion(0);
@@ -153,7 +155,6 @@ class Page extends Component {
 
   getQuestionList = async category => {
     await this.props.actions.fetchQuestionList(category);
-    this.props.actions.fetchQuestion(this.props.question.list[0].id);
   };
 
   onChangeCategory = async index => {
