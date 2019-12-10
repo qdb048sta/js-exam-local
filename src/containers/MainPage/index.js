@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { Connect } from 'aws-amplify-react';
 import { connect } from 'react-redux';
 import { graphqlOperation } from 'aws-amplify';
-import { Button, Input } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import debounce from 'lodash/debounce';
 
 import { listRooms } from 'graphql/queries';
 import { onCreateRoom } from 'graphql/subscriptions';
+import { deleteRoomAction } from 'redux/room/actions';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
@@ -23,6 +24,9 @@ class MainPage extends Component {
   state = {
     searchKeyword: '',
     isModalVisible: false,
+    delConfirmModalVisible: false,
+    delRoom: null,
+    delRoomList: []
   };
 
   handleOnSearch = debounce(value => {
@@ -42,10 +46,27 @@ class MainPage extends Component {
       isModalVisible: false,
     });
   };
+  
+  hideDelConfirmModal = () => {
+    this.setState({
+      delConfirmModalVisible: false,
+    });
+  };
+
+  handleOnOkDelConfirmModal = async () => {
+    const { delRoom, delRoomList } = this.state;
+    const { deleteRoomAction } = this.props;
+    await deleteRoomAction(delRoom);
+    this.setState({
+      delRoomList: [...delRoomList, delRoom.id]
+    })
+
+    this.hideDelConfirmModal();
+  };
 
   render() {
     const { history, signedOn, hostings } = this.props;
-    const { isModalVisible, searchKeyword } = this.state;
+    const { isModalVisible, searchKeyword, delConfirmModalVisible, delRoom, delRoomList } = this.state;
 
     return (
       <div className={style.Mainpage}>
@@ -92,7 +113,7 @@ class MainPage extends Component {
                     return (
                       room.subjectId.toLowerCase().includes(searchKeyword) ||
                       room.description.toLowerCase().includes(searchKeyword)
-                    );
+                    ) && !delRoomList.includes(room.id);
                   });
 
               return (
@@ -113,6 +134,10 @@ class MainPage extends Component {
                       rooms={outputRooms}
                       signedOn={signedOn}
                       hostings={hostings}
+                      triggerDelRoom={(room) => { this.setState({
+                        delConfirmModalVisible : true,
+                        delRoom: room
+                      })}}
                     />
                   )}
                 </PageSpin>
@@ -126,6 +151,15 @@ class MainPage extends Component {
           history={history}
           onClose={this.handleModalOnClose}
         />
+        <Modal
+          title=""
+          visible={delConfirmModalVisible}
+          okType="danger"
+          okText="Delete"
+          onOk={this.handleOnOkDelConfirmModal}
+          onCancel={this.hideDelConfirmModal}>
+          Are you sure you want to delete room <b>{delRoom ? delRoom.description : ''}</b> ?
+        </Modal>
       </div>
     );
   }
@@ -142,4 +176,8 @@ const mapStateToProps = state => ({
   hostings: state.login.hostings,
 });
 
-export default connect(mapStateToProps)(MainPage);
+const mapDispatchToProps = dispatch => ({
+  deleteRoomAction: delRoom => dispatch(deleteRoomAction(delRoom))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

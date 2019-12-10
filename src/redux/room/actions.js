@@ -135,7 +135,7 @@ function updateRoomInfo(id) {
   };
 }
 
-function deleteRoomAction(id) {
+function deleteRoomAction(room) {
   return async (dispatch, getState) => {
     dispatch(
       graphqlActionHelper({
@@ -145,7 +145,7 @@ function deleteRoomAction(id) {
       }),
     );
     try {
-      const { id: testId } = getState().room.test;
+      const testId = room.test.id;
       await API.graphql(
         graphqlOperation(mutations.updateTest, {
           input: {
@@ -157,12 +157,12 @@ function deleteRoomAction(id) {
       const delResult = await API.graphql(
         graphqlOperation(mutations.deleteRoom, {
           input: {
-            id,
+            id: room.id,
           },
         }),
       );
 
-      dispatch(deleteHostings(id));
+      dispatch(deleteHostings(room.id));
 
       const action = delResult.data.deleteRoom
         ? ACTION_STATE.SUCCESS

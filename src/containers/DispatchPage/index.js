@@ -322,7 +322,7 @@ class Page extends Component {
   handleOnOkDelConfirmModal = async () => {
     const { room, actions } = this.props;
 
-    await actions.deleteRoomAction(room.id);
+    await actions.deleteRoomAction(room);
 
     this.hideDelConfirmModal();
   };
@@ -434,7 +434,7 @@ export default withRouter(
     dispatch => ({
       actions: {
         getRoomInfo: id => dispatch(getRoomInfo(id)),
-        deleteRoomAction: id => dispatch(deleteRoomAction(id)),
+        deleteRoomAction: room => dispatch(deleteRoomAction(room)),
         fetchQuestionList: type => dispatch(fetchQuestionList(type)),
         fetchQuestion: id => dispatch(fetchQuestion(id)),
         createRecordData: params => dispatch(createRecordData(params)),

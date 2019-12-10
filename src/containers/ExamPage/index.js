@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { transform } from '@babel/standalone';
 import { Modal } from 'antd';
 import get from 'lodash/get';
+import { withAuthenticator } from 'aws-amplify-react';
 
 import createWrappedConsole from 'utils/consoleFactory';
 import { 
@@ -295,4 +296,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(ExamPage);
+export default withAuthenticator(compose(withConnect)(ExamPage));
