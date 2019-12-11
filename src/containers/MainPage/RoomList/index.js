@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 
-import { Card, Avatar, Tag  } from 'antd';
+import { Card, Avatar, Tag, Icon  } from 'antd';
 import { SpringGrid, measureItems, makeResponsive } from 'react-stonecutter';
 
 import avatarIcon1 from 'asset/image/avatar1.png';
@@ -20,8 +20,13 @@ const Grid = makeResponsive(measureItems(SpringGrid), {
 });
 const AVATAR_LIST = [avatarIcon1, avatarIcon2, avatarIcon3, avatarIcon4];
 
+const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
 
-const RoomList = ({ rooms = [], signedOn, hostings }) => {
+  const handleDelButton = (room, event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    triggerDelRoom(room)
+  }
 
   return (
       <Grid
@@ -53,6 +58,11 @@ const RoomList = ({ rooms = [], signedOn, hostings }) => {
                     <div className={style.cover}>
                       <span className={style.room}>Room</span>
                       {room.description}
+                      {signedOn && includes(hostings, room.id) && 
+                        <div className={style.floatTop} onClick={(e) => handleDelButton(room, e)}>
+                          <Icon type="delete" theme="twoTone" twoToneColor="#f00"/>
+                        </div>
+                      }
                     </div>
                   }
                 >
