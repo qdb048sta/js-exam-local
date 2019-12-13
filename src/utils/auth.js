@@ -5,4 +5,14 @@ const login = async ({ username, password }) => {
   return result;
 };
 
-export { login };
+const autoLogin = async () => {
+  const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
+  return !!result;
+};
+
+const checkPermission = async () => {
+  const result = await Auth.currentAuthenticatedUser();
+  return result.username === 'Admin';
+}
+
+export { login, autoLogin, checkPermission };

@@ -1,11 +1,23 @@
+import { Auth } from 'aws-amplify';
 import filter from 'lodash/filter';
 import {
   LOGIN,
+  AUTO_LOGIN,
   SET_USERNAME,
   SET_HOSTINGS,
   DEL_HOSTINGS,
   LOGOUT,
 } from './constants';
+
+export function autoLogin() {
+  return async dispatch => {
+    const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
+    dispatch({
+      type: AUTO_LOGIN,
+      isLogin: !!result
+    })
+  }
+}
 
 export function submitPassword(password) {
   return {
