@@ -7,7 +7,7 @@ import awsConfig from 'aws-exports';
 import 'antd/dist/antd.css';
 import initErrorLogging from 'utils/sentry';
 
-import route from './route';
+import Route from './route';
 
 import configureStore from './redux/configureStore';
 import './asset/css/index.css';
@@ -22,4 +22,4 @@ const initialState = {};
 const store = configureStore(initialState);
 const MOUNT_NODE = document.getElementById('root');
 
-ReactDOM.render(<Provider store={store}>{route()}</Provider>, MOUNT_NODE);
+ReactDOM.render(<Provider store={store}>{<Route />}</Provider>, MOUNT_NODE);

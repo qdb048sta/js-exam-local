@@ -177,7 +177,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteRoomAction: delRoom => dispatch(deleteRoomAction(delRoom))
+  deleteRoomAction: delRoom => dispatch(deleteRoomAction(delRoom)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

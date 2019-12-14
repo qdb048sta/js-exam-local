@@ -15,6 +15,7 @@ import {
 } from 'utils/record';
 import { getRoomInfo, updateRoomInfo } from 'redux/room/actions';
 import { setCurrentRecord } from 'redux/record/actions';
+import { autoLogin, setUsername } from 'redux/login/actions';
 
 import PageSpin from 'components/PageSpin';
 import PageEmpty from 'components/PageEmpty';
@@ -54,8 +55,9 @@ class ExamPage extends Component {
 
   wrappedConsole = createWrappedConsole(console, this.props.actions.addConsole);
 
-  componentDidMount() {
-    this.getRoom();
+  async componentDidMount() {
+    await this.autoLogin();
+    await this.getRoom();
     this.subscribeCreateRecord();
   }
 
@@ -69,7 +71,12 @@ class ExamPage extends Component {
       });
     }
   }
-
+  autoLogin = async () => {
+    this.setState({ isLoading: true });
+    await this.props.actions.autoLogin();
+    await this.props.actions.onSetUsername('User - Exam');
+    this.setState({ isLoading: false, enableEnter: true });
+  };
   getRoom = async () => {
     this.setState({
       isLoading: true,
@@ -280,6 +287,8 @@ const mapDispatchToProps = dispatch => ({
     resetConsole: () => dispatch(resetConsole()),
     addTape: data => dispatch(addTape(data)),
     resetTape: () => dispatch(resetTape()),
+    autoLogin: () => dispatch(autoLogin()),
+    onSetUsername: name => dispatch(setUsername(name)),
   },
 });
 
@@ -296,4 +305,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default withAuthenticator(compose(withConnect)(ExamPage));
+export default compose(withConnect)(ExamPage);
