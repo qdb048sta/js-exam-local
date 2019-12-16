@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { transform } from '@babel/standalone';
 import { Modal } from 'antd';
 import get from 'lodash/get';
-import { withAuthenticator } from 'aws-amplify-react';
 
 import createWrappedConsole from 'utils/consoleFactory';
 import { 
