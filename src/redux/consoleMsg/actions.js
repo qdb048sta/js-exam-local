@@ -1,4 +1,3 @@
-
 export function addConsole(...args) {
   return {
     type: 'CONSOLE_ADD',

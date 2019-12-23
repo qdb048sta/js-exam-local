@@ -14,9 +14,9 @@ export function autoLogin() {
     const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
     dispatch({
       type: AUTO_LOGIN,
-      isLogin: !!result
-    })
-  }
+      isLogin: !!result,
+    });
+  };
 }
 
 export function submitPassword(password) {

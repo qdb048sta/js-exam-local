@@ -116,7 +116,6 @@ function endRecordData(id) {
   };
 }
 
-
 // for subscribe
 function setCurrentRecord(result) {
   return {

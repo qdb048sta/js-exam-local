@@ -13,6 +13,6 @@ const autoLogin = async () => {
 const checkPermission = async () => {
   const result = await Auth.currentAuthenticatedUser();
   return result.username === 'Admin';
-}
+};
 
 export { login, autoLogin, checkPermission };

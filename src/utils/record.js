@@ -37,9 +37,9 @@ const updateRecord = async (id, newCode) => {
     graphqlOperation(mutations.updateRecord, params),
   );
   return result;
-}
+};
 
-const endRecord = async (id) => {
+const endRecord = async id => {
   const params = {
     input: {
       id,

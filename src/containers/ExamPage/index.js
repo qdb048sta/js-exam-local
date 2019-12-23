@@ -7,8 +7,8 @@ import { Modal } from 'antd';
 import get from 'lodash/get';
 
 import createWrappedConsole from 'utils/consoleFactory';
-import { 
-  subscribeOnCreateRecord, 
+import {
+  subscribeOnCreateRecord,
   subscribeOnUpdateRecordByRecordId,
   RECORD_STATUS,
 } from 'utils/record';
@@ -91,7 +91,7 @@ class ExamPage extends Component {
     } else {
       this.setState({
         enableEnter: false,
-        isExaming: true
+        isExaming: true,
       });
     }
     this.setState({ isLoading: false });
@@ -162,7 +162,6 @@ class ExamPage extends Component {
     subscribeOnCreateRecord(data => {
       const { room, ques } = data;
       if (room.id === this.props.room.id) {
-
         // unsubscribe the old record
         if (this.subscriptionForUpdateRecordByRecordId) {
           this.subscriptionForUpdateRecordByRecordId.unsubscribe();
@@ -227,8 +226,7 @@ class ExamPage extends Component {
     return (
       <div>
         <PageSpin spinning={isLoading} className={styles.spin}>
-
-          {enableEnter && 
+          {enableEnter && (
             <React.Fragment>
               <ControlWidget
                 roomDescription={room.description}
@@ -250,17 +248,18 @@ class ExamPage extends Component {
                 test={record.ques && record.ques.test}
               />
             </React.Fragment>
-          }  
+          )}
 
-          {!enableEnter &&
+          {!enableEnter && (
             <PageEmpty
-               description={<span>You don't have authorization to enter this room</span>}
-            />           
-          }
+              description={
+                <span>You don't have authorization to enter this room</span>
+              }
+            />
+          )}
         </PageSpin>
 
         <FullScreenMask isShow={!isExaming} text="Waiting for questions..." />
-
       </div>
     );
   }

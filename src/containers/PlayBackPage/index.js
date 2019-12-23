@@ -26,20 +26,24 @@ class PlaybackPage extends React.PureComponent {
         >
           {({ data: { getTest: test }, loading, error }) => {
             return (
-              <PageSpin
-                spinning={loading}
-              >
-                {!loading && error &&
-                  <PageEmpty description={<span>Error Occuring</span>}/>
-                }
+              <PageSpin spinning={loading}>
+                {!loading && error && (
+                  <PageEmpty description={<span>Error Occuring</span>} />
+                )}
 
-                {!loading && !test &&
-                  <PageEmpty description={<span>Data Not Found</span>} image="default"/>
-                }
+                {!loading && !test && (
+                  <PageEmpty
+                    description={<span>Data Not Found</span>}
+                    image="default"
+                  />
+                )}
 
-                {!loading && test &&
-                  <MainView testData={test} records={sortRecords(test.records.items)}/>
-                }
+                {!loading && test && (
+                  <MainView
+                    testData={test}
+                    records={sortRecords(test.records.items)}
+                  />
+                )}
               </PageSpin>
             );
           }}

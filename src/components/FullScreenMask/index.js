@@ -4,18 +4,15 @@ import PropTypes from 'prop-types';
 import styles from './FullScreen.module.scss';
 
 const FullScreenMask = ({ isShow, text }) => {
+  if (isShow) {
+    return (
+      <div className={styles.fullScreenMask}>
+        <span className={styles.text}>{text}</span>
+      </div>
+    );
+  }
 
-    if (isShow) {
-        return (
-            <div className={styles.fullScreenMask}>
-                <span className={styles.text}>
-                    {text}
-                </span>
-            </div>
-        )
-    }
-
-    return '';
+  return '';
 };
 
 FullScreenMask.propTypes = {
@@ -24,8 +21,8 @@ FullScreenMask.propTypes = {
 };
 
 FullScreenMask.defaultProps = {
-    isShow: false,
-    text: '',
+  isShow: false,
+  text: '',
 };
 
 export default FullScreenMask;

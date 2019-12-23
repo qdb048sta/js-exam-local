@@ -13,7 +13,6 @@ import { createSnapComment } from 'redux/snapComment/actions';
 import { cannedMessages } from './constants';
 import styles from './SnapCommentBar.module.scss';
 
-
 export const FORM_ID = 'SnapCommentBar';
 const InputGroup = Input.Group;
 
@@ -40,7 +39,11 @@ class SnapCommentBar extends PureComponent {
   renderTags = () => {
     const messages = cannedMessages.slice(0, 3);
     return messages.map(message => (
-      <Tag key={message.content} color={message.color} onClick={this.handleClickTag(message.content)}>
+      <Tag
+        key={message.content}
+        color={message.color}
+        onClick={this.handleClickTag(message.content)}
+      >
         {message.content}
       </Tag>
     ));
@@ -66,20 +69,23 @@ class SnapCommentBar extends PureComponent {
           <form
             className={styles.form}
             onSubmit={handleSubmit(onCreateSnapComment)}
-          >  
+          >
             <InputGroup compact style={{ display: 'flex' }}>
-              <Dropdown overlay={this.renderCannedMessagesMenu()} placement="topLeft">
+              <Dropdown
+                overlay={this.renderCannedMessagesMenu()}
+                placement="topLeft"
+              >
                 <Button className={styles.dropdownBtn}>
                   Canned Messages
                   <Icon type="up" />
                 </Button>
               </Dropdown>
-              <Field
-                name="content"
-                component={RfInput}
-                placeholder="Comment"
-              />
-              <Button type="primary" htmlType="submit" disabled={pristine || submitting}>
+              <Field name="content" component={RfInput} placeholder="Comment" />
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={pristine || submitting}
+              >
                 Send
               </Button>
             </InputGroup>

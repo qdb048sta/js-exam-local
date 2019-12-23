@@ -24,61 +24,71 @@ class route extends Component {
     hasPermission: false,
   };
 
-  async componentDidMount () {
-    await this.checkPermission()
+  async componentDidMount() {
+    await this.checkPermission();
   }
 
   checkPermission = async () => {
-    let isAdmin = await checkPermission()
-    this.setState({ hasPermission: isAdmin, shouldLogin: !localStorage.username });
+    let isAdmin = await checkPermission();
+    this.setState({
+      hasPermission: isAdmin,
+      shouldLogin: !localStorage.username,
+    });
   };
 
-  render () {
+  render() {
     const { hasPermission, shouldLogin } = this.state;
     return (
       <Router basename={PUBLIC_URL}>
-          <>
-          {shouldLogin || hasPermission ?
+        <>
+          {shouldLogin || hasPermission ? (
             <Switch>
-            <Route path="/admin">
-              <Admin>
-                <Route exact path="/admin" component={MainPage} />
-                <Route
-                  exact
-                  path="/admin/dispatch/:roomId"
-                  component={DispatchPage}
-                />
-                <Route
-                  exact
-                  path="/admin/playback/:testId"
-                  component={PlaybackPage}
-                />
-                <Route
-                  exact
-                  path="/admin/add"
-                  render={props => <EditQuestionPage {...props} type="add" />}
-                />
-                <Route
-                  exact
-                  path="/admin/edit"
-                  render={props => <EditQuestionPage {...props} type="edit" />}
-                />
-                <Route exact path="/admin/candidates" component={CandidateListPage} />
-              </Admin>
-            </Route>
-            <Route exact path="/exam/:roomId" component={ExamPage} />
-            <Redirect exact from="/" to="/admin" />
-            <Route component={NotFoundPage} /></Switch>
-            :
+              <Route path="/admin">
+                <Admin>
+                  <Route exact path="/admin" component={MainPage} />
+                  <Route
+                    exact
+                    path="/admin/dispatch/:roomId"
+                    component={DispatchPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin/playback/:testId"
+                    component={PlaybackPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin/add"
+                    render={props => <EditQuestionPage {...props} type="add" />}
+                  />
+                  <Route
+                    exact
+                    path="/admin/edit"
+                    render={props => (
+                      <EditQuestionPage {...props} type="edit" />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/admin/candidates"
+                    component={CandidateListPage}
+                  />
+                </Admin>
+              </Route>
+              <Route exact path="/exam/:roomId" component={ExamPage} />
+              <Redirect exact from="/" to="/admin" />
+              <Route component={NotFoundPage} />
+            </Switch>
+          ) : (
             <Switch>
               <Route exact path="/exam/:roomId" component={ExamPage} />
               <Route component={NotFoundPage} />
             </Switch>
-          }
+          )}
         </>
       </Router>
     );
   }
 }
 
-export default route
+export default route;
