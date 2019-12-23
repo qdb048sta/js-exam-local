@@ -29,7 +29,7 @@ class Border extends Component {
       minHeight,
     } = this.props;
     let newHeight = allowHeight
-      ? e.clientY - this.ref.current.offsetTop
+      ? e.clientY - this.ref.current.getBoundingClientRect().y
       : height;
     if (maxHeight && newHeight > maxHeight) {
       newHeight = maxHeight;
