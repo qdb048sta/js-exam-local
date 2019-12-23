@@ -1,5 +1,7 @@
 import { Auth } from 'aws-amplify';
 import filter from 'lodash/filter';
+import { API, graphqlOperation } from 'aws-amplify';
+import graphqlActionHelper, { ACTION_STATE } from 'utils/graphqlActionHelper';
 import {
   LOGIN,
   AUTO_LOGIN,
@@ -28,9 +30,66 @@ export function submitPassword(password) {
 
 export function setUsername(data) {
   localStorage.setItem('username', data);
-  return {
-    type: SET_USERNAME,
-    data,
+  return async dispatch => {
+    dispatch(
+      graphqlActionHelper({
+        method: 'FETCH',
+        dataName: 'JeUser',
+        actionState: ACTION_STATE.STARTED,
+      }),
+    );
+    try {
+      const {
+        data: {
+          listJEUsers: { items: result },
+        },
+      } = await API.graphql(
+        graphqlOperation(
+          `query ListJeUsers(
+            $filter: ModelJEUserFilterInput
+          ) {
+            listJEUsers(filter: $filter) {
+              items {
+                id
+                name
+                room {
+                  id
+                }
+            }
+          }
+        }
+          `,
+          {
+            filter: { name: { eq: data } },
+          },
+        ),
+      );
+      dispatch(
+        graphqlActionHelper({
+          method: 'FETCH',
+          dataName: 'JeUser',
+          actionState: ACTION_STATE.SUCCESS,
+          result,
+        }),
+      );
+      result.forEach(jeUser => {
+        if (jeUser.room) dispatch(setHostings(jeUser.room.id));
+      });
+    } catch (error) {
+      dispatch(
+        graphqlActionHelper({
+          method: 'FETCH',
+          dataName: 'JeUser',
+          actionState: ACTION_STATE.FAILURE,
+          result: error,
+        }),
+      );
+      console.log('error:', error);
+    }
+    dispatch({
+      type: SET_USERNAME,
+      data,
+    });
   };
 }
 
