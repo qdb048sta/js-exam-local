@@ -1,85 +1,85 @@
 .tape {
-	background-color: #eef;
-	width: 100%;
-	height: 100%;
-	overflow: scroll;
+  background-color: #eef;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
 }
 
 // .tape::-webkit-scrollbar { width: 0 !important }
 
 .test {
-	display: flex;
-	align-items: center;
-	font-weight: bold;
-	background-color: #eef;
-	height: 50px;
-	font-size: 16px;
-	color: black
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  background-color: #eef;
+  height: 50px;
+  font-size: 16px;
+  color: black;
 }
 
 .description {
-	background: #eef;
-	color: grey;
-	font-style: italic;
-	padding-left: 2.4em;
-	font-weight: 700;
-	font-size: 16px;
+  background: #eef;
+  color: grey;
+  font-style: italic;
+  padding-left: 2.4em;
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .assert {
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 100%;
-	font-size: 16px;
-	display: inline-block;
-	> .name,
-	> .actual,
-	> .not-equal,
-	> .expected {
-		padding-left: 1em;
-		font-style: italic;
-		max-width: 25em;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		display: inline-block;
-	}
-	
-	> .actual,
-	> .not-equal,
-	> .expected {
-		color: black;
-	}
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+  font-size: 16px;
+  display: inline-block;
+  > .name,
+  > .actual,
+  > .not-equal,
+  > .expected {
+    padding-left: 1em;
+    font-style: italic;
+    max-width: 25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
 
-	> .ok,
-	> .fail {
-		display: inline-block;
-		font-weight: 700;
-	}
+  > .actual,
+  > .not-equal,
+  > .expected {
+    color: black;
+  }
+
+  > .ok,
+  > .fail {
+    display: inline-block;
+    font-weight: 700;
+  }
 }
 
 .ok {
-	background: #efe;
+  background: #efe;
 }
 .fail {
-	background: #faa;
+  background: #faa;
 }
 
 .diff {
-	background: #ffe;
-	margin-top: 0;
-	margin-bottom: 0;
-	padding-top: .25em;
-	padding-bottom: .25em;
-	padding-left: 4em;
-	font-weight: 400;
-	white-space: pre-wrap;
-	> .actual {
-		background-color: #afa;
-		text-decoration: underline;
-	}
-	> .expected {
-		background-color: #faa;
-		text-decoration: line-through;
-	}
+  background: #ffe;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  padding-left: 4em;
+  font-weight: 400;
+  white-space: pre-wrap;
+  > .actual {
+    background-color: #afa;
+    text-decoration: underline;
+  }
+  > .expected {
+    background-color: #faa;
+    text-decoration: line-through;
+  }
 }

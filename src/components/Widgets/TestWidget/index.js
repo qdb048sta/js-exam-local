@@ -3,9 +3,7 @@ import AceEditor from 'react-ace';
 import styles from './TestWidget.module.scss';
 
 const TestWidget = ({ data, readOnly = true, handleCodeChange = () => {} }) => (
-  <div
-    className={`${styles['test-widget']}`}
-  >
+  <div className={`${styles['test-widget']}`}>
     <AceEditor
       showPrintMargin={false}
       mode="javascript"

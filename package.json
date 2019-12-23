@@ -67,6 +67,8 @@
     "tape-dom": "0.0.12"
   },
   "scripts": {
+    "format": "prettier \"src/**/*.{js,jsx,html,scss}\" --write",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "start": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 start",
     "build": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 build",
     "eject": "react-scripts eject",

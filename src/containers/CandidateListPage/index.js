@@ -20,23 +20,22 @@ const CandidateListPage = () => (
     }}
   >
     {({ data: { listTests: tests }, loading, error }) => {
-
       return (
-        <PageSpin
-          spinning={loading}
-        >
-          {!loading && error &&
-            <PageEmpty description={<span>Error Occuring</span>}/>
-          }
+        <PageSpin spinning={loading}>
+          {!loading && error && (
+            <PageEmpty description={<span>Error Occuring</span>} />
+          )}
 
-          {!loading && !tests &&
-            <PageEmpty description={<span>Data Not Found</span>} image="default"/>
-          }
+          {!loading && !tests && (
+            <PageEmpty
+              description={<span>Data Not Found</span>}
+              image="default"
+            />
+          )}
 
-          {!loading && tests &&
+          {!loading && tests && (
             <ResultBin tests={tests.items} isLoading={loading} />
-          }
-
+          )}
         </PageSpin>
       );
     }}

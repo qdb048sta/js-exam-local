@@ -42,19 +42,27 @@ class TagWidget extends Component {
     const { data: tags, readOnly } = this.props;
     return (
       <div className={styles['tag-widget']}>
-        {tags ? tags.map((tag, index) => {
-          const isLongTag = tag.length > 20;
-          const tagElem = (
-            <Tag
-              key={tag}
-              closable
-              afterClose={() => this.handleClose(tag)}
-            >
-              {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-            </Tag>
-          );
-          return isLongTag ? <Tooltip title={tag} key={tag}>{tagElem}</Tooltip> : tagElem
-        }) : null}
+        {tags
+          ? tags.map((tag, index) => {
+              const isLongTag = tag.length > 20;
+              const tagElem = (
+                <Tag
+                  key={tag}
+                  closable
+                  afterClose={() => this.handleClose(tag)}
+                >
+                  {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                </Tag>
+              );
+              return isLongTag ? (
+                <Tooltip title={tag} key={tag}>
+                  {tagElem}
+                </Tooltip>
+              ) : (
+                tagElem
+              );
+            })
+          : null}
         {inputVisible && (
           <Input
             ref={this.saveInputRef}

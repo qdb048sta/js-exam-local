@@ -4,7 +4,6 @@ import * as mutations from 'graphql/mutations';
 
 import * as subscriptions from 'graphql/subscriptions';
 
-
 const listQuestions = async type => {
   const query = `
     query {

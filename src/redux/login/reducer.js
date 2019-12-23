@@ -1,11 +1,18 @@
 import { authLogin } from 'utils/authLogin';
-import { LOGIN, AUTO_LOGIN, SET_USERNAME, SET_HOSTINGS, DEL_HOSTINGS, LOGOUT } from './constants';
+import {
+  LOGIN,
+  AUTO_LOGIN,
+  SET_USERNAME,
+  SET_HOSTINGS,
+  DEL_HOSTINGS,
+  LOGOUT,
+} from './constants';
 
 const initialState = {
   isLogin: false,
   username: localStorage.getItem('username'),
   hostings: JSON.parse(localStorage.getItem('hostings')) || [],
-  permission: false
+  permission: false,
 };
 
 const login = (state = initialState, action) => {
@@ -13,14 +20,14 @@ const login = (state = initialState, action) => {
     case LOGIN: {
       return {
         ...state,
-        isLogin: action.isLogin
+        isLogin: action.isLogin,
       };
     }
     case AUTO_LOGIN: {
       return {
         ...state,
-        isLogin: action.isLogin
-      }
+        isLogin: action.isLogin,
+      };
     }
     case SET_USERNAME: {
       return {
