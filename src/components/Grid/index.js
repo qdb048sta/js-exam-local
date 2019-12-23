@@ -128,7 +128,12 @@ export default class Grid extends React.Component {
         ref={this.ref}
       >
         {columns.map((column, indexOfColumn) => {
-          const maxWidth = Math.max(...column.map(item => item.maxWidth || 0));
+          const maxWidth = Math.max(
+            ...column.map(
+              item =>
+                (item.width > item.maxWidth ? item.width : item.maxWidth) || 0,
+            ),
+          );
           const minWidth = Math.min(
             ...column.map(item => item.minWidth || 999999),
           );
