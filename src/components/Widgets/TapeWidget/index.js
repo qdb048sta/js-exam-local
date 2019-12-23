@@ -1,16 +1,19 @@
 import React from 'react';
+// Use inspect, from node util, to stringify codes.
+// JSON.stringify will cause problem when the target contains
+// circular in the object structure.
+import { inspect } from 'util';
+
 import styles from './TapeWidget.module.scss';
 
 const TestRow = row => <div className={styles.test}>{row.name}</div>;
 
 const AssertRow = row => {
   const actual =
-    typeof row.actual === 'object'
-      ? JSON.stringify(row.actual)
-      : `${row.actual}`;
+    typeof row.actual === 'object' ? inspect(row.actual) : `${row.actual}`;
   const expected =
     typeof row.expected === 'object'
-      ? JSON.stringify(row.expected)
+      ? inspect(row.expected)
       : `${row.expected}`;
   return (
     <div className={`${styles.assert} ${row.ok ? styles.ok : styles.fail}`}>
@@ -37,7 +40,7 @@ const AssertRow = row => {
 };
 
 // TODO: add endrow component
-const EndRow = row => <div>{JSON.stringify(row)}</div>;
+const EndRow = row => <div>{inspect(row)}</div>;
 
 const DescriptionRow = ({ description }) => (
   <div className={styles.description}>{description}</div>
@@ -46,11 +49,11 @@ const DescriptionRow = ({ description }) => (
 const getRow = row => {
   switch (row.type) {
     case 'test':
-      return <TestRow key={JSON.stringify(row)} {...row} />;
+      return <TestRow key={inspect(row)} {...row} />;
     case 'assert':
-      return <AssertRow key={JSON.stringify(row)} {...row} />;
+      return <AssertRow key={inspect(row)} {...row} />;
     case 'end':
-      return <EndRow key={JSON.stringify(row)} {...row} />;
+      return <EndRow key={inspect(row)} {...row} />;
     case undefined && typeof row === 'string':
       return <DescriptionRow description={row} key={row} />;
     default:
