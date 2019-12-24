@@ -32,6 +32,7 @@ const ControlWidget = ({
   questionList,
   isHost,
   showDelConfirmModal,
+  ran,
 }) => {
   const recordStatus = getRecordStatus(questionList[questionIndex], record);
   const isInRecording = recordStatus === RECORD_STATUS.inprogress;
@@ -106,7 +107,7 @@ const ControlWidget = ({
         )}
       </div>
       <div>
-        <span>還沒run</span>
+        <span>{ran ? 'run了' : '還沒run'}</span>
       </div>
       <div>
         <div className={styles.roomInfoBar}>
@@ -143,6 +144,7 @@ ControlWidget.propTypes = {
   onChangeQuestion: PropTypes.func.isRequired,
   questionList: PropTypes.arrayOf(PropTypes.object).isRequired,
   showDelConfirmModal: PropTypes.func.isRequired,
+  ran: PropTypes.bool,
 };
 
 export default ControlWidget;

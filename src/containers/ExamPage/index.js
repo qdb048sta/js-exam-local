@@ -28,7 +28,7 @@ import { addTape, resetTape } from 'redux/tape/actions';
 
 import styles from './ExamPage.module.scss';
 import { updateRecordData } from './actions';
-import { QUESTION_TYPE } from './constants';
+import { EXAM_USER_NAME, QUESTION_TYPE } from './constants';
 import ControlWidget from './ControlWidget';
 import { createSnapComment } from '../../redux/snapComment/actions';
 
@@ -74,7 +74,7 @@ class ExamPage extends Component {
   autoLogin = async () => {
     this.setState({ isLoading: true });
     await this.props.actions.autoLogin();
-    await this.props.actions.onSetUsername('User - Exam');
+    await this.props.actions.onSetUsername(EXAM_USER_NAME);
     this.setState({ isLoading: false, enableEnter: true });
   };
 
@@ -290,7 +290,8 @@ const mapDispatchToProps = dispatch => ({
     resetTape: () => dispatch(resetTape()),
     autoLogin: () => dispatch(autoLogin()),
     onSetUsername: name => dispatch(setUsername(name)),
-    addRunSnapComment: () => dispatch(createSnapComment({content: 'interviewee run code'})),
+    addRunSnapComment: () =>
+      dispatch(createSnapComment({ content: 'interviewee run code' })),
   },
 });
 

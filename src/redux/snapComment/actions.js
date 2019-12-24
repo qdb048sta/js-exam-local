@@ -1,11 +1,9 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
-import actions from 'redux-form/es/actions';
 import get from 'lodash/get';
 import { message } from 'antd';
-import { FORM_ID as SNAP_COMMENT_FORM_ID } from 'containers/DispatchPage/SnapCommentBar';
 
-export function createSnapComment(data) {
+export function createSnapComment(data, callback) {
   return async (dispatch, getState) => {
     let latestHistoryId = get(getState(), 'history.data.id');
     // Temporary work around for cannot fetch latest history
@@ -47,9 +45,7 @@ export function createSnapComment(data) {
         await API.graphql(
           graphqlOperation(mutations.createSnapComment, params),
         );
-        // Reset snap-comment form field
-        dispatch(actions.reset(SNAP_COMMENT_FORM_ID));
-        message.success('Add comment succeeded');
+        !!callback && callback();
       } catch (error) {
         console.log(error);
         message.error('Add comment failed');
