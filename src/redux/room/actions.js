@@ -161,7 +161,13 @@ function deleteRoomAction(room) {
           },
         }),
       );
-
+      const roomHost = await API.graphql(
+        graphqlOperation(mutations.deleteJeUser, {
+          input: {
+            id: room.users.items[0].id,
+          },
+        }),
+      );
       dispatch(deleteHostings(room.id));
 
       const action = delResult.data.deleteRoom
