@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button, Icon, Dropdown, Menu, message, Popconfirm } from 'antd';
+import {
+  Input,
+  Button,
+  Icon,
+  Dropdown,
+  Menu,
+  message,
+  Popconfirm,
+  Badge,
+} from 'antd';
 
 import PageControlBar from 'components/PageControlBar';
 import CategorySelector from 'components/Selectors/CategorySelector';
@@ -107,7 +116,17 @@ const ControlWidget = ({
         )}
       </div>
       <div>
-        <span>{ran ? 'run了' : '還沒run'}</span>
+        {ran ? (
+          <>
+            <Badge status="processing" />
+            <span>run了</span>
+          </>
+        ) : (
+          <>
+            <Badge status="warning" />
+            <span>還沒run</span>
+          </>
+        )}
       </div>
       <div>
         <div className={styles.roomInfoBar}>
