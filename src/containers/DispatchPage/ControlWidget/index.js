@@ -119,12 +119,12 @@ const ControlWidget = ({
         {ran ? (
           <>
             <Badge status="processing" />
-            <span>run了</span>
+            <span>interviewee ran the code</span>
           </>
         ) : (
           <>
             <Badge status="warning" />
-            <span>還沒run</span>
+            <span>interviewee is coding...</span>
           </>
         )}
       </div>
