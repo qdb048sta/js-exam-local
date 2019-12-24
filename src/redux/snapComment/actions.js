@@ -3,7 +3,6 @@ import * as mutations from 'graphql/mutations';
 import actions from 'redux-form/es/actions';
 import get from 'lodash/get';
 import { message } from 'antd';
-
 import { FORM_ID as SNAP_COMMENT_FORM_ID } from 'containers/DispatchPage/SnapCommentBar';
 
 export function createSnapComment(data) {

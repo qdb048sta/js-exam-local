@@ -31,3 +31,6 @@ schema_20181108.graphql
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# webstorm
+./idea

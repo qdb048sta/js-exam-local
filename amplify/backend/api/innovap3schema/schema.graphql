@@ -33,7 +33,7 @@ type Test @model {
   team: Team
   subjectId: String # could be email
   users: [JEUser] @connection(name: "TestJEUsers") # host & observers
-	host: JEUser @connection(name: "TestHost") # ID for current JEUser
+  host: JEUser @connection(name: "TestHost") # ID for current JEUser
   description: String
   timeBegin: AWSDateTime
   timeEnd: AWSDateTime 

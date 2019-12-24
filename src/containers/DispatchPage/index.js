@@ -56,6 +56,7 @@ class Page extends Component {
     tags: [],
     isLoading: false,
     delConfirmModalVisible: false,
+    ran: false,
   };
 
   async componentDidMount() {
@@ -95,6 +96,7 @@ class Page extends Component {
       ).subscribe({
         next: ({ value }) => {
           const { record, actions } = this.props;
+          console.log('subscribe history', value);
           if (value.data.onCreateHistory.record.id === record.id) {
             actions.setLatestHistory(value.data.onCreateHistory);
           }
@@ -166,6 +168,9 @@ class Page extends Component {
   };
 
   onChangeQuestion = async index => {
+    if (this.props.question.list.length === 0) {
+      return;
+    }
     const { id } = this.props.question.list[index];
     this.setState({ isLoading: true, questionIndex: index });
     try {

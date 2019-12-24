@@ -22,7 +22,6 @@ function getRecordStatus(question, record) {
 const ControlWidget = ({
   record,
   intervieweeName,
-  roomId,
   roomDescription,
   categoryIndex,
   questionIndex,
@@ -105,6 +104,9 @@ const ControlWidget = ({
             )}
           </InputGroup>
         )}
+      </div>
+      <div>
+        <span>還沒run</span>
       </div>
       <div>
         <div className={styles.roomInfoBar}>
