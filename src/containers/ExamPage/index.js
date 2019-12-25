@@ -58,13 +58,18 @@ class ExamPage extends Component {
   async componentDidMount() {
     await this.autoLogin();
     await this.getRoom();
+    // subscribe when refresh
     this.subscribeCreateRecord();
+    this.subscribeRecordUpdate();
   }
 
   componentWillReceiveProps(nextProps) {
     const { record } = this.props;
     const { record: nextRecord } = nextProps;
-    if (!get(record, 'status') && get(nextRecord, 'status') === 'inprogress') {
+    if (
+      !get(record, 'status') &&
+      get(nextRecord, 'status') === RECORD_STATUS.inprogress
+    ) {
       this.setState({
         isExaming: true,
       });
@@ -190,14 +195,17 @@ class ExamPage extends Component {
       this.props.record.id,
       data => {
         const { room } = data;
+        const { record } = this.props;
+        const { resetCode } = this.props.actions;
         if (room.id === this.props.room.id) {
           if (
             data.status === RECORD_STATUS.closed &&
-            this.props.record.status !== RECORD_STATUS.closed
+            record.status !== RECORD_STATUS.closed
           ) {
             this.setState({
               isExaming: false,
             });
+            resetCode();
           }
         }
       },
@@ -223,7 +231,15 @@ class ExamPage extends Component {
       showResetAlert,
     } = this;
     const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
-    const { room, record, code, consoleMsg, tape, actions: {addTape, resetTape, resetConsole} } = this.props;
+    const {
+      room,
+      record,
+      code: { rawCode, compiledCode },
+      consoleMsg,
+      tape,
+      actions,
+    } = this.props;
+    const { addTape, resetTape, resetConsole } = actions;
 
     return (
       <div>
@@ -243,11 +259,12 @@ class ExamPage extends Component {
                 addTape={addTape}
                 resetTape={resetTape}
                 resetConsole={resetConsole}
-                code={code.rawCode}
-                compiledCode={code.compiledCode}
-                consoleMsg={consoleMsg}
-                tape={tape}
-                test={record.ques && record.ques.test}
+                isExaming={isExaming}
+                code={isExaming ? rawCode : ''}
+                compiledCode={isExaming ? compiledCode : ''}
+                consoleMsg={isExaming ? consoleMsg : []}
+                tape={isExaming ? tape : []}
+                test={isExaming ? record.ques && record.ques.test : ''}
               />
             </React.Fragment>
           )}
@@ -260,7 +277,6 @@ class ExamPage extends Component {
             />
           )}
         </PageSpin>
-
         <FullScreenMask isShow={!isExaming} text="Waiting for questions..." />
       </div>
     );
