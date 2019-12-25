@@ -74,6 +74,7 @@ class ExamPage extends Component {
   autoLogin = async () => {
     this.setState({ isLoading: true });
     await this.props.actions.autoLogin();
+    localStorage.setItem('username', EXAM_USER_NAME);
     this.setState({ isLoading: false, enableEnter: true });
   };
 
