@@ -1,4 +1,5 @@
 import { Auth } from 'aws-amplify';
+import { EXAM_USER_NAME } from 'containers/ExamPage/constants'
 
 const login = async ({ username, password }) => {
   const result = await Auth.signIn(username, password);
@@ -7,7 +8,7 @@ const login = async ({ username, password }) => {
 
 const autoLogin = async () => {
   const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
-  localStorage.setItem('username', 'User - Exam');
+  localStorage.setItem('username', EXAM_USER_NAME);
   return !!result;
 };
 
