@@ -53,6 +53,16 @@ export function createRoom(data) {
           },
         }),
       );
+      // TODO: change graphql schema such that a jeUser can host mutiple room
+      const { data: jeUser } = await API.graphql(
+        graphqlOperation(mutations.createJeUser, {
+          input: {
+            name: localStorage.username,
+            jEUserHostTestId: testData.createTest.id,
+            jEUserRoomId: roomData.createRoom.id,
+          },
+        }),
+      );
       dispatch(createRoomActions.success(roomData.createRoom));
 
       /* add a hosting room into 'hostings' array in local storage */

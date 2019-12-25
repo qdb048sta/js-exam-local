@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import reduxForm from 'redux-form/es/reduxForm';
 import Field from 'redux-form/es/Field';
 import actions from 'redux-form/es/actions';
-import { Button, Menu, Dropdown, Tag, Input, Icon } from 'antd';
+import { Button, Menu, Dropdown, Tag, Input, Icon, message } from 'antd';
 
 import { RfInput } from 'components/RfInput';
 import { createSnapComment } from 'redux/snapComment/actions';
-
+import { FORM_ID as SNAP_COMMENT_FORM_ID } from 'containers/DispatchPage/SnapCommentBar';
 import { cannedMessages } from './constants';
 import styles from './SnapCommentBar.module.scss';
 
@@ -109,21 +109,21 @@ function mapDispatchToProps(dispatch) {
     onChangeSnapComment: content =>
       dispatch(actions.change(FORM_ID, 'content', content)),
     onCreateSnapComment: data => {
-      dispatch(createSnapComment(data));
+      dispatch(
+        createSnapComment(data, () => {
+          // Reset snap-comment form field
+          dispatch(actions.reset(SNAP_COMMENT_FORM_ID));
+          message.success('Add comment succeeded');
+        }),
+      );
     },
   };
 }
 
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 const withReduxForm = reduxForm({
   form: FORM_ID,
 });
 
-export default compose(
-  withReduxForm,
-  withConnect,
-)(SnapCommentBar);
+export default compose(withReduxForm, withConnect)(SnapCommentBar);

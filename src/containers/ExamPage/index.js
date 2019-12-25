@@ -28,8 +28,9 @@ import { addTape, resetTape } from 'redux/tape/actions';
 
 import styles from './ExamPage.module.scss';
 import { updateRecordData } from './actions';
-import { QUESTION_TYPE } from './constants';
+import { EXAM_USER_NAME, QUESTION_TYPE } from './constants';
 import ControlWidget from './ControlWidget';
+import { createSnapComment } from '../../redux/snapComment/actions';
 
 const GetPageComponent = args => {
   switch (args.categoryIndex) {
@@ -63,7 +64,6 @@ class ExamPage extends Component {
   componentWillReceiveProps(nextProps) {
     const { record } = this.props;
     const { record: nextRecord } = nextProps;
-
     if (!get(record, 'status') && get(nextRecord, 'status') === 'inprogress') {
       this.setState({
         isExaming: true,
@@ -136,6 +136,7 @@ class ExamPage extends Component {
     const { rawCode } = this.props.code;
     const { ques } = this.props.record;
     const fullCode = `${rawCode} ${ques.test}`;
+    this.props.actions.addRunSnapComment();
     try {
       const { code: compiledCode } = transform(fullCode, {
         presets: [
@@ -221,8 +222,7 @@ class ExamPage extends Component {
       showResetAlert,
     } = this;
     const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
-    const { room, record, code, consoleMsg, tape } = this.props;
-    const { addTape, resetTape, resetConsole } = this.props.actions;
+    const { room, record, code, consoleMsg, tape, actions: {addTape, resetTape, resetConsole} } = this.props;
 
     return (
       <div>
@@ -291,6 +291,8 @@ const mapDispatchToProps = dispatch => ({
     addTape: data => dispatch(addTape(data)),
     resetTape: () => dispatch(resetTape()),
     autoLogin: () => dispatch(autoLogin()),
+    addRunSnapComment: () =>
+      dispatch(createSnapComment({ content: 'interviewee run code' })),
   },
 });
 
@@ -302,9 +304,6 @@ const mapStateToProps = state => ({
   tape: state.tape,
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(ExamPage);

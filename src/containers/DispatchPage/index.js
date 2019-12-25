@@ -30,6 +30,7 @@ import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
+import { EXAM_USER_NAME } from '../ExamPage/constants';
 
 const MainView = args => {
   switch (args.categoryIndex) {
@@ -56,6 +57,7 @@ class Page extends Component {
     tags: [],
     isLoading: false,
     delConfirmModalVisible: false,
+    ran: false,
   };
 
   async componentDidMount() {
@@ -67,6 +69,7 @@ class Page extends Component {
     }
     await this.getRoom(roomId);
     this.subscribeOnCreateHistory();
+    this.subscribeSnapCommentForRunCode();
   }
 
   componentWillUnmount() {
@@ -97,6 +100,9 @@ class Page extends Component {
           const { record, actions } = this.props;
           if (value.data.onCreateHistory.record.id === record.id) {
             actions.setLatestHistory(value.data.onCreateHistory);
+          }
+          if (value.data.onCreateHistory.snapComments.items.length === 0) {
+            this.setState({ ran: false });
           }
         },
         error: error => {
@@ -166,6 +172,9 @@ class Page extends Component {
   };
 
   onChangeQuestion = async index => {
+    if (this.props.question.list.length === 0) {
+      return;
+    }
     const { id } = this.props.question.list[index];
     this.setState({ isLoading: true, questionIndex: index });
     try {
@@ -287,6 +296,19 @@ class Page extends Component {
     );
   };
 
+  subscribeSnapCommentForRunCode = () => {
+    API.graphql(graphqlOperation(subscriptions.onCreateSnapComment)).subscribe({
+      next: ({ value }) => {
+        if (value.data.onCreateSnapComment.author === EXAM_USER_NAME) {
+          this.setState({ ran: true });
+        }
+      },
+      error: error => {
+        console.error(error);
+      },
+    });
+  };
+
   onCreateComment = async data => {
     const { id } = this.props.record;
     const { content } = data.input;
@@ -347,6 +369,7 @@ class Page extends Component {
       questionIndex,
       commentBoxVisible,
       delConfirmModalVisible,
+      ran,
     } = this.state;
     const {
       onChangeCategory,
@@ -384,6 +407,7 @@ class Page extends Component {
               roomDescription={room.description}
               showDelConfirmModal={showDelConfirmModal}
               hideDelConfirmModal={hideDelConfirmModal}
+              ran={ran}
             />
             <MainView
               onDispatchQuestion={onDispatchQuestion}
