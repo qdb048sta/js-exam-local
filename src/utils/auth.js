@@ -7,12 +7,17 @@ const login = async ({ username, password }) => {
 
 const autoLogin = async () => {
   const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
+  localStorage.setItem('username', 'User - Exam');
   return !!result;
 };
 
 const checkPermission = async () => {
-  const result = await Auth.currentAuthenticatedUser();
-  return result.username === 'Admin';
+  try {
+    const result = await Auth.currentAuthenticatedUser();
+    return result.username === 'Admin';
+  } catch (err) {
+    return err;
+  }
 };
 
 export { login, autoLogin, checkPermission };

@@ -14,7 +14,7 @@ import {
 } from 'utils/record';
 import { getRoomInfo, updateRoomInfo } from 'redux/room/actions';
 import { setCurrentRecord } from 'redux/record/actions';
-import { autoLogin, setUsername } from 'redux/login/actions';
+import { autoLogin } from 'redux/login/actions';
 
 import PageSpin from 'components/PageSpin';
 import PageEmpty from 'components/PageEmpty';
@@ -70,12 +70,13 @@ class ExamPage extends Component {
       });
     }
   }
+
   autoLogin = async () => {
     this.setState({ isLoading: true });
     await this.props.actions.autoLogin();
-    await this.props.actions.onSetUsername('User - Exam');
     this.setState({ isLoading: false, enableEnter: true });
   };
+
   getRoom = async () => {
     this.setState({
       isLoading: true,
@@ -253,7 +254,9 @@ class ExamPage extends Component {
           {!enableEnter && (
             <PageEmpty
               description={
-                <span>You don't have authorization to enter this room</span>
+                <span>
+                  You don&apos;t have authorization to enter this room
+                </span>
               }
             />
           )}
@@ -271,6 +274,8 @@ ExamPage.propTypes = {
   code: PropTypes.object,
   consoleMsg: PropTypes.array,
   tape: PropTypes.array,
+  actions: PropTypes.object,
+  match: PropTypes.object,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -286,7 +291,6 @@ const mapDispatchToProps = dispatch => ({
     addTape: data => dispatch(addTape(data)),
     resetTape: () => dispatch(resetTape()),
     autoLogin: () => dispatch(autoLogin()),
-    onSetUsername: name => dispatch(setUsername(name)),
   },
 });
 
