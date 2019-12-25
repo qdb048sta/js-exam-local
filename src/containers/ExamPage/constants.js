@@ -13,3 +13,5 @@ export const QUESTION_TYPE = {
   JAVASCRIPT: 'javascript',
   REACT: 'react',
 };
+
+export const EXAM_USER_NAME = 'User - Exam';

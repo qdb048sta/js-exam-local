@@ -1,4 +1,3 @@
-import { authLogin } from 'utils/authLogin';
 import {
   LOGIN,
   AUTO_LOGIN,

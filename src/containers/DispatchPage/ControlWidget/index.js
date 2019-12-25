@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button, Icon, Dropdown, Menu, message, Popconfirm } from 'antd';
+import {
+  Input,
+  Button,
+  Icon,
+  Dropdown,
+  Menu,
+  message,
+  Popconfirm,
+  Badge,
+} from 'antd';
 
 import PageControlBar from 'components/PageControlBar';
 import CategorySelector from 'components/Selectors/CategorySelector';
@@ -22,7 +31,6 @@ function getRecordStatus(question, record) {
 const ControlWidget = ({
   record,
   intervieweeName,
-  roomId,
   roomDescription,
   categoryIndex,
   questionIndex,
@@ -33,6 +41,7 @@ const ControlWidget = ({
   questionList,
   isHost,
   showDelConfirmModal,
+  ran,
 }) => {
   const recordStatus = getRecordStatus(questionList[questionIndex], record);
   const isInRecording = recordStatus === RECORD_STATUS.inprogress;
@@ -107,6 +116,19 @@ const ControlWidget = ({
         )}
       </div>
       <div>
+        {ran ? (
+          <>
+            <Badge status="processing" />
+            <span>interviewee ran the code</span>
+          </>
+        ) : (
+          <>
+            <Badge status="warning" />
+            <span>interviewee is coding...</span>
+          </>
+        )}
+      </div>
+      <div>
         <div className={styles.roomInfoBar}>
           <Dropdown overlay={menu} placement="bottomLeft">
             <span className={styles.roomInfoBar_room}>
@@ -141,6 +163,7 @@ ControlWidget.propTypes = {
   onChangeQuestion: PropTypes.func.isRequired,
   questionList: PropTypes.arrayOf(PropTypes.object).isRequired,
   showDelConfirmModal: PropTypes.func.isRequired,
+  ran: PropTypes.bool,
 };
 
 export default ControlWidget;
