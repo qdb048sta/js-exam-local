@@ -21,6 +21,7 @@ import styles from './ReactPage.module.scss';
 
 class ReactPage extends Component {
   static propTypes = {
+    isExaming: PropTypes.bool,
     code: PropTypes.string,
     compiledCode: PropTypes.string,
     consoleMsg: PropTypes.array,
@@ -42,13 +43,14 @@ class ReactPage extends Component {
     const { compiledCode, wrappedConsole, resetConsole } = nextProps;
     if (previousCompiledCode !== compiledCode) {
       resetConsole();
+      // WARNING: This is not debounced
       debouncedRunCode({ code: compiledCode, wrappedConsole });
     }
     return true;
   }
 
   render() {
-    const { code, handleCodeChange, consoleMsg } = this.props;
+    const { isExaming, code, handleCodeChange, consoleMsg } = this.props;
     const layout = [
       {
         key: 'code',
@@ -100,18 +102,19 @@ class ReactPage extends Component {
             <CodeWidget
               handleCodeChange={handleCodeChange}
               data={code}
+              readOnly={!isExaming}
               mode="jsx"
               theme="monokai"
             />
           </GridItem>
           <GridItem key="answer" label={GRID_LABEL_REACT.answer}>
-            <AnswerWidget />
+            {isExaming ? <AnswerWidget /> : null}
           </GridItem>
           <GridItem key="result" label={GRID_LABEL_REACT.result}>
-            <ResultWidget />
+            {isExaming ? <ResultWidget /> : null}
           </GridItem>
           <GridItem key="console" label={GRID_LABEL_REACT.console}>
-            <ConsoleWidget data={consoleMsg} />
+            {isExaming ? <ConsoleWidget data={consoleMsg} /> : null}
           </GridItem>
         </Grid>
       </div>
