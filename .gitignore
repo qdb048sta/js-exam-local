@@ -33,4 +33,4 @@ schema_20181108.graphql
 !.vscode/extensions.json
 
 # webstorm
-./idea
+.idea/

@@ -223,7 +223,7 @@ class ExamPage extends Component {
       showResetAlert,
     } = this;
     const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
-    const { room, record, code, consoleMsg, tape } = this.props;
+    const { room, record, code, consoleMsg, tape, actions: {addTape, resetTape, resetConsole} } = this.props;
 
     return (
       <div>
