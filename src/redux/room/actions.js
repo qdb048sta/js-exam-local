@@ -29,6 +29,10 @@ function getRoomInfo(id) {
             timeEnd
             status
             tags
+            host{
+              id
+              name
+            }
           }
           subjectId
           description
