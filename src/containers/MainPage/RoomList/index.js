@@ -90,9 +90,9 @@ const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
 
 RoomList.propTypes = {
   rooms: PropTypes.array,
-  isLoading: PropTypes.bool,
   signedOn: PropTypes.bool,
   hostings: PropTypes.array,
+  triggerDelRoom: PropTypes.func,
 };
 
 export default RoomList;

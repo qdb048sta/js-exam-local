@@ -11,8 +11,12 @@ const autoLogin = async () => {
 };
 
 const checkPermission = async () => {
-  const result = await Auth.currentAuthenticatedUser();
-  return result.username === 'Admin';
+  try {
+    const result = await Auth.currentAuthenticatedUser();
+    return result.username === 'Admin';
+  } catch (err) {
+    return err;
+  }
 };
 
 export { login, autoLogin, checkPermission };
