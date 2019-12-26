@@ -20,6 +20,7 @@ import styles from './JavaScriptPage.module.scss';
 
 class JavaScriptPage extends Component {
   static propTypes = {
+    isExaming: PropTypes.bool,
     code: PropTypes.string,
     compiledCode: PropTypes.string,
     test: PropTypes.string,
@@ -35,8 +36,16 @@ class JavaScriptPage extends Component {
   controlHeight = 70;
 
   componentDidMount() {
-    const { compiledCode, wrappedConsole, resetConsole, addTape } = this.props;
+    const {
+      compiledCode,
+      wrappedConsole,
+      addTape,
+      resetConsole,
+      resetTape,
+    } = this.props;
     resetConsole();
+    resetTape();
+    // WARNING: This is not debounced
     debouncedRunCode({
       code: compiledCode,
       wrappedConsole,
@@ -52,9 +61,10 @@ class JavaScriptPage extends Component {
       resetTape,
     } = this.props;
     const { compiledCode, wrappedConsole } = nextProps;
-    if (previousCompiledCode !== compiledCode) {
+    if (compiledCode && previousCompiledCode !== compiledCode) {
       resetConsole();
       resetTape();
+      // WARNING: This is not debounced
       debouncedRunCode({
         code: compiledCode,
         wrappedConsole,
@@ -65,7 +75,14 @@ class JavaScriptPage extends Component {
   }
 
   render() {
-    const { code, test, handleCodeChange, tape, consoleMsg } = this.props;
+    const {
+      isExaming,
+      code,
+      test,
+      handleCodeChange,
+      tape,
+      consoleMsg,
+    } = this.props;
     const layout = [
       {
         key: 'code',
@@ -117,6 +134,7 @@ class JavaScriptPage extends Component {
             <CodeWidget
               handleCodeChange={handleCodeChange}
               data={code}
+              readOnly={!isExaming}
               mode="javascript"
               theme="monokai"
             />
