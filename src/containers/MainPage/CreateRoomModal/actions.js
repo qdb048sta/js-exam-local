@@ -27,6 +27,49 @@ export const createRoomActions = {
   failure: error => action(CREATE_ROOM.FAILURE, { error }),
 };
 
+const createRoomQl = `mutation CreateRoom($input: CreateRoomInput!) {
+  createRoom(input: $input) {
+    id
+    test {
+      id
+      subjectId
+      description
+      timeBegin
+      timeEnd
+      status
+      tags
+      host{
+        id
+        name
+      }
+    }
+    subjectId
+    description
+    host {
+      id
+      name
+    }
+    createTime
+    password
+    users {
+      items {
+        id
+        name
+      }
+      nextToken
+    }
+    currentRecord {
+      id
+      subjectId
+      syncCode
+      timeBegin
+      timeEnd
+      status
+    }
+  }
+}
+`;
+
 export function createRoom(data) {
   return async dispatch => {
     dispatch(createRoomActions.request(data));
@@ -34,17 +77,28 @@ export function createRoom(data) {
       const roomNum = Math.floor(Math.random() * 98) + 1;
       const roomChar = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
       const createTime = new Date();
+      // TODO: change graphql schema such that a jeUser can host mutiple room and test
+      const { data: jeUserData } = await API.graphql(
+        graphqlOperation(mutations.createJeUser, {
+          input: {
+            name: localStorage.username,
+          },
+        }),
+      );
       const { data: testData } = await API.graphql(
         graphqlOperation(mutations.createTest, {
           input: {
             timeBegin: createTime,
             status: 'open',
+            testHostId: jeUserData.createJEUser.id,
+            // temporarily store host name in tags, since a jeUser cannot host mutiple test in current graphql schema
+            tags: localStorage.username,
             ...data,
           },
         }),
       );
       const { data: roomData } = await API.graphql(
-        graphqlOperation(mutations.createRoom, {
+        graphqlOperation(createRoomQl, {
           input: {
             roomTestId: testData.createTest.id,
             description: roomChar + roomNum,
@@ -53,13 +107,13 @@ export function createRoom(data) {
           },
         }),
       );
-      // TODO: change graphql schema such that a jeUser can host mutiple room
-      const { data: jeUser } = await API.graphql(
-        graphqlOperation(mutations.createJeUser, {
+      const { data: jeUserUpdate } = await API.graphql(
+        graphqlOperation(mutations.updateJeUser, {
           input: {
-            name: localStorage.username,
-            jEUserHostTestId: testData.createTest.id,
+            id: jeUserData.createJEUser.id,
             jEUserRoomId: roomData.createRoom.id,
+            jEUserTestId: testData.createTest.id,
+            jEUserHostTestId: testData.createTest.id,
           },
         }),
       );

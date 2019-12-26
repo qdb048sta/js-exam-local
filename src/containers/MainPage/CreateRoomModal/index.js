@@ -158,16 +158,9 @@ const mapStateToProps = state => ({
   createdRoomData: state[REDUCER_KEY].createdRoomData,
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: REDUCER_KEY, reducer });
 const withSaga = injectSaga({ key: REDUCER_KEY, saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(CreateRoomModal);
+export default compose(withReducer, withSaga, withConnect)(CreateRoomModal);
