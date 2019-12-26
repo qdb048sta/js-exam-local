@@ -41,7 +41,7 @@ class ReactPage extends Component {
   shouldComponentUpdate(nextProps) {
     const { compiledCode: previousCompiledCode } = this.props;
     const { compiledCode, wrappedConsole, resetConsole } = nextProps;
-    if (previousCompiledCode !== compiledCode) {
+    if (compiledCode && previousCompiledCode !== compiledCode) {
       resetConsole();
       // WARNING: This is not debounced
       debouncedRunCode({ code: compiledCode, wrappedConsole });

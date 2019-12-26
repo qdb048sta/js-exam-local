@@ -61,17 +61,15 @@ class JavaScriptPage extends Component {
       resetTape,
     } = this.props;
     const { compiledCode, wrappedConsole } = nextProps;
-    if (previousCompiledCode !== compiledCode) {
-      if (compiledCode) {
-        resetConsole();
-        resetTape();
-        // WARNING: This is not debounced
-        debouncedRunCode({
-          code: compiledCode,
-          wrappedConsole,
-          onTapeUpdate: addTape,
-        });
-      }
+    if (compiledCode && previousCompiledCode !== compiledCode) {
+      resetConsole();
+      resetTape();
+      // WARNING: This is not debounced
+      debouncedRunCode({
+        code: compiledCode,
+        wrappedConsole,
+        onTapeUpdate: addTape,
+      });
     }
     return true;
   }
