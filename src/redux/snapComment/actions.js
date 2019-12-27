@@ -10,7 +10,7 @@ export function createSnapComment(data, callback) {
     if (!latestHistoryId) {
       const { id: recordId } = getState().record;
       const code = get(getState(), 'room.currentRecord.syncCode');
-      if (recordId && !latestHistoryId) {
+      if (recordId) {
         try {
           const {
             data: {

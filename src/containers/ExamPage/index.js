@@ -31,6 +31,7 @@ import { updateRecordData } from './actions';
 import { EXAM_USER_NAME, QUESTION_TYPE } from './constants';
 import ControlWidget from './ControlWidget';
 import { createSnapComment } from '../../redux/snapComment/actions';
+import { updateRoomSyncCode } from '../../redux/room/actions';
 
 const GetPageComponent = args => {
   switch (args.categoryIndex) {
@@ -135,14 +136,19 @@ class ExamPage extends Component {
     if (newCode && newCode !== rawCode) {
       this.props.actions.changeCode({ rawCode: newCode });
       this.props.actions.updateRecordData({ id, syncCode: newCode });
+      this.props.actions.updateRoomSyncCode(newCode);
     }
+  };
+
+  onClickRunCode = () => {
+    this.onRunCode();
+    this.props.actions.addRunSnapComment();
   };
 
   onRunCode = () => {
     const { rawCode } = this.props.code;
     const { ques } = this.props.record;
     const fullCode = `${rawCode} ${ques.test}`;
-    this.props.actions.addRunSnapComment();
     try {
       const { code: compiledCode } = transform(fullCode, {
         presets: [
@@ -197,7 +203,7 @@ class ExamPage extends Component {
         const { room } = data;
         const { record } = this.props;
         const { resetCode } = this.props.actions;
-        if (room.id === this.props.room.id) {
+        if (!!room && room.id === this.props.room.id) {
           if (
             data.status === RECORD_STATUS.closed &&
             record.status !== RECORD_STATUS.closed
@@ -227,7 +233,7 @@ class ExamPage extends Component {
     const {
       handleCodeChange,
       wrappedConsole,
-      onRunCode,
+      onClickRunCode,
       showResetAlert,
     } = this;
     const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
@@ -249,7 +255,7 @@ class ExamPage extends Component {
               <ControlWidget
                 roomDescription={room.description}
                 intervieweeName={room.subjectId}
-                onRunCode={onRunCode}
+                onRunCode={onClickRunCode}
                 onReset={showResetAlert}
               />
               <GetPageComponent
@@ -310,6 +316,7 @@ const mapDispatchToProps = dispatch => ({
     autoLogin: () => dispatch(autoLogin()),
     addRunSnapComment: () =>
       dispatch(createSnapComment({ content: 'interviewee run code' })),
+    updateRoomSyncCode: (newCode) => dispatch(updateRoomSyncCode(newCode)),
   },
 });
 

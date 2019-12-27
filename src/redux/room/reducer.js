@@ -43,6 +43,16 @@ const room = (state = initialState, action) => {
         error: null,
         ...action.payload.result,
       };
+
+    case 'UPDATE_ROOM_SYNCCODE':
+      return {
+        ...state,
+        currentRecord: {
+          ...state.currentRecord,
+          syncCode: action.syncCode,
+        },
+      };
+
     case 'SET_ROOMHOST':
       return {
         ...state,
