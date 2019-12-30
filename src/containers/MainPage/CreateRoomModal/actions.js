@@ -107,6 +107,7 @@ export function createRoom(data) {
           },
         }),
       );
+      // TODO: change graphql schema to connect jeUser and test and room. So that don't have to update manually.
       const { data: jeUserUpdate } = await API.graphql(
         graphqlOperation(mutations.updateJeUser, {
           input: {
@@ -117,6 +118,15 @@ export function createRoom(data) {
           },
         }),
       );
+      const { data: testUpdate } = await API.graphql(
+        graphqlOperation(mutations.updateTest, {
+          input: {
+            id: testData.createTest.id,
+            testRoomId: roomData.createRoom.id,
+          },
+        }),
+      );
+
       dispatch(createRoomActions.success(roomData.createRoom));
 
       /* add a hosting room into 'hostings' array in local storage */
