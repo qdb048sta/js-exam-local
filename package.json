@@ -64,11 +64,15 @@
     "redux-saga": "0.16.2",
     "redux-thunk": "^2.3.0",
     "sinon": "^2.3.5",
+    "source-map-explorer": "^2.1.2",
     "tape": "^4.9.1",
     "tape-dom": "0.0.12"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,html,scss}": ["npm run format", "git add"]
+    "src/**/*.{js,jsx,html,scss}": [
+      "npm run format",
+      "git add"
+    ]
   },
   "scripts": {
     "format": "prettier \"src/**/*.{js,jsx,html,scss}\" --write",
@@ -76,7 +80,8 @@
     "start": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 start",
     "build": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 build",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build -r git@github.com:innovap3/js-exam.git"
+    "deploy": "gh-pages -d build -r git@github.com:innovap3/js-exam.git",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "browserslist": [
     ">0.2%",
