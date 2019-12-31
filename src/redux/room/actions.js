@@ -29,10 +29,6 @@ function getRoomInfo(id) {
             timeEnd
             status
             tags
-            host{
-              id
-              name
-            }
           }
           subjectId
           description
@@ -139,7 +135,7 @@ function updateRoomInfo(id) {
   };
 }
 
-function deleteRoomAction(room) {
+function deleteRoomAction(delRoom) {
   return async (dispatch, getState) => {
     dispatch(
       graphqlActionHelper({
@@ -149,12 +145,68 @@ function deleteRoomAction(room) {
       }),
     );
     try {
-      const testId = room.test.id;
-      await API.graphql(
-        graphqlOperation(mutations.updateTest, {
+      // get the full infomation of room instead of using param of function directly,
+      // since aws graphql sometime fetch data incompletely when query list.
+      const getRoom = `query GetRoom($id: ID!) {
+        getRoom(id: $id) {
+          id
+          test {
+            id
+            subjectId
+            description
+            timeBegin
+            timeEnd
+            status
+            tags
+            host{
+              id
+              name
+            }
+          }
+          subjectId
+          description
+          host {
+            id
+            name
+          }
+          createTime
+          password
+          users {
+            items {
+              id
+              name
+            }
+            nextToken
+          }
+          currentRecord {
+            id
+            subjectId
+            syncCode
+            timeBegin
+            timeEnd
+            status
+          }
+        }
+      }`;
+      const {
+        data: { getRoom: room },
+      } = await API.graphql(graphqlOperation(getRoom, { id: delRoom.id }));
+      const testId = room.test && room.test.id;
+      if (testId) {
+        await API.graphql(
+          graphqlOperation(mutations.updateTest, {
+            input: {
+              id: testId,
+              timeEnd: new Date(),
+            },
+          }),
+        );
+      }
+      const roomHostId = room.test ? room.test.host.id : room.users.items[0].id;
+      const roomHost = await API.graphql(
+        graphqlOperation(mutations.deleteJeUser, {
           input: {
-            id: testId,
-            timeEnd: new Date(),
+            id: roomHostId,
           },
         }),
       );
@@ -165,13 +217,7 @@ function deleteRoomAction(room) {
           },
         }),
       );
-      const roomHost = await API.graphql(
-        graphqlOperation(mutations.deleteJeUser, {
-          input: {
-            id: room.test.host.id,
-          },
-        }),
-      );
+
       dispatch(deleteHostings(room.id));
 
       const action = delResult.data.deleteRoom

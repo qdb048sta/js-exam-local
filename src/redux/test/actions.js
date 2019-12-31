@@ -1,9 +1,10 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
+import { getTest } from 'graphql/queries';
 import graphqlActionHelper, { ACTION_STATE } from 'utils/graphqlActionHelper';
 import { deleteRoomAction } from 'redux/room/actions';
 
-function deleteTestAction(test) {
+function deleteTestAction(delTest) {
   return async dispatch => {
     dispatch(
       graphqlActionHelper({
@@ -13,19 +14,21 @@ function deleteTestAction(test) {
       }),
     );
     try {
+      // get the full infomation of test instead of using param of function directly,
+      // since aws graphql sometime fetch data incompletely when query list.
+      const {
+        data: { getTest: test },
+      } = await API.graphql(graphqlOperation(getTest, { id: delTest.id }));
+
       // delete the related room
-      if (test.room) {
-        const room = test.room;
-        room.test = { id: test.id, host: { ...test.host } };
-        dispatch(deleteRoomAction(room));
-      }
+      if (test.room) await dispatch(deleteRoomAction(test.room));
 
       // delete all records of the test
       const recordsId = test.records
         ? test.records.items.map(record => record.id)
         : [];
 
-      let delRecordQl = [];
+      const delRecordQl = [];
       for (let i = 0; i < recordsId.length; i += 1) {
         delRecordQl.push(
           API.graphql(

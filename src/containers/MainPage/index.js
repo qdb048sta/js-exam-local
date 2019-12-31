@@ -7,6 +7,8 @@ import { Button, Input, Modal } from 'antd';
 import debounce from 'lodash/debounce';
 
 import { deleteRoomAction } from 'redux/room/actions';
+import { listRooms } from 'graphql/queries';
+import { onCreateRoom } from 'graphql/subscriptions';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
@@ -17,60 +19,6 @@ import CreateRoomModal from './CreateRoomModal';
 import style from './MainPage.module.scss';
 
 const Search = Input.Search;
-
-const roomQl = `
-  id
-  test {
-    id
-    subjectId
-    description
-    timeBegin
-    timeEnd
-    status
-    tags
-    host{
-      id
-      name
-    }
-  }
-  subjectId
-  description
-  host {
-    id
-    name
-  }
-  createTime
-  password
-  users {
-    items {
-      id
-      name
-    }
-    nextToken
-  }
-  currentRecord {
-    id
-    subjectId
-    syncCode
-    timeBegin
-    timeEnd
-    status
-  }
-`;
-const onCreateRoom = `subscription OnCreateRoom {  onCreateRoom { ${roomQl} } }`;
-const listRooms = `query ListRooms(
-  $filter: ModelRoomFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      ${roomQl}
-    }
-    nextToken
-  }
-}
-`;
 
 class MainPage extends Component {
   state = {

@@ -27,49 +27,6 @@ export const createRoomActions = {
   failure: error => action(CREATE_ROOM.FAILURE, { error }),
 };
 
-const createRoomQl = `mutation CreateRoom($input: CreateRoomInput!) {
-  createRoom(input: $input) {
-    id
-    test {
-      id
-      subjectId
-      description
-      timeBegin
-      timeEnd
-      status
-      tags
-      host{
-        id
-        name
-      }
-    }
-    subjectId
-    description
-    host {
-      id
-      name
-    }
-    createTime
-    password
-    users {
-      items {
-        id
-        name
-      }
-      nextToken
-    }
-    currentRecord {
-      id
-      subjectId
-      syncCode
-      timeBegin
-      timeEnd
-      status
-    }
-  }
-}
-`;
-
 export function createRoom(data) {
   return async dispatch => {
     dispatch(createRoomActions.request(data));
@@ -98,7 +55,7 @@ export function createRoom(data) {
         }),
       );
       const { data: roomData } = await API.graphql(
-        graphqlOperation(createRoomQl, {
+        graphqlOperation(mutations.createRoom, {
           input: {
             roomTestId: testData.createTest.id,
             description: roomChar + roomNum,
