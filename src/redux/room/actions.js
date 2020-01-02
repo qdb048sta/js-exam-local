@@ -203,4 +203,11 @@ function setRoomHost(isHost) {
   };
 }
 
-export { getRoomInfo, deleteRoomAction, updateRoomInfo, setRoomHost };
+function updateRoomSyncCode(newCode) {
+  return {
+    type: 'UPDATE_ROOM_SYNCCODE',
+    syncCode: newCode,
+  };
+}
+
+export { getRoomInfo, deleteRoomAction, updateRoomInfo, setRoomHost, updateRoomSyncCode };
