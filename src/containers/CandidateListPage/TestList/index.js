@@ -18,7 +18,12 @@ class TestList extends React.Component {
   state = {
     delConfirmModalVisible: false,
     delTest: null,
+    delAnime: false,
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(this.state.delAnime && !nextState.delAnime);
+  }
 
   handleDeleteButton = test => event => {
     this.setState({ delConfirmModalVisible: true, delTest: test });
@@ -33,13 +38,18 @@ class TestList extends React.Component {
   handleOnOkDelConfirmModal = async () => {
     const { delTest } = this.state;
     const { deleteTestAction } = this.props;
-    await deleteTestAction(delTest);
     this.hideDelConfirmModal();
+    // show the delete animation first and then do the delete action
+    this.setState({ delAnime: true });
+    setTimeout(async () => {
+      await deleteTestAction(delTest);
+      this.setState({ delAnime: false });
+    }, 500);
   };
 
   render() {
     const { data } = this.props;
-    const { delTest, delConfirmModalVisible } = this.state;
+    const { delTest, delConfirmModalVisible, delAnime } = this.state;
     return (
       <>
         <List
@@ -47,6 +57,11 @@ class TestList extends React.Component {
           dataSource={data}
           renderItem={item => (
             <List.Item
+              className={
+                delAnime && delTest && delTest.id === item.id
+                  ? style.delAnime
+                  : ''
+              }
               actions={[
                 // <span>Overview</span>,
                 <Link
@@ -84,7 +99,7 @@ class TestList extends React.Component {
           onCancel={this.hideDelConfirmModal}
         >
           Are you sure you want to delete test{' '}
-          <b>{delTest ? delTest.description : ''}</b> ?
+          <b>{delTest ? delTest.subjectId : ''}</b> ?
         </Modal>
       </>
     );
