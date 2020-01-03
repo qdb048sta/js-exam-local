@@ -121,12 +121,6 @@ const mapDispatchToProps = dispatch => ({
   onClearUser: () => dispatch(clearUser()),
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-  withRouter,
-  withConnect,
-)(TabWidget);
+export default compose(withRouter, withConnect)(TabWidget);

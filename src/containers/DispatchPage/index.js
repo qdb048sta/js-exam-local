@@ -26,9 +26,9 @@ import {
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
 import CommentBox from 'components/CommentBox';
+import ControlWidget from 'components/Widgets/ControlWidget/DispatchPage';
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
-import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
 import { EXAM_USER_NAME } from '../ExamPage/constants';
 
@@ -140,7 +140,7 @@ class Page extends Component {
         this.handleCodeChange(syncCode || content);
         // to show the question name
         await this.getQuestionList(type);
-        let index = this.props.question.list.findIndex(
+        const index = this.props.question.list.findIndex(
           question => question.name === ques.name,
         );
         this.setState({

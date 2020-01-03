@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import 'brace';
 import 'brace/mode/jsx';
 import 'brace/mode/javascript';
@@ -134,5 +135,16 @@ class ReactPage extends Component {
     );
   }
 }
+
+ReactPage.propTypes = {
+  isLoading: PropTypes.bool,
+  test: PropTypes.string,
+  code: PropTypes.string,
+  compiledCode: PropTypes.string,
+  tags: PropTypes.array,
+  onTagUpdate: PropTypes.func,
+  handleCodeChange: PropTypes.func,
+  handleTestChange: PropTypes.func,
+};
 
 export default ReactPage;

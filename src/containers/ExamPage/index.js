@@ -21,15 +21,15 @@ import PageEmpty from 'components/PageEmpty';
 import FullScreenMask from 'components/FullScreenMask';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
+import ControlWidget from 'components/Widgets/ControlWidget/ExamPage';
 
 import { changeCode, resetCode } from 'redux/code/actions';
 import { addConsole, resetConsole } from 'redux/consoleMsg/actions';
 import { addTape, resetTape } from 'redux/tape/actions';
+import { updateRecordData } from 'redux/examPage/actions';
 
 import styles from './ExamPage.module.scss';
-import { updateRecordData } from './actions';
 import { EXAM_USER_NAME, QUESTION_TYPE } from './constants';
-import ControlWidget from './ControlWidget';
 import { createSnapComment } from '../../redux/snapComment/actions';
 import { updateRoomSyncCode } from '../../redux/room/actions';
 
@@ -316,7 +316,7 @@ const mapDispatchToProps = dispatch => ({
     autoLogin: () => dispatch(autoLogin()),
     addRunSnapComment: () =>
       dispatch(createSnapComment({ content: 'interviewee run code' })),
-    updateRoomSyncCode: (newCode) => dispatch(updateRoomSyncCode(newCode)),
+    updateRoomSyncCode: newCode => dispatch(updateRoomSyncCode(newCode)),
   },
 });
 

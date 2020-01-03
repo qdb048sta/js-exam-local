@@ -112,9 +112,6 @@ class MainPage extends Component {
                     room.createTimeByDate = new Date(room.createTime);
                     return room;
                   })
-                  .sort((a, b) => {
-                    return b.createTimeByDate - a.createTimeByDate;
-                  })
                   .filter(room => {
                     return (
                       (room.subjectId.toLowerCase().includes(searchKeyword) ||
@@ -123,6 +120,9 @@ class MainPage extends Component {
                           .includes(searchKeyword)) &&
                       !delRoomList.includes(room.id)
                     );
+                  })
+                  .sort((a, b) => {
+                    return b.createTimeByDate - a.createTimeByDate;
                   });
 
               return (
