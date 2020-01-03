@@ -109,10 +109,11 @@ TestList.propTypes = {
   data: PropTypes.array,
 };
 
-const mapStateToProps = state => ({});
-
 const mapDispatchToProps = dispatch => ({
   deleteTestAction: delTest => dispatch(deleteTestAction(delTest)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestList);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(TestList);

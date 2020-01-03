@@ -16,7 +16,7 @@ const test = (state = initialState, action) => {
 
     case 'DELETE_TEST_SUCCESS':
       return {
-        ...initialState,
+        ...state,
         del: false,
         delSuc: true,
         delErr: false,
