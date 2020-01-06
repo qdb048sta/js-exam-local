@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git@github.com:innovap3/js-exam.git"
   },
+  "moduleDirectories": [
+    "node_modules"
+  ],
   "devDependencies": {
     "@babel/cli": "7.1.2",
     "@babel/core": "7.1.2",
@@ -23,6 +26,10 @@
     "babel-plugin-import": "^1.11.0",
     "babel-plugin-lodash": "3.3.4",
     "cross-env": "^5.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.3",
+    "eslint": "5.6.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-config-prettier": "3.1.0",
@@ -42,20 +49,21 @@
     "blueimp-md5": "^2.10.0",
     "brace": "^0.11.1",
     "buble": "^0.19.6",
-    "create-react-app": "2.1.2",
+    "create-react-app": "2.1.3",
+    "fsevents": "^2.1.2",
     "gh-pages": "^2.0.0",
     "history": "^4.7.2",
     "hoist-non-react-statics": "^3.2.1",
     "husky": "^3.1.0",
     "invariant": "^2.2.4",
     "lint-staged": "^9.5.0",
-    "lodash": "4.17.11",
+    "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
     "prop-types": "15.6.2",
     "react": "16.6.0",
     "react-ace": "^6.2.0",
     "react-dom": "16.6.0",
-    "react-redux": "^5.0.7",
+    "react-redux": "^6.0.0",
     "react-router-dom": "4.3.1",
     "react-scripts": "^2.1.1",
     "react-stonecutter": "^0.3.9",
@@ -80,7 +88,8 @@
     "build": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 build",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build -r git@github.com:innovap3/js-exam.git",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "test": "jest"
   },
   "browserslist": [
     ">0.2%",
