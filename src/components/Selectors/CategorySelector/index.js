@@ -9,6 +9,9 @@ const categories = [
   {
     name: 'react',
   },
+  {
+    name: 'concept',
+  },
 ];
 const { Option } = Select;
 

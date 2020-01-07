@@ -28,14 +28,18 @@ import PageSpin from 'components/PageSpin';
 import CommentBox from 'components/CommentBox';
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
+import ConceptPage from './ConceptPage';
 import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
-import { EXAM_USER_NAME } from '../ExamPage/constants';
+import { EXAM_USER_NAME, QUESTION_TYPE } from '../ExamPage/constants';
 
 const MainView = args => {
   switch (args.categoryIndex) {
     case 1: {
       return <ReactPage {...args} />;
+    }
+    case 2: {
+      return <ConceptPage {...args} />;
     }
     default: {
       return <JavaScriptPage {...args} />;
@@ -133,14 +137,14 @@ class Page extends Component {
         const { type, content, test } = ques;
         // this.getQuestionList(type);
         this.setState({
-          categoryIndex: type === 'javascript' ? 0 : 1,
+          categoryIndex: QUESTION_TYPE[type],
           code: syncCode || content,
           test,
         });
         this.handleCodeChange(syncCode || content);
         // to show the question name
         await this.getQuestionList(type);
-        let index = this.props.question.list.findIndex(
+        const index = this.props.question.list.findIndex(
           question => question.name === ques.name,
         );
         this.setState({
@@ -165,9 +169,7 @@ class Page extends Component {
 
   onChangeCategory = async index => {
     this.setState({ categoryIndex: index, isLoading: true });
-    await this.props.actions.fetchQuestionList(
-      index === 0 ? 'javascript' : 'react',
-    );
+    await this.props.actions.fetchQuestionList(QUESTION_TYPE[index]);
     this.onChangeQuestion(0);
   };
 

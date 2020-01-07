@@ -21,6 +21,7 @@ import PageEmpty from 'components/PageEmpty';
 import FullScreenMask from 'components/FullScreenMask';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
+import ConceptPage from 'components/CodingView/Concept';
 
 import { changeCode, resetCode } from 'redux/code/actions';
 import { addConsole, resetConsole } from 'redux/consoleMsg/actions';
@@ -36,6 +37,9 @@ const GetPageComponent = args => {
   switch (args.categoryIndex) {
     case 1: {
       return <ReactPage {...args} />;
+    }
+    case 2: {
+      return <ConceptPage {...args} />;
     }
     default: {
       return <JavaScriptPage {...args} />;
@@ -117,7 +121,7 @@ class ExamPage extends Component {
   getRecordOnEntry = record => {
     if (record.ques) {
       this.setState({
-        categoryIndex: record.ques.type === QUESTION_TYPE.JAVASCRIPT ? 0 : 1,
+        categoryIndex: QUESTION_TYPE[record.ques.type],
       });
       this.handleCodeChange(record.syncCode || '');
       this.onRunCode();
@@ -172,7 +176,7 @@ class ExamPage extends Component {
 
         this.props.actions.setCurrentRecord(data);
         this.setState({
-          categoryIndex: data.ques.type === QUESTION_TYPE.JAVASCRIPT ? 0 : 1,
+          categoryIndex: QUESTION_TYPE[data.ques.type],
           isExaming: true,
         });
         this.handleCodeChange(ques.content);

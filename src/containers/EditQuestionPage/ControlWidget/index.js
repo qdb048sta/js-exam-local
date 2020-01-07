@@ -55,6 +55,12 @@ const ControlWidget = ({
             list={questionList}
             disabled={false}
           />
+          <Input
+            placeholder="Question name"
+            onChange={e => onChangeName(e.target.value)}
+            style={{ width: 200, marginRight: 5 }}
+            value={currentInputName}
+          />
           <Button
             type="primary"
             onClick={onSubmit}
