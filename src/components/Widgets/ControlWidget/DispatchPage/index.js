@@ -128,22 +128,18 @@ const ControlWidget = ({
           </>
         )}
       </div>
-      <div>
-        <div className={styles.roomInfoBar}>
-          <Dropdown overlay={menu} placement="bottomLeft">
-            <span className={styles.roomInfoBar_room}>
-              Room:
-              <span className={styles.roomInfoBar_label}>
-                {roomDescription}
-              </span>
-              <Icon type="down" />
-            </span>
-          </Dropdown>
-          <span>
-            Interviewee:
-            <span className={styles.roomInfoBar_label}>{intervieweeName}</span>
+      <div className={styles.roomInfoBar}>
+        <Dropdown overlay={menu} placement="bottomLeft">
+          <span className={styles.roomInfoBar_room}>
+            Room:
+            <span className={styles.roomInfoBar_label}>{roomDescription}</span>
+            <Icon type="down" />
           </span>
-        </div>
+        </Dropdown>
+        <span>
+          Interviewee:
+          <span className={styles.roomInfoBar_label}>{intervieweeName}</span>
+        </span>
       </div>
     </PageControlBar>
   );

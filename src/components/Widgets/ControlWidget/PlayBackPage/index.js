@@ -50,6 +50,7 @@ const ControlWidget = ({
     </div>
   </PageControlBar>
 );
+
 ControlWidget.propTypes = {
   testDate: PropTypes.string,
   interviewee: PropTypes.string,
@@ -59,4 +60,5 @@ ControlWidget.propTypes = {
   onClickSummary: PropTypes.func,
   summaryDisabled: PropTypes.bool,
 };
+
 export default ControlWidget;

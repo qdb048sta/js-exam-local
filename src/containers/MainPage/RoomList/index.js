@@ -60,7 +60,8 @@ const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
                     <span className={style.room}>Room</span>
                     {room.description}
                     {signedOn && includes(hostings, room.id) && (
-                      <div
+                      <button
+                        type="button"
                         className={style.floatTop}
                         onClick={e => handleDelButton(room, e)}
                       >
@@ -69,7 +70,7 @@ const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
                           theme="twoTone"
                           twoToneColor="#f00"
                         />
-                      </div>
+                      </button>
                     )}
                   </div>
                 }

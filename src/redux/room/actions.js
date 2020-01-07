@@ -260,4 +260,10 @@ function updateRoomSyncCode(newCode) {
   };
 }
 
-export { getRoomInfo, deleteRoomAction, updateRoomInfo, setRoomHost, updateRoomSyncCode };
+export {
+  getRoomInfo,
+  deleteRoomAction,
+  updateRoomInfo,
+  setRoomHost,
+  updateRoomSyncCode,
+};

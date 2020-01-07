@@ -113,7 +113,4 @@ const mapDispatchToProps = dispatch => ({
   deleteTestAction: delTest => dispatch(deleteTestAction(delTest)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(TestList);
+export default connect(null, mapDispatchToProps)(TestList);
