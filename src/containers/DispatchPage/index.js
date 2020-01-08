@@ -30,7 +30,6 @@ import ControlWidget from 'components/Widgets/ControlWidget/DispatchPage';
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 import ConceptPage from './ConceptPage';
-import ControlWidget from './ControlWidget';
 import SnapCommentBar from './SnapCommentBar';
 import { EXAM_USER_NAME, QUESTION_TYPE } from '../ExamPage/constants';
 
