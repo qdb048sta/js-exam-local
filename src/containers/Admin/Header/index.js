@@ -33,7 +33,7 @@ class TabWidget extends PureComponent {
       username,
     } = this.props;
     const currentKey = pathname.split('/')[2] || 'room';
-    const profileName = username.charAt(0).toUpperCase() + username.slice(1);
+    // const profileName = username.charAt(0).toUpperCase() + username.slice(1);
     return (
       <Menu selectedKeys={[currentKey]} mode="horizontal" theme="dark">
         <Menu.Item key="title">
@@ -88,7 +88,7 @@ class TabWidget extends PureComponent {
           title={
             <div>
               <Icon type="user" />
-              {profileName || 'UNSET'}
+              {username || 'UNSET'}
             </div>
           }
         >
