@@ -206,7 +206,7 @@ class Playback extends React.Component {
         <PageSpin spinning={isLoading}>
           <ControlWidget
             testDate={testData.timeBegin}
-            interviewee={testData.subjectId}
+            candidate={testData.subjectId}
             recordIndex={recordIndex}
             onChangeRecord={onChangeRecord}
             recordList={records}

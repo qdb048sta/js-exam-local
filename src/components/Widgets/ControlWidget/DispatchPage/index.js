@@ -30,7 +30,7 @@ function getRecordStatus(question, record) {
 
 const ControlWidget = ({
   record,
-  intervieweeName,
+  candidateName,
   roomDescription,
   categoryIndex,
   questionIndex,
@@ -119,12 +119,12 @@ const ControlWidget = ({
         {ran ? (
           <>
             <Badge status="processing" />
-            <span>interviewee ran the code</span>
+            <span>Candidate ran the code</span>
           </>
         ) : (
           <>
             <Badge status="warning" />
-            <span>interviewee is coding...</span>
+            <span>Candidate is coding...</span>
           </>
         )}
       </div>
@@ -137,8 +137,8 @@ const ControlWidget = ({
           </span>
         </Dropdown>
         <span>
-          Interviewee:
-          <span className={styles.roomInfoBar_label}>{intervieweeName}</span>
+          Candidate:
+          <span className={styles.roomInfoBar_label}>{candidateName}</span>
         </span>
       </div>
     </PageControlBar>
@@ -148,7 +148,7 @@ const ControlWidget = ({
 ControlWidget.propTypes = {
   isHost: PropTypes.bool.isRequired,
   record: PropTypes.object.isRequired,
-  intervieweeName: PropTypes.string.isRequired,
+  candidateName: PropTypes.string.isRequired,
   roomId: PropTypes.string.isRequired,
   roomDescription: PropTypes.string.isRequired,
   categoryIndex: PropTypes.number.isRequired,
