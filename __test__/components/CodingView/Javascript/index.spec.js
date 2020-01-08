@@ -1,10 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
+import sinon from 'sinon';
 import JavaScriptPage from '../../../../src/components/CodingView/JavaScript';
+import * as runCodeUtils from '../../../../src/utils/runCode';
 
 describe('Coding View Javascript index', () => {
   it('should render Javascript coding view properly', () => {
+    const spy = sinon.spy(runCodeUtils, 'default');
     const element = mount(
       <BrowserRouter>
         <JavaScriptPage
@@ -23,5 +26,6 @@ describe('Coding View Javascript index', () => {
       </BrowserRouter>,
     );
     expect(element.render()).toMatchSnapshot();
+    expect(spy.calledOnce).toBeTruthy();
   });
 });

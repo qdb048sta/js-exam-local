@@ -6,5 +6,5 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/fileMock.js',
   },
-  setupFilesAfterEnv: ['<rootDir>/setupTests.js'],
+  setupTestFrameworkScriptFile: '<rootDir>/setupTests.js',
 };
