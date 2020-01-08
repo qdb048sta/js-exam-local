@@ -86,9 +86,9 @@ SignOnModal.propTypes = {
 const mapStateToProps = state => ({
   signedOn: !!state.login.username,
 });
-
+// Lowercasing username when dispatching, avoiding case-sensitive filtering
 const mapDispatchToProps = dispatch => ({
-  onSetUsername: data => dispatch(setUsername(data)),
+  onSetUsername: data => dispatch(setUsername(data.toLowerCase())),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignOnModal);
