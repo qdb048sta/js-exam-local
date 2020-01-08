@@ -6,7 +6,7 @@ const login = async ({ username, password }) => {
 };
 
 const autoLogin = async () => {
-  const result = await Auth.signIn('Candidate', 'Candidate@123456');
+  const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
   return !!result;
 };
 
