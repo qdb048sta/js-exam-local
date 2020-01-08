@@ -3,16 +3,13 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import createReducer from './reducers';
-
-const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState = {}) {
   // Create the store with
   // 1. sagaMiddleware: Makes redux-sagas work
-  const middlewares = [sagaMiddleware, thunk];
+  const middlewares = [thunk];
 
   const enhancers = [applyMiddleware(...middlewares)];
 
@@ -33,9 +30,7 @@ export default function configureStore(initialState = {}) {
   );
 
   // Extensions
-  store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
-  store.injectedSagas = {}; // Saga registry
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

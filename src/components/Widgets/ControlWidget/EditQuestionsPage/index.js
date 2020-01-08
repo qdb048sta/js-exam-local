@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PageControlBar from 'components/PageControlBar';
 import CategorySelector from 'components/Selectors/CategorySelector';
 import QuestionSelector from 'components/Selectors/QuestionSelector';
@@ -17,7 +18,6 @@ const ControlWidget = ({
   onDelete,
   onChangeCategory,
   onChangeQuestion,
-  onSync,
   questionList,
   disableSubmit,
 }) => (
@@ -86,5 +86,19 @@ const ControlWidget = ({
     </div>
   </PageControlBar>
 );
+
+ControlWidget.propTypes = {
+  type: PropTypes.string,
+  currentInputName: PropTypes.string,
+  categoryIndex: PropTypes.number,
+  questionIndex: PropTypes.number,
+  onChangeName: PropTypes.func,
+  onSubmit: PropTypes.func,
+  onDelete: PropTypes.func,
+  onChangeCategory: PropTypes.func,
+  onChangeQuestion: PropTypes.func,
+  questionList: PropTypes.array,
+  disableSubmit: PropTypes.func,
+};
 
 export default ControlWidget;

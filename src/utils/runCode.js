@@ -8,14 +8,14 @@ import getPatchedTape from './tape';
 
 const wrapCode = (code = '') => {
   return code.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, loopHead => {
-    return `let count = 0;
-      const detector = (c) => {
+    return `let __jsExamCount__ = 0;
+      const __jsExamDetector__ = (c) => {
         if (c > 100000) {
           throw new Error('infinite');
         }
       }
       ${loopHead}
-      detector(count++);
+      __jsExamDetector__(__jsExamCount__++);
     `;
   });
 };

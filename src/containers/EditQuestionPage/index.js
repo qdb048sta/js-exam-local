@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { transform } from '@babel/standalone';
-
 import { message } from 'antd';
-
+import { connect } from 'react-redux';
 import debouncedRunCode from 'utils/runCode';
 
+import ControlWidget from 'components/Widgets/ControlWidget/EditQuestionsPage';
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
 import ConceptPage from './ConceptPage';
 
-import ControlWidget from './ControlWidget';
-
-import { connect } from 'react-redux';
 import {
   createQuestionAction,
   updateQuestionAction,
@@ -112,7 +108,7 @@ class Page extends Component {
     const { categoryIndex, tags, name, code: content, test, id } = this.state;
     this.setState({ isLoading: true });
     if (this.props.type === 'add') {
-      let isQuestionExist = this.props.question.list.find(
+      const isQuestionExist = this.props.question.list.find(
         question => question.name === name,
       );
 
@@ -133,7 +129,7 @@ class Page extends Component {
           test: '',
         });
       } else {
-        message.error('Question: ' + name + ' is already exists.');
+        message.error(`Question: ${name} is already exists.`);
       }
     } else {
       await this.onUpdateQuestion({
@@ -279,7 +275,13 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Page);
+Page.propTypes = {
+  currentTab: PropTypes.string,
+  type: PropTypes.string,
+  // State
+  question: PropTypes.object,
+  // Dispatcher
+  actions: PropTypes.object,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Page);

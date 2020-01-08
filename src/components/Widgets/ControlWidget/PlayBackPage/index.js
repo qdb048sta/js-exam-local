@@ -17,7 +17,7 @@ const ControlWidget = ({
   onChangeRecord,
   recordList,
   onClickSummary,
-  interviewee,
+  candidate,
   testDate,
   summaryDisabled,
 }) => (
@@ -29,7 +29,7 @@ const ControlWidget = ({
       </span>
       <span className={styles.icon} id={styles.name}>
         <Icon className={styles.icon} type="user" />
-        {interviewee}
+        {candidate}
       </span>
     </div>
     <div>
@@ -50,13 +50,15 @@ const ControlWidget = ({
     </div>
   </PageControlBar>
 );
+
 ControlWidget.propTypes = {
   testDate: PropTypes.string,
-  interviewee: PropTypes.string,
+  candidate: PropTypes.string,
   recordIndex: PropTypes.number,
   onChangeRecord: PropTypes.func,
   recordList: PropTypes.array,
   onClickSummary: PropTypes.func,
   summaryDisabled: PropTypes.bool,
 };
+
 export default ControlWidget;

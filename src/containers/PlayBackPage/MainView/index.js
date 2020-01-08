@@ -15,21 +15,19 @@ import PageSpin from 'components/PageSpin';
 import ReactPage from 'components/PlaybackView/React';
 import JavaScriptPage from 'components/PlaybackView/JavaScript';
 import CommentArea from 'components/PlaybackView/Comment';
-
-import Summary from '../Summary';
-import ControlWidget from '../ControlWidget';
-import HistorySlider from '../HistorySlider';
+import ControlWidget from 'components/Widgets/ControlWidget/PlayBackPage';
 
 import {
   fetchRecordWithHistory,
-  setCategoryIndex,
-  setRecordIndex,
   setHistoryIndex,
   resetPlayback,
   changeSnapComment,
-} from './actions';
-import playbackReducer from './reducer';
-import { REDUCER_KEY } from './constants';
+} from 'redux/playback/actions';
+import playbackReducer from 'redux/playback/reducer';
+import { REDUCER_KEY } from 'redux/playback/constants';
+
+import Summary from '../Summary';
+import HistorySlider from '../HistorySlider';
 
 const PlaybackView = args => {
   switch (args.categoryIndex) {
@@ -208,7 +206,7 @@ class Playback extends React.Component {
         <PageSpin spinning={isLoading}>
           <ControlWidget
             testDate={testData.timeBegin}
-            interviewee={testData.subjectId}
+            candidate={testData.subjectId}
             recordIndex={recordIndex}
             onChangeRecord={onChangeRecord}
             recordList={records}
@@ -262,8 +260,6 @@ const mapDispatchToProps = dispatch =>
       addTape,
       resetTape,
       fetchRecordWithHistory,
-      setCategoryIndex,
-      setRecordIndex,
       setHistoryIndex,
       resetPlayback,
       changeSnapComment,
@@ -282,10 +278,7 @@ const mapStateToProps = state => ({
   currentComment: state.playback.currentComment,
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({
   key: REDUCER_KEY,
@@ -293,17 +286,27 @@ const withReducer = injectReducer({
 });
 
 Playback.propTypes = {
+  testData: PropTypes.object,
+  records: PropTypes.array,
+
+  // States
   code: PropTypes.object,
   tape: PropTypes.array,
-  currentComment: PropTypes.array,
   record: PropTypes.object,
   categoryIndex: PropTypes.number,
   recordIndex: PropTypes.number,
   historyIndex: PropTypes.number,
   snapComments: PropTypes.array,
+  currentComment: PropTypes.array,
+
+  // Dispatchers
+  resetCurrentRecord: PropTypes.func,
+  changeCode: PropTypes.func,
+  addTape: PropTypes.func,
+  resetTape: PropTypes.func,
+  fetchRecordWithHistory: PropTypes.func,
+  setHistoryIndex: PropTypes.func,
+  resetPlayback: PropTypes.func,
   changeSnapComment: PropTypes.func,
 };
-export default compose(
-  withReducer,
-  withConnect,
-)(Playback);
+export default compose(withReducer, withConnect)(Playback);

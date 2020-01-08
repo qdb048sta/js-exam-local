@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import 'brace';
 import 'brace/mode/javascript';
 import 'brace/theme/textmate';
@@ -135,5 +136,16 @@ class JavaScriptPage extends Component {
     );
   }
 }
+
+JavaScriptPage.propTypes = {
+  isLoading: PropTypes.bool,
+  test: PropTypes.string,
+  code: PropTypes.string,
+  compiledCode: PropTypes.string,
+  tags: PropTypes.array,
+  onTagUpdate: PropTypes.func,
+  handleCodeChange: PropTypes.func,
+  handleTestChange: PropTypes.func,
+};
 
 export default JavaScriptPage;

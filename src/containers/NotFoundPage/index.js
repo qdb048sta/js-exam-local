@@ -31,9 +31,6 @@ class NotFoundPage extends Component {
 const mapDispatchToProps = dispatch => ({
   onClearUser: () => dispatch(clearUser()),
 });
-const withConnect = connect(
-  null,
-  mapDispatchToProps,
-);
+const withConnect = connect(null, mapDispatchToProps);
 
 export default compose(withConnect)(NotFoundPage);

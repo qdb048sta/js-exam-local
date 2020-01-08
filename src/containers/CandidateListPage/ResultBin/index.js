@@ -29,11 +29,9 @@ const byTime = ascending => (a, b) => {
     if (a === null) result = 1;
     else if (b === null) result = -1;
   } else {
-    const A = new Date(a.timeBegin);
-    const B = new Date(b.timeBegin);
-    if (A.getTime() < B.getTime()) result = -1;
-    else if (A.getTime() > B.getTime()) result = 1;
-    else result = 0;
+    const A = new Date(a.timeBegin).getTime();
+    const B = new Date(b.timeBegin).getTime();
+    result = A - B;
   }
 
   return ascending ? result : result * -1;
@@ -55,24 +53,27 @@ const ResultBin = ({ tests }) => {
   let currentT;
   let nextD;
   let head;
+  let sortedTests;
 
-  if (tests) tests.sort(byTime(false));
+  if (tests) {
+    sortedTests = tests.filter(test => isValid(test)).sort(byTime(false));
+  }
 
-  return tests ? (
+  return sortedTests ? (
     <Collapse accordion>
-      {tests.map((test, i) => {
+      {sortedTests.map((test, i) => {
         if (test !== null) {
           currentT = new Date(test.timeBegin);
           currentD = getFullDate(currentT);
 
           if (head === undefined) head = i;
 
-          if (isValid(tests[i + 1])) {
-            nextD = getFullDate(new Date(tests[i + 1].timeBegin));
+          if (isValid(sortedTests[i + 1])) {
+            nextD = getFullDate(new Date(sortedTests[i + 1].timeBegin));
           }
 
-          if (nextD !== currentD || !isValid(tests[i + 1])) {
-            const dataOfDay = tests.slice(head, i + 1);
+          if (nextD !== currentD || !isValid(sortedTests[i + 1])) {
+            const dataOfDay = sortedTests.slice(head, i + 1);
             head = i + 1;
             return (
               <Panel header={currentD} key={test.id}>

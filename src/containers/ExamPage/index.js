@@ -22,16 +22,17 @@ import FullScreenMask from 'components/FullScreenMask';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
 import ConceptPage from 'components/CodingView/Concept';
+import ControlWidget from 'components/Widgets/ControlWidget/ExamPage';
 
 import { changeCode, resetCode } from 'redux/code/actions';
 import { addConsole, resetConsole } from 'redux/consoleMsg/actions';
 import { addTape, resetTape } from 'redux/tape/actions';
+import { updateRecordData } from 'redux/examPage/actions';
 
 import styles from './ExamPage.module.scss';
-import { updateRecordData } from './actions';
 import { EXAM_USER_NAME, QUESTION_TYPE } from './constants';
-import ControlWidget from './ControlWidget';
 import { createSnapComment } from '../../redux/snapComment/actions';
+import { updateRoomSyncCode } from '../../redux/room/actions';
 
 const GetPageComponent = args => {
   switch (args.categoryIndex) {
@@ -62,13 +63,18 @@ class ExamPage extends Component {
   async componentDidMount() {
     await this.autoLogin();
     await this.getRoom();
+    // subscribe when refresh
     this.subscribeCreateRecord();
+    this.subscribeRecordUpdate();
   }
 
   componentWillReceiveProps(nextProps) {
     const { record } = this.props;
     const { record: nextRecord } = nextProps;
-    if (!get(record, 'status') && get(nextRecord, 'status') === 'inprogress') {
+    if (
+      !get(record, 'status') &&
+      get(nextRecord, 'status') === RECORD_STATUS.inprogress
+    ) {
       this.setState({
         isExaming: true,
       });
@@ -134,14 +140,19 @@ class ExamPage extends Component {
     if (newCode && newCode !== rawCode) {
       this.props.actions.changeCode({ rawCode: newCode });
       this.props.actions.updateRecordData({ id, syncCode: newCode });
+      this.props.actions.updateRoomSyncCode(newCode);
     }
+  };
+
+  onClickRunCode = () => {
+    this.onRunCode();
+    this.props.actions.addRunSnapComment();
   };
 
   onRunCode = () => {
     const { rawCode } = this.props.code;
     const { ques } = this.props.record;
     const fullCode = `${rawCode} ${ques.test}`;
-    this.props.actions.addRunSnapComment();
     try {
       const { code: compiledCode } = transform(fullCode, {
         presets: [
@@ -194,14 +205,17 @@ class ExamPage extends Component {
       this.props.record.id,
       data => {
         const { room } = data;
-        if (room.id === this.props.room.id) {
+        const { record } = this.props;
+        const { resetCode } = this.props.actions;
+        if (!!room && room.id === this.props.room.id) {
           if (
             data.status === RECORD_STATUS.closed &&
-            this.props.record.status !== RECORD_STATUS.closed
+            record.status !== RECORD_STATUS.closed
           ) {
             this.setState({
               isExaming: false,
             });
+            resetCode();
           }
         }
       },
@@ -223,11 +237,19 @@ class ExamPage extends Component {
     const {
       handleCodeChange,
       wrappedConsole,
-      onRunCode,
+      onClickRunCode,
       showResetAlert,
     } = this;
     const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
-    const { room, record, code, consoleMsg, tape, actions: {addTape, resetTape, resetConsole} } = this.props;
+    const {
+      room,
+      record,
+      code: { rawCode, compiledCode },
+      consoleMsg,
+      tape,
+      actions,
+    } = this.props;
+    const { addTape, resetTape, resetConsole } = actions;
 
     return (
       <div>
@@ -236,8 +258,8 @@ class ExamPage extends Component {
             <React.Fragment>
               <ControlWidget
                 roomDescription={room.description}
-                intervieweeName={room.subjectId}
-                onRunCode={onRunCode}
+                candidateName={room.subjectId}
+                onRunCode={onClickRunCode}
                 onReset={showResetAlert}
               />
               <GetPageComponent
@@ -247,11 +269,12 @@ class ExamPage extends Component {
                 addTape={addTape}
                 resetTape={resetTape}
                 resetConsole={resetConsole}
-                code={code.rawCode}
-                compiledCode={code.compiledCode}
-                consoleMsg={consoleMsg}
-                tape={tape}
-                test={record.ques && record.ques.test}
+                isExaming={isExaming}
+                code={isExaming ? rawCode : ''}
+                compiledCode={isExaming ? compiledCode : ''}
+                consoleMsg={isExaming ? consoleMsg : []}
+                tape={isExaming ? tape : []}
+                test={isExaming ? record.ques && record.ques.test : ''}
               />
             </React.Fragment>
           )}
@@ -266,7 +289,6 @@ class ExamPage extends Component {
             />
           )}
         </PageSpin>
-
         <FullScreenMask isShow={!isExaming} text="Waiting for questions..." />
       </div>
     );
@@ -297,7 +319,8 @@ const mapDispatchToProps = dispatch => ({
     resetTape: () => dispatch(resetTape()),
     autoLogin: () => dispatch(autoLogin()),
     addRunSnapComment: () =>
-      dispatch(createSnapComment({ content: 'interviewee run code' })),
+      dispatch(createSnapComment({ content: 'candidate run code' })),
+    updateRoomSyncCode: newCode => dispatch(updateRoomSyncCode(newCode)),
   },
 });
 

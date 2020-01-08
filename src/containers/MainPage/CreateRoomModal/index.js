@@ -4,15 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 
 import { Modal, Button, Input, message, Icon } from 'antd';
 
 import { setRoomHost } from 'redux/room/actions';
-import { REDUCER_KEY } from './constants';
-import { createRoomActions, createRoom } from './actions';
-import reducer from './reducer';
-import saga from './saga';
+import { REDUCER_KEY } from 'redux/createRoomModal/constants';
+import { createRoomActions, createRoom } from 'redux/createRoomModal/actions';
+import reducer from 'redux/createRoomModal/reducer';
 import style from './CreateRoomModal.module.scss';
 
 class CreateRoomModal extends React.PureComponent {
@@ -76,13 +74,9 @@ class CreateRoomModal extends React.PureComponent {
     let title = 'Create a room';
     let okButtonLabel = isCreatingRoom ? 'Creating...' : 'Create';
     let onOK = this.handleOnOK;
-    let examLink = '';
 
     if (createRoomSuc) {
       title = `Welcome to Room - ${createdRoomData.description}`;
-      examLink = `${window.location.origin}${
-        window.location.pathname
-      }${window.location.hash.replace('admin', 'exam')}/${createdRoomData.id}`;
       okButtonLabel = 'Enter Room';
       onOK = this.toRoom;
     }
@@ -104,23 +98,25 @@ class CreateRoomModal extends React.PureComponent {
         onCancel={onClose}
         afterClose={this.handleOnAfterClose}
       >
-        {!createRoomSuc && (
+        {!createRoomSuc ? (
           <Input
-            placeholder="Please enter interviewee name"
+            placeholder="Please enter Candidate name"
             prefix={<Icon type="user" />}
             value={name}
             onChange={this.handleInputOnChange}
           />
-        )}
-
-        {createRoomSuc && (
+        ) : (
           <React.Fragment>
-            <p>Interviewee: {createdRoomData.subjectId}</p>
+            <p>Candidate: {createdRoomData.subjectId}</p>
             <div className={style.content}>
               <Input
                 size="large"
                 readOnly
-                value={examLink}
+                value={`${window.location.origin}${
+                  window.location.pathname
+                }${window.location.hash.replace('admin', 'exam')}/${
+                  createdRoomData.id
+                }`}
                 ref={this.examLinkInput}
               />
               <Button className={style.copyButton} onClick={this.copyLink}>
@@ -158,16 +154,8 @@ const mapStateToProps = state => ({
   createdRoomData: state[REDUCER_KEY].createdRoomData,
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withReducer = injectReducer({ key: REDUCER_KEY, reducer });
-const withSaga = injectSaga({ key: REDUCER_KEY, saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(CreateRoomModal);
+export default compose(withReducer, withConnect)(CreateRoomModal);

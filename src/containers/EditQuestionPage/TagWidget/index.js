@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tag, Input, Tooltip, Icon } from 'antd';
+import PropTypes from 'prop-types';
 
 import styles from './TagWidget.module.scss';
 
@@ -43,7 +44,7 @@ class TagWidget extends Component {
     return (
       <div className={styles['tag-widget']}>
         {tags
-          ? tags.map((tag, index) => {
+          ? tags.map(tag => {
               const isLongTag = tag.length > 20;
               const tagElem = (
                 <Tag
@@ -88,5 +89,11 @@ class TagWidget extends Component {
     );
   }
 }
+
+TagWidget.propTypes = {
+  data: PropTypes.array,
+  readOnly: PropTypes.bool,
+  onTagUpdate: PropTypes.func,
+};
 
 export default TagWidget;

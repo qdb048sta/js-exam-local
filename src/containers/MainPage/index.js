@@ -6,9 +6,9 @@ import { graphqlOperation } from 'aws-amplify';
 import { Button, Input, Modal } from 'antd';
 import debounce from 'lodash/debounce';
 
+import { deleteRoomAction } from 'redux/room/actions';
 import { listRooms } from 'graphql/queries';
 import { onCreateRoom } from 'graphql/subscriptions';
-import { deleteRoomAction } from 'redux/room/actions';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
@@ -112,9 +112,6 @@ class MainPage extends Component {
                     room.createTimeByDate = new Date(room.createTime);
                     return room;
                   })
-                  .sort((a, b) => {
-                    return b.createTimeByDate - a.createTimeByDate;
-                  })
                   .filter(room => {
                     return (
                       (room.subjectId.toLowerCase().includes(searchKeyword) ||
@@ -123,6 +120,9 @@ class MainPage extends Component {
                           .includes(searchKeyword)) &&
                       !delRoomList.includes(room.id)
                     );
+                  })
+                  .sort((a, b) => {
+                    return b.createTimeByDate - a.createTimeByDate;
                   });
 
               return (
@@ -193,7 +193,4 @@ const mapDispatchToProps = dispatch => ({
   deleteRoomAction: delRoom => dispatch(deleteRoomAction(delRoom)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
