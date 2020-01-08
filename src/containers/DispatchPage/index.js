@@ -380,7 +380,6 @@ class Page extends Component {
       addTape,
       resetTape,
       onTagUpdate,
-      setCandidateModal,
       setCommentBox,
       showDelConfirmModal,
       hideDelConfirmModal,
@@ -401,7 +400,6 @@ class Page extends Component {
               questionIndex={questionIndex}
               questionList={question.list}
               onChangeQuestion={onChangeQuestion}
-              setCandidateModal={setCandidateModal}
               candidateName={room.subjectId}
               roomId={room.id}
               roomDescription={room.description}
