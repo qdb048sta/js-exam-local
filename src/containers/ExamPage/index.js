@@ -254,7 +254,7 @@ class ExamPage extends Component {
             <React.Fragment>
               <ControlWidget
                 roomDescription={room.description}
-                intervieweeName={room.subjectId}
+                candidateName={room.subjectId}
                 onRunCode={onClickRunCode}
                 onReset={showResetAlert}
               />
@@ -315,7 +315,7 @@ const mapDispatchToProps = dispatch => ({
     resetTape: () => dispatch(resetTape()),
     autoLogin: () => dispatch(autoLogin()),
     addRunSnapComment: () =>
-      dispatch(createSnapComment({ content: 'interviewee run code' })),
+      dispatch(createSnapComment({ content: 'candidate run code' })),
     updateRoomSyncCode: newCode => dispatch(updateRoomSyncCode(newCode)),
   },
 });

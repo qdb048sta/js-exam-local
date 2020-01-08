@@ -100,14 +100,14 @@ class CreateRoomModal extends React.PureComponent {
       >
         {!createRoomSuc ? (
           <Input
-            placeholder="Please enter interviewee name"
+            placeholder="Please enter Candidate name"
             prefix={<Icon type="user" />}
             value={name}
             onChange={this.handleInputOnChange}
           />
         ) : (
           <React.Fragment>
-            <p>Interviewee: {createdRoomData.subjectId}</p>
+            <p>Candidate: {createdRoomData.subjectId}</p>
             <div className={style.content}>
               <Input
                 size="large"

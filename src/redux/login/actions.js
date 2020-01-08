@@ -13,7 +13,7 @@ import {
 
 export function autoLogin() {
   return async dispatch => {
-    const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
+    const result = await Auth.signIn('Candidate', 'Candidate@123456');
     dispatch({
       type: AUTO_LOGIN,
       isLogin: !!result,
