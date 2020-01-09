@@ -100,11 +100,13 @@ class MainPage extends Component {
             query={graphqlOperation(listRooms, { limit: 1000 })}
             subscription={graphqlOperation(onCreateRoom)}
             onSubscriptionMsg={(prev, { onCreateRoom: createdRoom }) => {
+              if (prev.listRooms.items[0].id === createdRoom.id) return prev;
               prev.listRooms.items.unshift(createdRoom);
               return prev;
             }}
           >
             {({ data: { listRooms: rooms }, loading, error }) => {
+              const roomIds = {};
               const outputRooms =
                 rooms &&
                 rooms.items
@@ -113,6 +115,8 @@ class MainPage extends Component {
                     return room;
                   })
                   .filter(room => {
+                    if (roomIds[room.id]) return false;
+                    roomIds[room.id] = true;
                     return (
                       (room.subjectId.toLowerCase().includes(searchKeyword) ||
                         room.description
