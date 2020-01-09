@@ -33,10 +33,15 @@ class SignOnModal extends React.Component {
 
   handleOk = () => {
     const username = this.state.username;
+    // Capitalize the username
+    const capitalUsername = username
+      .split(' ')
+      .map(name => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase())
+      .join(' ');
     try {
       //message.success(`Signed on as "${username}"`);
-      this.props.onSetUsername(username);
-      message.success(`Signed on as "${username}"`);
+      this.props.onSetUsername(capitalUsername);
+      message.success(`Signed on as "${capitalUsername}"`);
       this.setState({
         visible: false,
         username: '',
@@ -86,7 +91,7 @@ SignOnModal.propTypes = {
 const mapStateToProps = state => ({
   signedOn: !!state.login.username,
 });
-
+// Lowercasing username when dispatching, avoiding case-sensitive filtering
 const mapDispatchToProps = dispatch => ({
   onSetUsername: data => dispatch(setUsername(data)),
 });

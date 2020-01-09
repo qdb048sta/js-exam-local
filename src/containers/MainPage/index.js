@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce';
 
 import { deleteRoomAction } from 'redux/room/actions';
 import { listRooms } from 'graphql/queries';
-import { onCreateRoom } from 'graphql/subscriptions';
+import { onCreateRoom, onDeleteRoom } from 'graphql/subscriptions';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
@@ -26,7 +26,6 @@ class MainPage extends Component {
     isModalVisible: false,
     delConfirmModalVisible: false,
     delRoom: null,
-    delRoomList: [],
   };
 
   handleOnSearch = debounce(value => {
@@ -54,12 +53,9 @@ class MainPage extends Component {
   };
 
   handleOnOkDelConfirmModal = async () => {
-    const { delRoom, delRoomList } = this.state;
+    const { delRoom } = this.state;
     const { deleteRoomAction } = this.props;
     await deleteRoomAction(delRoom);
-    this.setState({
-      delRoomList: [...delRoomList, delRoom.id],
-    });
 
     this.hideDelConfirmModal();
   };
@@ -70,8 +66,6 @@ class MainPage extends Component {
       isModalVisible,
       searchKeyword,
       delConfirmModalVisible,
-      delRoom,
-      delRoomList,
     } = this.state;
 
     return (
@@ -105,59 +99,74 @@ class MainPage extends Component {
               return prev;
             }}
           >
-            {({ data: { listRooms: rooms }, loading, error }) => {
-              const roomIds = {};
-              const outputRooms =
-                rooms &&
-                rooms.items
-                  .map(room => {
-                    room.createTimeByDate = new Date(room.createTime);
-                    return room;
-                  })
-                  .filter(room => {
-                    if (roomIds[room.id]) return false;
-                    roomIds[room.id] = true;
-                    return (
-                      (room.subjectId.toLowerCase().includes(searchKeyword) ||
-                        room.description
-                          .toLowerCase()
-                          .includes(searchKeyword)) &&
-                      !delRoomList.includes(room.id)
+            {({ data: { listRooms: rooms }, loading, error }) => (
+              <Connect
+                subscription={graphqlOperation(onDeleteRoom)}
+                onSubscriptionMsg={(prev, { onDeleteRoom: deletedRoom }) =>
+                  deletedRoom
+                }
+              >
+                {({ data: delRoom, loading2, error2 }) => {
+                  if (delRoom.id) {
+                    const delRoomIndex = rooms.items.findIndex(
+                      room => room && room.id === delRoom.id,
                     );
-                  })
-                  .sort((a, b) => {
-                    return b.createTimeByDate - a.createTimeByDate;
-                  });
+                    if (delRoomIndex !== -1)
+                      rooms.items.splice(delRoomIndex, 1);
+                  }
+                  const roomIds = {};
+                  const outputRooms =
+                    rooms &&
+                    rooms.items
+                      .map(room => {
+                        room.createTimeByDate = new Date(room.createTime);
+                        return room;
+                      })
+                      .filter(room => {
+                        if (roomIds[room.id]) return false;
+                        roomIds[room.id] = true;
+                        return (
+                          room.subjectId
+                            .toLowerCase()
+                            .includes(searchKeyword) ||
+                          room.description.toLowerCase().includes(searchKeyword)
+                        );
+                      })
+                      .sort((a, b) => {
+                        return b.createTimeByDate - a.createTimeByDate;
+                      });
 
-              return (
-                <PageSpin spinning={loading}>
-                  {!loading && error && (
-                    <PageEmpty description={<span>Error Occuring</span>} />
-                  )}
+                  return (
+                    <PageSpin spinning={loading}>
+                      {!loading && error && (
+                        <PageEmpty description={<span>Error Occuring</span>} />
+                      )}
 
-                  {!loading && !outputRooms.length && (
-                    <PageEmpty
-                      description={<span>Room Not Found</span>}
-                      image="default"
-                    />
-                  )}
+                      {!loading && !outputRooms.length && (
+                        <PageEmpty
+                          description={<span>Room Not Found</span>}
+                          image="default"
+                        />
+                      )}
 
-                  {!loading && outputRooms.length && (
-                    <RoomList
-                      rooms={outputRooms}
-                      signedOn={signedOn}
-                      hostings={hostings}
-                      triggerDelRoom={room => {
-                        this.setState({
-                          delConfirmModalVisible: true,
-                          delRoom: room,
-                        });
-                      }}
-                    />
-                  )}
-                </PageSpin>
-              );
-            }}
+                      {!loading && outputRooms.length && (
+                        <RoomList
+                          rooms={outputRooms}
+                          signedOn={signedOn}
+                          hostings={hostings}
+                          triggerDelRoom={room => {
+                            this.setState({
+                              delConfirmModalVisible: true,
+                              delRoom: room,
+                            });
+                          }}
+                        />
+                      )}
+                    </PageSpin>
+                  );
+                }}
+              </Connect>
+            )}
           </Connect>
         </div>
 
@@ -175,7 +184,7 @@ class MainPage extends Component {
           onCancel={this.hideDelConfirmModal}
         >
           Are you sure you want to delete room{' '}
-          <b>{delRoom ? delRoom.description : ''}</b> ?
+          <b>{this.state.delRoom ? this.state.delRoom.description : ''}</b> ?
         </Modal>
       </div>
     );
@@ -197,4 +206,7 @@ const mapDispatchToProps = dispatch => ({
   deleteRoomAction: delRoom => dispatch(deleteRoomAction(delRoom)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MainPage);
