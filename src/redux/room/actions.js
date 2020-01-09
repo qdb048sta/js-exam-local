@@ -286,11 +286,10 @@ function deleteExpiredRoomsAction() {
           filter: { createTime: { lt: expiredDate } },
         }),
       );
-      console.log('room expired date: ', expiredDate);
-      const expiredRoomDelQl = [];
-      for (let i = 0; i < rooms.length; i += 1) {
-        expiredRoomDelQl.push(dispatch(deleteRoomAction(rooms[i])));
-      }
+
+      const expiredRoomDelQl = rooms.map(room =>
+        dispatch(deleteRoomAction(room)),
+      );
       await Promise.all(expiredRoomDelQl);
 
       dispatch(
@@ -300,7 +299,6 @@ function deleteExpiredRoomsAction() {
           actionState: ACTION_STATE.SUCCESS,
         }),
       );
-      dispatch(resetCurrentRecord());
     } catch (error) {
       dispatch(
         graphqlActionHelper({
