@@ -23,6 +23,9 @@
     "babel-plugin-import": "^1.11.0",
     "babel-plugin-lodash": "3.3.4",
     "cross-env": "^5.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.3",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-config-prettier": "3.1.0",
@@ -31,7 +34,9 @@
     "eslint-plugin-prettier": "3.0.0",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-redux-saga": "0.9.0",
-    "prettier": "1.19.1"
+    "node-sass": "^4.13.0",
+    "prettier": "1.19.1",
+    "react-test-renderer": "^16.12.0"
   },
   "dependencies": {
     "@babel/standalone": "^7.1.0",
@@ -49,7 +54,7 @@
     "husky": "^3.1.0",
     "invariant": "^2.2.4",
     "lint-staged": "^9.5.0",
-    "lodash": "4.17.11",
+    "lodash": "^4.17.15",
     "prop-types": "15.6.2",
     "react": "16.6.0",
     "react-ace": "^6.2.0",
@@ -79,7 +84,8 @@
     "build": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 build",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build -r git@github.com:innovap3/js-exam.git",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "test": "jest"
   },
   "browserslist": [
     ">0.2%",

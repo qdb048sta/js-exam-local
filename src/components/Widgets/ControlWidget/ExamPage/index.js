@@ -6,14 +6,14 @@ const ControlWidget = ({
   onRunCode,
   onReset,
   roomDescription,
-  intervieweeName,
+  candidateName,
 }) => (
   <div className={styles.control}>
-    <div className={styles.interviewee}>
+    <div className={styles.candidate}>
       <Icon type="home" />
       <p>{roomDescription || 'UNSET'}</p>
       <Icon type="user" />
-      <p>{intervieweeName || 'UNSET'}</p>
+      <p>{candidateName || 'UNSET'}</p>
     </div>
     <div>
       <Tooltip placement="bottom" title="Press 'ctrl + enter' to run code">

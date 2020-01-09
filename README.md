@@ -1,7 +1,7 @@
 # js-exam readme
 
 
-A platform for programing interview. Allow interviewer to add/edit exam and dispatch to the interviewee. Inteviewer can also watch the intervewee's coding process. All the coding histories can be viewed in the candidates page.
+A platform for programing interview. Allow interviewer to add/edit exam and dispatch to the Candidate. Inteviewer can also watch the intervewee's coding process. All the coding histories can be viewed in the Candidates page.
 
 
 

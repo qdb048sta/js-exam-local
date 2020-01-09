@@ -12,7 +12,6 @@ import ConsoleWidget from 'components/Widgets/ConsoleWidget';
 import CodeWidget from 'components/Widgets/CodeWidget';
 import TestWidget from 'components/Widgets/TestWidget';
 import TapeWidget from 'components/Widgets/TapeWidget';
-
 import debouncedRunCode from 'utils/runCode';
 import { JAVASCRIPT as GRID_LABEL_JAVASCRIPT } from 'utils/gridLabel';
 
@@ -45,6 +44,7 @@ class JavaScriptPage extends Component {
     } = this.props;
     resetConsole();
     resetTape();
+
     // WARNING: This is not debounced
     debouncedRunCode({
       code: compiledCode,
