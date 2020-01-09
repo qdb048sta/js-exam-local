@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { setUsername } from 'redux/login/actions';
+import { deleteExpiredRoomsAction } from 'redux/room/actions';
 
 import { Modal, Input, message, Icon } from 'antd';
 
@@ -36,6 +37,7 @@ class SignOnModal extends React.Component {
     try {
       //message.success(`Signed on as "${username}"`);
       this.props.onSetUsername(username);
+      this.props.deleteExpiredRoomsAction();
       message.success(`Signed on as "${username}"`);
       this.setState({
         visible: false,
@@ -80,6 +82,7 @@ class SignOnModal extends React.Component {
 
 SignOnModal.propTypes = {
   onSetUsername: PropTypes.func.isRequired,
+  deleteExpiredRoomsAction: PropTypes.func.isRequired,
   signedOn: PropTypes.bool,
 };
 
@@ -89,6 +92,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onSetUsername: data => dispatch(setUsername(data)),
+  deleteExpiredRoomsAction: () => dispatch(deleteExpiredRoomsAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignOnModal);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignOnModal);

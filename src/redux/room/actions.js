@@ -1,4 +1,5 @@
 import { API, graphqlOperation } from 'aws-amplify';
+import moment from 'moment';
 import * as mutations from 'graphql/mutations';
 import { setCurrentRecord, resetCurrentRecord } from 'redux/record/actions';
 import { deleteHostings } from 'redux/login/actions';
@@ -202,14 +203,18 @@ function deleteRoomAction(delRoom) {
           }),
         );
       }
-      const roomHostId = room.test ? room.test.host.id : room.users.items[0].id;
-      const roomHost = await API.graphql(
-        graphqlOperation(mutations.deleteJeUser, {
-          input: {
-            id: roomHostId,
-          },
-        }),
-      );
+      const roomHostId = room.test
+        ? room.test.host && room.test.host.id
+        : room.users.items[0].id;
+      if (roomHostId) {
+        const roomHost = await API.graphql(
+          graphqlOperation(mutations.deleteJeUser, {
+            input: {
+              id: roomHostId,
+            },
+          }),
+        );
+      }
       const delResult = await API.graphql(
         graphqlOperation(mutations.deleteRoom, {
           input: {
@@ -246,6 +251,70 @@ function deleteRoomAction(delRoom) {
   };
 }
 
+function deleteExpiredRoomsAction() {
+  const roomShelfLife = 5;
+  return async dispatch => {
+    dispatch(
+      graphqlActionHelper({
+        method: 'DELETE',
+        dataName: 'EXPIRED_ROOMS',
+        actionState: ACTION_STATE.STARTED,
+      }),
+    );
+    try {
+      const expiredDate = moment()
+        .subtract('days', roomShelfLife)
+        .format('YYYY-MM-DD');
+      const expiredRoomsList = `query ListRoom(
+        $filter: ModelRoomFilterInput,
+        $nextToken: String
+      ) {
+        listRooms(filter: $filter, nextToken: $nextToken, limit:1000) {
+          items{
+            id
+            description
+            createTime
+          }
+        }
+      }`;
+      const {
+        data: {
+          listRooms: { items: rooms },
+        },
+      } = await API.graphql(
+        graphqlOperation(expiredRoomsList, {
+          filter: { createTime: { lt: expiredDate } },
+        }),
+      );
+      console.log('room expired date: ', expiredDate);
+      const expiredRoomDelQl = [];
+      for (let i = 0; i < rooms.length; i += 1) {
+        expiredRoomDelQl.push(dispatch(deleteRoomAction(rooms[i])));
+      }
+      await Promise.all(expiredRoomDelQl);
+
+      dispatch(
+        graphqlActionHelper({
+          method: 'DELETE',
+          dataName: 'EXPIRED_ROOMS',
+          actionState: ACTION_STATE.SUCCESS,
+        }),
+      );
+      dispatch(resetCurrentRecord());
+    } catch (error) {
+      dispatch(
+        graphqlActionHelper({
+          method: 'DELETE',
+          dataName: 'EXPIRED_ROOMS',
+          actionState: ACTION_STATE.FAILURE,
+          result: error,
+        }),
+      );
+      console.log(error);
+    }
+  };
+}
+
 function setRoomHost(isHost) {
   return {
     type: 'SET_ROOMHOST',
@@ -266,4 +335,5 @@ export {
   updateRoomInfo,
   setRoomHost,
   updateRoomSyncCode,
+  deleteExpiredRoomsAction,
 };
