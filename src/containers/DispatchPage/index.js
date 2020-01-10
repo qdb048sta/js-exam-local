@@ -260,7 +260,7 @@ class Page extends Component {
   subscribeCreateRecord = () => {
     this.subscriptionForCreateRecord = subscribeOnCreateRecord(data => {
       const { room, ques } = data;
-      if (room.id === this.props.room.id) {
+      if (room && room.id === this.props.room.id) {
         // unsubscribe the old record
         if (this.subscriptionForUpdateRecordByRecordId) {
           this.subscriptionForUpdateRecordByRecordId.unsubscribe();
