@@ -26,6 +26,7 @@ class CodeWidget extends PureComponent {
         value={data}
         tabSize={2}
         debounceChangePeriod={800}
+        editorProps={{ $blockScrolling: Infinity }}
       />
     );
   }
