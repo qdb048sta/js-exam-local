@@ -18,7 +18,12 @@ class CommentBox extends React.Component {
     const { visible, setVisible } = this.props;
     return (
       <>
-        <Modal visible={visible} footer={false} onCancel={setVisible}>
+        <Modal
+          visible={visible}
+          footer={false}
+          closable={false}
+          maskClosable={false}
+        >
           <h1>Write a Summary</h1>
           <form onSubmit={this.submitForm}>
             <Field
