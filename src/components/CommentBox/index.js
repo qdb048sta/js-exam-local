@@ -1,26 +1,32 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
 import Field from 'redux-form/es/Field';
-import Button from 'antd/lib/button';
-import { RfInput, RfTextArea } from 'components/RfInput';
+import { RfTextArea } from 'components/RfInput';
 
 class CommentBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.submitForm = this.props.handleSubmit(async data => {
+      await this.props.onSubmit({ input: data });
+      this.props.reset(); // reset form after submitting
+    });
+  }
+
   render() {
-    const { visible, onSubmit, handleSubmit, setVisible } = this.props;
+    const { visible, setVisible } = this.props;
     return (
       <>
         <Modal visible={visible} footer={false} onCancel={setVisible}>
-          <h1>Write a Comment</h1>
-          <form onSubmit={handleSubmit(data => onSubmit({ input: data }))}>
-            <Field name="author" component={RfInput} placeholder="Your Name" />
+          <h1>Write a Summary</h1>
+          <form onSubmit={this.submitForm}>
             <Field
               name="content"
               component={RfTextArea}
-              placeholder="Enter Comment"
+              placeholder="Enter Summary"
             />
-            <Button htmlType="submit"> Add Comment </Button>
+            <Button htmlType="submit"> Add Summary </Button>
           </form>
         </Modal>
       </>

@@ -5,4 +5,13 @@ const login = async ({ username, password }) => {
   return result;
 };
 
-export { login };
+const checkPermission = async () => {
+  try {
+    const result = await Auth.currentAuthenticatedUser();
+    return result.username === 'Admin';
+  } catch (err) {
+    return err;
+  }
+};
+
+export { login, checkPermission };

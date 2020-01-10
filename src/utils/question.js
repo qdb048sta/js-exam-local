@@ -4,7 +4,6 @@ import * as mutations from 'graphql/mutations';
 
 import * as subscriptions from 'graphql/subscriptions';
 
-
 const listQuestions = async type => {
   const query = `
     query {
@@ -16,7 +15,7 @@ const listQuestions = async type => {
         }
         limit: 1000
       ) {
-        items{
+        items {
           id,
           name,
           type
@@ -66,13 +65,14 @@ const getQuestion = async id => {
 };
 
 const updateQuestion = async data => {
-  const { id, content, test, tags } = data;
+  const { id, content, test, tags, name } = data;
   const params = {
     input: {
       id,
       content,
       test,
       tags,
+      name,
     },
   };
   const query = `mutation UpdateQuestion($input: UpdateQuestionInput!) {
@@ -81,6 +81,7 @@ const updateQuestion = async data => {
       content
       test
       tags
+      name
     }
   }`;
   const result = await API.graphql(graphqlOperation(query, params));

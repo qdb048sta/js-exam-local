@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './Grid.module.scss';
 
-const GridItem = ({ children }) => (
+const GridItem = ({ label, children }) => (
   <div className={styles.item}>
-    { children }
+    {label && <div className={styles.label}>{label}</div>}
+    {children}
   </div>
 );
 

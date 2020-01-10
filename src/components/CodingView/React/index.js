@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import 'brace';
 import 'brace/mode/jsx';
@@ -14,14 +15,22 @@ import ResultWidget from 'components/Widgets/ResultWidget';
 import AnswerWidget from 'components/Widgets/AnswerWidget';
 
 import debouncedRunCode from 'utils/runCode';
+import { REACT as GRID_LABEL_REACT } from 'utils/gridLabel';
 
 import styles from './ReactPage.module.scss';
 
 class ReactPage extends Component {
-  constructor(props) {
-    super(props);
-    this.controlHeight = 70;
-  }
+  static propTypes = {
+    isExaming: PropTypes.bool,
+    code: PropTypes.string,
+    compiledCode: PropTypes.string,
+    consoleMsg: PropTypes.array,
+    handleCodeChange: PropTypes.func,
+    wrappedConsole: PropTypes.object,
+    resetConsole: PropTypes.func,
+  };
+
+  controlHeight = 70;
 
   componentDidMount() {
     const { compiledCode, wrappedConsole, resetConsole } = this.props;
@@ -32,15 +41,16 @@ class ReactPage extends Component {
   shouldComponentUpdate(nextProps) {
     const { compiledCode: previousCompiledCode } = this.props;
     const { compiledCode, wrappedConsole, resetConsole } = nextProps;
-    if (previousCompiledCode !== compiledCode) {
+    if (compiledCode && previousCompiledCode !== compiledCode) {
       resetConsole();
+      // WARNING: This is not debounced
       debouncedRunCode({ code: compiledCode, wrappedConsole });
     }
     return true;
   }
 
   render() {
-    const { code, handleCodeChange, console: _console } = this.props;
+    const { isExaming, code, handleCodeChange, consoleMsg } = this.props;
     const layout = [
       {
         key: 'code',
@@ -88,22 +98,23 @@ class ReactPage extends Component {
     return (
       <div className={styles.app}>
         <Grid layout={layout} totalWidth="100%" totalHeight="100%" autoResize>
-          <GridItem key="code">
+          <GridItem key="code" label={GRID_LABEL_REACT.code}>
             <CodeWidget
               handleCodeChange={handleCodeChange}
               data={code}
+              readOnly={!isExaming}
               mode="jsx"
               theme="monokai"
             />
           </GridItem>
-          <GridItem key="answer">
-            <AnswerWidget />
+          <GridItem key="answer" label={GRID_LABEL_REACT.answer}>
+            {isExaming ? <AnswerWidget /> : null}
           </GridItem>
-          <GridItem key="result">
-            <ResultWidget />
+          <GridItem key="result" label={GRID_LABEL_REACT.result}>
+            {isExaming ? <ResultWidget /> : null}
           </GridItem>
-          <GridItem key="console">
-            <ConsoleWidget data={_console} />
+          <GridItem key="console" label={GRID_LABEL_REACT.console}>
+            {isExaming ? <ConsoleWidget data={consoleMsg} /> : null}
           </GridItem>
         </Grid>
       </div>

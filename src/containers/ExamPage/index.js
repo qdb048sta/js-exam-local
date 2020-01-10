@@ -3,26 +3,44 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { transform } from '@babel/standalone';
-import { message, Spin, Alert, Modal } from 'antd';
+import { Modal } from 'antd';
+import get from 'lodash/get';
 
-import idbStorage from 'utils/idbStorage';
-import { startRecording, stopRecording } from 'utils/recordRTCHelper';
 import createWrappedConsole from 'utils/consoleFactory';
-import { subscribeOnCreateRecord } from 'utils/record';
-import { getRoomInfo, updateRoomInfo } from 'models/room/actions';
-import { setCurrentRecord } from 'models/record/actions';
+import {
+  subscribeOnCreateRecord,
+  subscribeOnUpdateRecordByRecordId,
+  RECORD_STATUS,
+} from 'utils/record';
+import { getRoomInfo, updateRoomInfo } from 'redux/room/actions';
+import { setCurrentRecord } from 'redux/record/actions';
+import { autoLogin } from 'redux/login/actions';
 
-import ControlWidget from 'components/Widgets/ExamControlWidget';
+import PageSpin from 'components/PageSpin';
+import PageEmpty from 'components/PageEmpty';
+import FullScreenMask from 'components/FullScreenMask';
 import ReactPage from 'components/CodingView/React';
 import JavaScriptPage from 'components/CodingView/JavaScript';
+import ConceptPage from 'components/CodingView/Concept';
+import ControlWidget from 'components/Widgets/ControlWidget/ExamPage';
 
-import { updateRecordData } from './actions';
-import { QUESTION_TYPE } from './constants';
+import { changeCode, resetCode } from 'redux/code/actions';
+import { addConsole, resetConsole } from 'redux/consoleMsg/actions';
+import { addTape, resetTape } from 'redux/tape/actions';
+import { updateRecordData } from 'redux/examPage/actions';
+
+import styles from './ExamPage.module.scss';
+import { EXAM_USER_NAME, QUESTION_TYPE } from './constants';
+import { createSnapComment } from '../../redux/snapComment/actions';
+import { updateRoomSyncCode } from '../../redux/room/actions';
 
 const GetPageComponent = args => {
   switch (args.categoryIndex) {
     case 1: {
       return <ReactPage {...args} />;
+    }
+    case 2: {
+      return <ConceptPage {...args} />;
     }
     default: {
       return <JavaScriptPage {...args} />;
@@ -33,22 +51,42 @@ const GetPageComponent = args => {
 class ExamPage extends Component {
   state = {
     categoryIndex: 0,
-    code: '',
-    compiledCode: '',
-    tape: [],
-    console: [],
     isLoading: false,
     enableEnter: true,
-    isRecording: false,
+    isExaming: false,
   };
 
   roomId = this.props.match.params.roomId;
 
-  componentDidMount() {
-    this.wrappedConsole = createWrappedConsole(console, this.addConsole);
-    this.getRoom();
+  wrappedConsole = createWrappedConsole(console, this.props.actions.addConsole);
+
+  async componentDidMount() {
+    await this.autoLogin();
+    await this.getRoom();
+    // subscribe when refresh
     this.subscribeCreateRecord();
+    this.subscribeRecordUpdate();
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { record } = this.props;
+    const { record: nextRecord } = nextProps;
+    if (
+      !get(record, 'status') &&
+      get(nextRecord, 'status') === RECORD_STATUS.inprogress
+    ) {
+      this.setState({
+        isExaming: true,
+      });
+    }
+  }
+
+  autoLogin = async () => {
+    this.setState({ isLoading: true });
+    await this.props.actions.autoLogin();
+    localStorage.setItem('username', EXAM_USER_NAME);
+    this.setState({ isLoading: false, enableEnter: true });
+  };
 
   getRoom = async () => {
     this.setState({
@@ -65,6 +103,7 @@ class ExamPage extends Component {
     } else {
       this.setState({
         enableEnter: false,
+        isExaming: true,
       });
     }
     this.setState({ isLoading: false });
@@ -79,7 +118,6 @@ class ExamPage extends Component {
     } else if (localStorage.examRoomPassword === room.password) {
       this.getRecordOnEntry(record);
     } else {
-      message.error("You Can't Not Enter the Page");
       this.setState({
         enableEnter: false,
       });
@@ -88,34 +126,33 @@ class ExamPage extends Component {
 
   getRecordOnEntry = record => {
     if (record.ques) {
-      this.setState(
-        {
-          categoryIndex: record.ques.type === QUESTION_TYPE.JAVASCRIPT ? 0 : 1,
-          code: record.syncCode || '',
-          test: record.ques.test || '',
-        },
-        () => {
-          this.handleCodeChange(record.syncCode);
-          this.onRunCode();
-        },
-      );
+      this.setState({
+        categoryIndex: QUESTION_TYPE[record.ques.type],
+      });
+      this.handleCodeChange(record.syncCode || '');
+      this.onRunCode();
     }
   };
 
   handleCodeChange = newCode => {
-    const { code } = this.state;
+    const { rawCode } = this.props.code;
     const { id } = this.props.record;
-    if (newCode && newCode !== code) {
-      this.setState({ code: newCode }, () =>
-        this.props.actions.updateRecordData({ id, syncCode: newCode }),
-      );
+    if (newCode && newCode !== rawCode) {
+      this.props.actions.changeCode({ rawCode: newCode });
+      this.props.actions.updateRecordData({ id, syncCode: newCode });
+      this.props.actions.updateRoomSyncCode(newCode);
     }
   };
 
+  onClickRunCode = () => {
+    this.onRunCode();
+    this.props.actions.addRunSnapComment();
+  };
+
   onRunCode = () => {
-    const { code } = this.state;
+    const { rawCode } = this.props.code;
     const { ques } = this.props.record;
-    const fullCode = `${code} ${ques.test}`;
+    const fullCode = `${rawCode} ${ques.test}`;
     try {
       const { code: compiledCode } = transform(fullCode, {
         presets: [
@@ -125,76 +162,64 @@ class ExamPage extends Component {
         ],
         plugins: ['proposal-object-rest-spread'],
       });
-      this.setState({ compiledCode });
+      this.props.actions.changeCode({ compiledCode });
     } catch (e) {
-      this.resetConsole();
+      this.props.actions.resetConsole();
       this.wrappedConsole.log(e);
     }
   };
 
   onReset = () => {
     const { content } = this.props.record.ques;
-    this.setState({ code: content });
     this.handleCodeChange(content);
-    this.resetTape();
-    this.resetConsole();
-  };
-
-  addTape = newTape => {
-    const { tape } = this.state;
-    this.setState({ tape: [...tape, newTape] });
-  };
-
-  resetTape = () => {
-    this.setState({ tape: [] });
-  };
-
-  addConsole = (...args) => {
-    const { console: _console } = this.state;
-    this.setState({ console: [..._console, ...args] });
-  };
-
-  resetConsole = () => {
-    this.setState({ console: [] });
+    this.props.actions.resetTape();
+    this.props.actions.resetConsole();
   };
 
   subscribeCreateRecord = () => {
     subscribeOnCreateRecord(data => {
       const { room, ques } = data;
       if (room.id === this.props.room.id) {
+        // unsubscribe the old record
+        if (this.subscriptionForUpdateRecordByRecordId) {
+          this.subscriptionForUpdateRecordByRecordId.unsubscribe();
+        }
+
         this.props.actions.setCurrentRecord(data);
-        // to receive new question dispatched
         this.setState({
-          categoryIndex: data.ques.type === QUESTION_TYPE.JAVASCRIPT ? 0 : 1,
-          code: ques.content,
-          test: ques.test,
+          categoryIndex: QUESTION_TYPE[data.ques.type],
+          isExaming: true,
         });
-        this.resetTape();
-        this.resetConsole();
+        this.handleCodeChange(ques.content);
+        this.props.actions.resetTape();
+        this.props.actions.resetConsole();
         this.onRunCode();
+
+        this.subscribeRecordUpdate();
       }
     });
   };
 
-  handleStartRecording = () => {
-    this.setState({ isRecording: true });
-    startRecording();
-  };
-
-  handleStopRecording = () => {
-    this.setState({ isRecording: false });
-    stopRecording(blob => {
-      const { id } = this.props.record;
-
-      const mimeType = 'video/webm';
-      const fileExtension = 'webm';
-      const file = new File([blob], `${id}.${fileExtension}`, {
-        type: mimeType,
-      });
-      idbStorage.set(file.name, file).then(() => {
-        this.props.actions.updateRecordData({ id, videoUrl: file.name });
-      });
-    });
+  subscribeRecordUpdate = () => {
+    this.subscriptionForUpdateRecordByRecordId = subscribeOnUpdateRecordByRecordId(
+      this.props.record.id,
+      data => {
+        const { room } = data;
+        const { record } = this.props;
+        const { resetCode } = this.props.actions;
+        if (!!room && room.id === this.props.room.id) {
+          if (
+            data.status === RECORD_STATUS.closed &&
+            record.status !== RECORD_STATUS.closed
+          ) {
+            this.setState({
+              isExaming: false,
+            });
+            resetCode();
+          }
+        }
+      },
+    );
   };
 
   showResetAlert = () => {
@@ -204,7 +229,7 @@ class ExamPage extends Component {
       onOk() {
         self.onReset();
       },
-      onCancel() { },
+      onCancel() {},
     });
   };
 
@@ -212,67 +237,59 @@ class ExamPage extends Component {
     const {
       handleCodeChange,
       wrappedConsole,
-      onRunCode,
+      onClickRunCode,
       showResetAlert,
-      addTape,
-      resetTape,
-      resetConsole,
     } = this;
-    const { isLoading, enableEnter, isRecording } = this.state;
-    const { room, record } = this.props;
+    const { categoryIndex, isLoading, isExaming, enableEnter } = this.state;
+    const {
+      room,
+      record,
+      code: { rawCode, compiledCode },
+      consoleMsg,
+      tape,
+      actions,
+    } = this.props;
+    const { addTape, resetTape, resetConsole } = actions;
+
     return (
       <div>
-        {/* eslint-disable camelcase, indent */
-          typeof RecordRTC_Extension === 'undefined' && (
-            <Alert
-              message={
-                <p>
-                  Chrome extension is required:&nbsp;
-                <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://chrome.google.com/webstore/detail/recordrtc/ndcljioonkecdnaaihodjgiliohngojp"
-                  >
-                    RecordRTC_Extension
-                </a>
-                </p>
-              }
-              type="warning"
-              closeText="Close"
-            />
-          )
-          /* eslint-enable */
-        }
-        <Spin spinning={isLoading}>
-          {enableEnter ? (
-            <>
+        <PageSpin spinning={isLoading} className={styles.spin}>
+          {enableEnter && (
+            <React.Fragment>
               <ControlWidget
                 roomDescription={room.description}
-                intervieweeName={room.subjectId}
-                onRunCode={onRunCode}
+                candidateName={room.subjectId}
+                onRunCode={onClickRunCode}
                 onReset={showResetAlert}
-                onStartRecording={this.handleStartRecording}
-                onStopRecording={this.handleStopRecording}
-                isRecording={isRecording}
-                isProgressing={!!record.id}
               />
               <GetPageComponent
+                categoryIndex={categoryIndex}
                 handleCodeChange={handleCodeChange}
                 wrappedConsole={wrappedConsole}
-                onReset={showResetAlert}
                 addTape={addTape}
                 resetTape={resetTape}
                 resetConsole={resetConsole}
-                {...this.state}
-                {...this.props}
+                isExaming={isExaming}
+                code={isExaming ? rawCode : ''}
+                compiledCode={isExaming ? compiledCode : ''}
+                consoleMsg={isExaming ? consoleMsg : []}
+                tape={isExaming ? tape : []}
+                test={isExaming ? record.ques && record.ques.test : ''}
               />
-            </>
-          ) : (
-              <div>
-                <h1>WRONG EXAM ROOM</h1>
-              </div>
-            )}
-        </Spin>
+            </React.Fragment>
+          )}
+
+          {!enableEnter && (
+            <PageEmpty
+              description={
+                <span>
+                  You don&apos;t have authorization to enter this room
+                </span>
+              }
+            />
+          )}
+        </PageSpin>
+        <FullScreenMask isShow={!isExaming} text="Waiting for questions..." />
       </div>
     );
   }
@@ -281,6 +298,11 @@ class ExamPage extends Component {
 ExamPage.propTypes = {
   room: PropTypes.object,
   record: PropTypes.object,
+  code: PropTypes.object,
+  consoleMsg: PropTypes.array,
+  tape: PropTypes.array,
+  actions: PropTypes.object,
+  match: PropTypes.object,
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -289,17 +311,27 @@ const mapDispatchToProps = dispatch => ({
     updateRoomInfo: (id, password) => dispatch(updateRoomInfo(id, password)),
     updateRecordData: recordData => dispatch(updateRecordData(recordData)),
     setCurrentRecord: recordData => dispatch(setCurrentRecord(recordData)),
+    changeCode: code => dispatch(changeCode(code)),
+    resetCode: () => dispatch(resetCode()),
+    addConsole: (...args) => dispatch(addConsole(...args)),
+    resetConsole: () => dispatch(resetConsole()),
+    addTape: data => dispatch(addTape(data)),
+    resetTape: () => dispatch(resetTape()),
+    autoLogin: () => dispatch(autoLogin()),
+    addRunSnapComment: () =>
+      dispatch(createSnapComment({ content: 'candidate run code' })),
+    updateRoomSyncCode: newCode => dispatch(updateRoomSyncCode(newCode)),
   },
 });
 
 const mapStateToProps = state => ({
   room: state.room,
   record: state.record,
+  code: state.code,
+  consoleMsg: state.consoleMsg,
+  tape: state.tape,
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 export default compose(withConnect)(ExamPage);
