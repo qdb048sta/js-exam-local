@@ -5,11 +5,6 @@ const login = async ({ username, password }) => {
   return result;
 };
 
-const autoLogin = async () => {
-  const result = await Auth.signIn('Interviewee', 'Interviewee@123456');
-  return !!result;
-};
-
 const checkPermission = async () => {
   try {
     const result = await Auth.currentAuthenticatedUser();
@@ -19,4 +14,4 @@ const checkPermission = async () => {
   }
 };
 
-export { login, autoLogin, checkPermission };
+export { login, checkPermission };

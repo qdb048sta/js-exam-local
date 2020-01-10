@@ -192,7 +192,7 @@ function deleteRoomAction(delRoom) {
       const {
         data: { getRoom: room },
       } = await API.graphql(graphqlOperation(getRoom, { id: delRoom.id }));
-      const testId = room.test && room.test.id;
+      const testId = room && room.test && room.test.id;
       if (testId) {
         await API.graphql(
           graphqlOperation(mutations.updateTest, {
