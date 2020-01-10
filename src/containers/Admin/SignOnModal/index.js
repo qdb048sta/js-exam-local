@@ -100,7 +100,4 @@ const mapDispatchToProps = dispatch => ({
   deleteExpiredRoomsAction: () => dispatch(deleteExpiredRoomsAction()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SignOnModal);
+export default connect(mapStateToProps, mapDispatchToProps)(SignOnModal);
