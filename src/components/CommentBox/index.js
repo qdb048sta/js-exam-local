@@ -1,9 +1,10 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, Rate } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
 import Field from 'redux-form/es/Field';
-import { RfTextArea } from 'components/RfInput';
+import { Fields } from 'redux-form';
+import { RfTextArea, RfTest } from 'components/RfInput';
 
 class CommentBox extends React.Component {
   constructor(props) {
@@ -26,10 +27,9 @@ class CommentBox extends React.Component {
         >
           <h1>Write a Summary</h1>
           <form onSubmit={this.submitForm}>
-            <Field
-              name="content"
-              component={RfTextArea}
-              placeholder="Enter Summary"
+            <Fields
+              names={['rate.tech', 'rate.complete', 'text']}
+              component={RfTest}
             />
             <Button htmlType="submit"> Add Summary </Button>
           </form>
