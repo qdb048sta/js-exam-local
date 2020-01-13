@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Comment, Avatar, List } from 'antd';
+import { Modal, Comment, Avatar, List, Rate } from 'antd';
 
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 const Summary = ({ summaryList, visible, onCancel }) => (
   <Modal
     title={`${summaryList.length} summary`}
@@ -18,11 +19,26 @@ const SummaryList = ({ data }) => (
     itemLayout="horizontal"
     dataSource={data}
     renderItem={item => (
-      <Comment
-        author={item.author}
-        content={item.content}
-        avatar={<Avatar>{item.author[0].toUpperCase()}</Avatar>}
-      />
+      <React.Fragment>
+        Technical Skill{' '}
+        <Rate
+          disabled
+          tooltips={desc}
+          defaultValue={JSON.parse(item.content).input.rate.tech}
+        />
+        <br />
+        Completeness{' '}
+        <Rate
+          disabled
+          tooltips={desc}
+          defaultValue={JSON.parse(item.content).input.rate.complete}
+        />
+        <Comment
+          author={item.author}
+          content={JSON.parse(item.content).input.text}
+          avatar={<Avatar>{item.author[0].toUpperCase()}</Avatar>}
+        />
+      </React.Fragment>
     )}
   />
 );
