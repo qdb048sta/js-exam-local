@@ -1,10 +1,9 @@
 import React from 'react';
-import { Modal, Button, Rate } from 'antd';
+import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
-import Field from 'redux-form/es/Field';
 import { Fields } from 'redux-form';
-import { RfTextArea, RfTest } from 'components/RfInput';
+import { RfSummary } from 'components/RfInput';
 
 class CommentBox extends React.Component {
   constructor(props) {
@@ -16,7 +15,7 @@ class CommentBox extends React.Component {
   }
 
   render() {
-    const { visible, setVisible } = this.props;
+    const { visible } = this.props;
     return (
       <>
         <Modal
@@ -29,7 +28,7 @@ class CommentBox extends React.Component {
           <form onSubmit={this.submitForm}>
             <Fields
               names={['rate.tech', 'rate.complete', 'text']}
-              component={RfTest}
+              component={RfSummary}
             />
             <Button htmlType="submit"> Add Summary </Button>
           </form>

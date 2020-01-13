@@ -311,11 +311,13 @@ class Page extends Component {
 
   onCreateComment = async data => {
     const { id } = this.props.record;
-    const { content } = data.input;
+    const { rate, text } = data.input;
     const params = {
       commentRecordId: id,
       author: User.getUserName(),
-      content,
+      rateTech: rate.tech,
+      rateComplete: rate.complete,
+      text: text,
     };
     await createComment(params);
     message.success('Add Comment successfully');

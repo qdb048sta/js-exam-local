@@ -2,12 +2,14 @@ import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
 
 const createComment = async commentData => {
-  const { author, content, commentRecordId } = commentData;
+  const { commentRecordId, author, rateTech, rateComplete, text } = commentData;
   const params = {
     input: {
-      author,
-      content,
       commentRecordId,
+      author,
+      rateTech,
+      rateComplete,
+      text,
       time: new Date(),
     },
   };
