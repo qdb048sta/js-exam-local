@@ -24,14 +24,14 @@ const SummaryList = ({ data }) => (
         <Rate
           disabled
           tooltips={desc}
-          defaultValue={JSON.parse(item.content).input.rate.tech}
+          value={JSON.parse(item.content).input.rate.tech}
         />
         <br />
         Completeness{' '}
         <Rate
           disabled
           tooltips={desc}
-          defaultValue={JSON.parse(item.content).input.rate.complete}
+          value={JSON.parse(item.content).input.rate.complete}
         />
         <Comment
           author={item.author}
