@@ -25,12 +25,9 @@ const CandidateListPage = () => (
     {({ data: { listTests: tests }, loading, error }) => {
       let testsDate = [];
       if (tests) {
-        testsDate = tests.items.map(
-          test => test.timeBegin && test.timeBegin.slice(0, 10),
-        );
-        testsDate = testsDate.filter(
-          (ele, index, self) => ele && self.indexOf(ele) === index,
-        );
+        testsDate = tests.items
+          .map(test => test.timeBegin && test.timeBegin.slice(0, 10))
+          .filter((ele, index, self) => ele && self.indexOf(ele) === index);
       }
       return (
         <PageSpin spinning={loading}>

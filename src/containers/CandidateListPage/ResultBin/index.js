@@ -16,21 +16,6 @@ import TestList from '../TestList';
 
 const Panel = Collapse.Panel;
 
-const Months = [
-  'Jan.',
-  'Feb.',
-  'Mar.',
-  'Apr.',
-  'May',
-  'Jun.',
-  'Jul.',
-  'Aug.',
-  'Sep.',
-  'Oct.',
-  'Nov.',
-  'Dec.',
-];
-
 const byTime = ascending => (a, b) => {
   let result;
 
@@ -46,16 +31,15 @@ const byTime = ascending => (a, b) => {
   return ascending ? result : result * -1;
 };
 
-function getFullDate(dateOb) {
-  return `${Months[dateOb.getMonth()]} 
-    ${dateOb.getDate()}, 
-    ${dateOb.getFullYear()}`;
-}
-
 const isValid = variable => {
   if (variable === undefined || variable === null) return false;
   return true;
 };
+
+function scrollToPanel(key) {
+  if (!key) return;
+  document.getElementById(key).scrollIntoView({});
+}
 
 const ResultBin = ({ testsDate }) => {
   let currentD;
@@ -65,13 +49,13 @@ const ResultBin = ({ testsDate }) => {
   testsDate.sort(byTime(false));
 
   return testsDate ? (
-    <Collapse accordion>
+    <Collapse accordion onChange={scrollToPanel}>
       {testsDate.map((testDate, i) => {
         if (testDate) {
           currentT = new Date(testDate);
-          currentD = getFullDate(currentT);
+          currentD = moment(testDate).format('MMM. DD, YYYY');
           return (
-            <Panel header={currentD} key={testDate}>
+            <Panel header={currentD} key={testDate} id={testDate}>
               {
                 <Connect
                   query={graphqlOperation(listTests, {
