@@ -42,8 +42,6 @@ function scrollToPanel(key) {
 }
 
 const ResultBin = ({ testsDate }) => {
-  let currentD;
-  let currentT;
   let sortedTests;
 
   testsDate.sort(byTime(false));
@@ -52,17 +50,23 @@ const ResultBin = ({ testsDate }) => {
     <Collapse accordion onChange={scrollToPanel}>
       {testsDate.map((testDate, i) => {
         if (testDate) {
-          currentT = new Date(testDate);
-          currentD = moment(testDate).format('MMM. DD, YYYY');
+          const dayBeginUTC = moment(testDate).toISOString();
+          const dayEndUTC = moment(testDate)
+            .add(1, 'days')
+            .toISOString();
           return (
-            <Panel header={currentD} key={testDate} id={testDate}>
+            <Panel
+              header={moment(testDate).format('MMM. DD, YYYY')}
+              key={testDate}
+              id={testDate}
+            >
               {
                 <Connect
                   query={graphqlOperation(listTests, {
                     limit: 2000,
                     filter: {
                       timeBegin: {
-                        beginsWith: testDate,
+                        between: [dayBeginUTC, dayEndUTC],
                       },
                     },
                   })}
