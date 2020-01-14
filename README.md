@@ -25,6 +25,10 @@ install `node.js`
 `npm run format`
 
 
+### Test
+
+`npm run test`
+
 
 ## Built With
 
