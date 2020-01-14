@@ -24,18 +24,18 @@ const SummaryList = ({ data }) => (
         <Rate
           disabled
           tooltips={desc}
-          value={JSON.parse(item.content).input.rate.tech}
+          value={JSON.parse(item.content).input.rateTech}
         />
         <br />
         Completeness{' '}
         <Rate
           disabled
           tooltips={desc}
-          value={JSON.parse(item.content).input.rate.complete}
+          value={JSON.parse(item.content).input.rateComplete}
         />
         <Comment
           author={item.author}
-          content={JSON.parse(item.content).input.text}
+          content={JSON.parse(item.content).input.summary}
           avatar={<Avatar>{item.author[0].toUpperCase()}</Avatar>}
         />
       </React.Fragment>
