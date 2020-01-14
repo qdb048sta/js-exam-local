@@ -1,5 +1,14 @@
 import React from 'react';
+import { Connect } from 'aws-amplify-react';
+import { graphqlOperation } from 'aws-amplify';
+import moment from 'moment';
+
+import { listTests } from 'graphql/queries';
+import { onCreateTest, onDeleteTest } from 'graphql/subscriptions';
 import PropTypes from 'prop-types';
+
+import PageEmpty from 'components/PageEmpty';
+import PageSpin from 'components/PageSpin';
 
 import { Collapse } from 'antd';
 
@@ -29,8 +38,8 @@ const byTime = ascending => (a, b) => {
     if (a === null) result = 1;
     else if (b === null) result = -1;
   } else {
-    const A = new Date(a.timeBegin).getTime();
-    const B = new Date(b.timeBegin).getTime();
+    const A = new Date(a.timeBegin || a).getTime();
+    const B = new Date(b.timeBegin || b).getTime();
     result = A - B;
   }
 
@@ -48,39 +57,90 @@ const isValid = variable => {
   return true;
 };
 
-const ResultBin = ({ tests }) => {
+const ResultBin = ({ testsDate }) => {
   let currentD;
   let currentT;
-  let nextD;
-  let head;
   let sortedTests;
 
-  if (tests) {
-    sortedTests = tests.filter(test => isValid(test)).sort(byTime(false));
-  }
+  testsDate.sort(byTime(false));
 
-  return sortedTests ? (
+  return testsDate ? (
     <Collapse accordion>
-      {sortedTests.map((test, i) => {
-        if (test !== null) {
-          currentT = new Date(test.timeBegin);
+      {testsDate.map((testDate, i) => {
+        if (testDate) {
+          currentT = new Date(testDate);
           currentD = getFullDate(currentT);
+          return (
+            <Panel header={currentD} key={testDate}>
+              {
+                <Connect
+                  query={graphqlOperation(listTests, {
+                    limit: 2000,
+                    filter: {
+                      timeBegin: {
+                        beginsWith: testDate,
+                      },
+                    },
+                  })}
+                  subscription={graphqlOperation(onCreateTest)}
+                  onSubscriptionMsg={(prev, { onCreateTest: createdTest }) => {
+                    if (
+                      testDate === moment().format('YYYY-MM-DD') &&
+                      prev.listTests.items[0].id !== createdTest.id
+                    ) {
+                      prev.listTests.items.unshift(createdTest);
+                    }
+                    return prev;
+                  }}
+                >
+                  {({ data: { listTests: tests }, loading, error }) => (
+                    <Connect
+                      subscription={graphqlOperation(onDeleteTest)}
+                      onSubscriptionMsg={(
+                        prev,
+                        { onDeleteTest: deletedTest },
+                      ) => deletedTest}
+                    >
+                      {({ data: deletedTest, loading2, error2 }) => {
+                        if (deletedTest.id) {
+                          const delTestIndex = tests.items.findIndex(
+                            test => test && test.id === deletedTest.id,
+                          );
+                          if (delTestIndex !== -1) {
+                            tests.items.splice(delTestIndex, 1);
+                          }
+                        }
+                        sortedTests =
+                          tests &&
+                          tests.items
+                            .filter(test => isValid(test))
+                            .sort(byTime(false));
+                        return (
+                          <PageSpin spinning={loading}>
+                            {!loading && (error || error2) && (
+                              <PageEmpty
+                                description={<span>Error Occuring</span>}
+                              />
+                            )}
 
-          if (head === undefined) head = i;
-
-          if (isValid(sortedTests[i + 1])) {
-            nextD = getFullDate(new Date(sortedTests[i + 1].timeBegin));
-          }
-
-          if (nextD !== currentD || !isValid(sortedTests[i + 1])) {
-            const dataOfDay = sortedTests.slice(head, i + 1);
-            head = i + 1;
-            return (
-              <Panel header={currentD} key={test.id}>
-                <TestList data={dataOfDay} />
-              </Panel>
-            );
-          }
+                            {!loading && !tests && (
+                              <PageEmpty
+                                description={<span>Data Not Found</span>}
+                                image="default"
+                              />
+                            )}
+                            {!loading && sortedTests && (
+                              <TestList data={sortedTests} />
+                            )}
+                          </PageSpin>
+                        );
+                      }}
+                    </Connect>
+                  )}
+                </Connect>
+              }
+            </Panel>
+          );
         }
         return null;
       })}
@@ -89,7 +149,7 @@ const ResultBin = ({ tests }) => {
 };
 
 ResultBin.propTypes = {
-  tests: PropTypes.array,
+  testsDate: PropTypes.array,
 };
 
 export default ResultBin;
