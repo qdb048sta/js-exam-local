@@ -2,13 +2,14 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
-import { Fields, Field } from 'redux-form';
-import { RfSummary, RfRate, RfTextArea } from 'components/RfInput';
+import { Field } from 'redux-form';
+import { RfRate, RfTextArea } from 'components/RfInput';
 
 const validate = values => {
   console.log(values);
   const errors = {};
   if (!values.rateTech) errors.rateTech = 'Techical Rate Required';
+  if (!values.rateDetail) errors.rateDetail = 'Detail Rate Required';
   if (!values.rateComplete) errors.rateComplete = 'Completenes Rate Required';
   if (!values.summary) errors.summary = 'Summary Required';
   return errors;
@@ -35,18 +36,19 @@ class CommentBox extends React.Component {
         >
           <h1>Write a Summary</h1>
           <form onSubmit={this.submitForm}>
-            {/* <Fields
-              names={['rate.tech', 'rate.complete', 'text']}
-              component={RfSummary}
-            /> */}
             <Field name="rateTech" component={RfRate} label="Technical Skill" />
+            <Field
+              name="rateDetail"
+              component={RfRate}
+              label="Detail Oriented"
+            />
             <Field
               name="rateComplete"
               component={RfRate}
               label="Completeness"
             />
             <Field name="summary" component={RfTextArea} />
-            <Button htmlType="submit"> Add Summary </Button>
+            <Button htmlType="submit"> Add Review </Button>
           </form>
         </Modal>
       </>
