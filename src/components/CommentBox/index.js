@@ -11,7 +11,6 @@ const validate = values => {
   if (!values.rateTech) errors.rateTech = 'Techical Rate Required';
   if (!values.rateDetail) errors.rateDetail = 'Detail Rate Required';
   if (!values.rateComplete) errors.rateComplete = 'Completenes Rate Required';
-  if (!values.summary) errors.summary = 'Summary Required';
   return errors;
 };
 

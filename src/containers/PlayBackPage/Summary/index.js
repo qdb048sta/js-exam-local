@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Comment, Avatar, List, Rate } from 'antd';
+import { Modal, Comment, Avatar, List, Rate, Row, Col } from 'antd';
 
 const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 const Summary = ({ summaryList, visible, onCancel }) => (
@@ -20,19 +20,36 @@ const SummaryList = ({ data }) => (
     dataSource={data}
     renderItem={item => (
       <React.Fragment>
-        Technical Skill{' '}
-        <Rate
-          disabled
-          tooltips={desc}
-          value={JSON.parse(item.content).input.rateTech}
-        />
-        <br />
-        Completeness{' '}
-        <Rate
-          disabled
-          tooltips={desc}
-          value={JSON.parse(item.content).input.rateComplete}
-        />
+        <Row type="flex" align="middle">
+          <Col span={6}>Technical Skill</Col>
+          <Col span={18}>
+            <Rate
+              disabled
+              tooltips={desc}
+              value={JSON.parse(item.content).input.rateTech}
+            />
+          </Col>
+        </Row>
+        <Row type="flex" align="middle">
+          <Col span={6}>Detail Oriented</Col>
+          <Col span={18}>
+            <Rate
+              disabled
+              tooltips={desc}
+              value={JSON.parse(item.content).input.rateDetail}
+            />
+          </Col>
+        </Row>
+        <Row type="flex" align="middle">
+          <Col span={6}>Completeness</Col>
+          <Col span={18}>
+            <Rate
+              disabled
+              tooltips={desc}
+              value={JSON.parse(item.content).input.rateComplete}
+            />
+          </Col>
+        </Row>
         <Comment
           author={item.author}
           content={JSON.parse(item.content).input.summary}
