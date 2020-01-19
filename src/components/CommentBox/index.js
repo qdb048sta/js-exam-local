@@ -3,7 +3,14 @@ import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
 import { Field } from 'redux-form';
-import { RfRate, RfTextArea } from 'components/RfInput';
+import { RfRate, RfTextArea, CheckboxGroup } from 'components/RfInput';
+// import CheckboxGroup from 'antd/lib/checkbox/Group';
+
+let optionsList = [
+  { id: 1, name: 'Optoin1' },
+  { id: 2, name: 'Option 2' },
+  { id: 3, name: 'Option 3' },
+];
 
 const validate = values => {
   console.log(values);
@@ -47,6 +54,12 @@ class CommentBox extends React.Component {
               label="Completeness"
             />
             <Field name="summary" component={RfTextArea} />
+            <Field
+              name="tags"
+              type="checkbox"
+              component={CheckboxGroup}
+              options={optionsList}
+            />
             <Button htmlType="submit"> Add Review </Button>
           </form>
         </Modal>
