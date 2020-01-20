@@ -1,11 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Border from './Border';
 import styles from './Grid.module.scss';
 
 export default class Grid extends React.Component {
+  static propTypes = {
+    layout: PropTypes.array,
+    totalWidth: PropTypes.string,
+    totalHeight: PropTypes.string,
+    autoResize: PropTypes.bool,
+    borderSize: PropTypes.number,
+  };
+
   constructor(props) {
     super(props);
     const { layout, borderSize } = this.props;
+
     this.ref = React.createRef();
     this.borderSize = borderSize || 5;
     this.layout = layout;

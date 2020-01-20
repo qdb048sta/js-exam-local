@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`runCode spec should wrap code correctly 1`] = `
+"\\"use strict\\";/**
+ * Implement the function 'sequential'
+ * to execute async functions in sequence.
+ *
+ * 'sequential' takes an array of async functions as parameter,
+ * and execute each of them after previous one has done.
+ */ 
+/**
+ * Implement function body
+ */
+function sequential() {
+  var tasks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+}"
+`;
+
+exports[`runCode spec should wrap loop code correctly 1`] = `
+"\\"use strict\\"; 
+/**
+ * Implement function body
+ */
+function loop(n) {
+  let __jsExamCount__ = 0;
+      const __jsExamDetector__ = (c) => {
+        if (c > 100000) {
+          throw new Error('infinite');
+        }
+      }
+      for (let i = 0; i < n; i++) {
+      __jsExamDetector__(__jsExamCount__++);
+     
+  }
+}"
+`;
