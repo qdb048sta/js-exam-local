@@ -3,17 +3,18 @@ import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
 import { Field } from 'redux-form';
-import { RfRate, RfTextArea, CheckboxGroup } from 'components/RfInput';
+import { RfRate, RfTextArea, CheckTagGroup } from 'components/RfInput';
 // import CheckboxGroup from 'antd/lib/checkbox/Group';
 
 let optionsList = [
-  { id: 1, name: 'Optoin1' },
-  { id: 2, name: 'Option 2' },
-  { id: 3, name: 'Option 3' },
+  { id: 1, name: 'Good Commuicator' },
+  { id: 2, name: 'Poor Communicator' },
+  { id: 3, name: 'Lack of Confidence' },
+  { id: 4, name: 'Unnecessarily Confident' },
+  { id: 5, name: 'Lack of Interaction' },
 ];
 
 const validate = values => {
-  console.log(values);
   const errors = {};
   if (!values.rateTech) errors.rateTech = 'Techical Rate Required';
   if (!values.rateDetail) errors.rateDetail = 'Detail Rate Required';
@@ -40,8 +41,8 @@ class CommentBox extends React.Component {
           closable={false}
           maskClosable={false}
         >
-          <h1>Write a Summary</h1>
           <form onSubmit={this.submitForm}>
+            <h1>Rate the Problem</h1>
             <Field name="rateTech" component={RfRate} label="Technical Skill" />
             <Field
               name="rateDetail"
@@ -54,12 +55,16 @@ class CommentBox extends React.Component {
               label="Completeness"
             />
             <Field name="summary" component={RfTextArea} />
-            <Field
-              name="tags"
-              type="checkbox"
-              component={CheckboxGroup}
-              options={optionsList}
-            />
+            <h1>Overall Review</h1>
+            <div>
+              <Field
+                name="tags"
+                type="checkbox"
+                component={CheckTagGroup}
+                options={optionsList}
+              />
+            </div>
+
             <Button htmlType="submit"> Add Review </Button>
           </form>
         </Modal>

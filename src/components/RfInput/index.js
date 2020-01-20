@@ -10,7 +10,7 @@ const RfInput = ({ input, ...custom }) => <Input {...input} {...custom} />;
 
 const RfTextArea = ({ input, label, meta: { touched, error } }) => (
   <div>
-    <TextArea {...input} />
+    <TextArea {...input} rows={3} placeholder="Write your opinion..." />
   </div>
 );
 
@@ -31,43 +31,37 @@ const RfRate = ({ input, label, type, meta: { touched, error } }) => (
   </Row>
 );
 
-const RfTag = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <CheckableTag {...input} />
-  </div>
-);
-
-class CheckboxGroup extends React.Component {
-  checkboxGroup() {
+class CheckTagGroup extends React.Component {
+  checkTagGroup() {
     let { label, required, options, input, meta } = this.props;
     return options.map((option, index) => {
       return (
-        <div className="checkbox" key={index}>
+        <span className="checkTag" key={index}>
           <label>
-            <input
-              type="checkbox"
-              name={`${input.name}[${index}]`}
-              value={option.name}
+            <CheckableTag
               checked={input.value.indexOf(option.name) !== -1}
-              onChange={event => {
+              value={option.name}
+              onChange={checked => {
                 const newValue = [...input.value];
-                if (event.target.checked) {
+                if (checked) {
                   newValue.push(option.name);
                 } else {
                   newValue.splice(newValue.indexOf(option.name), 1);
                 }
                 return input.onChange(newValue);
               }}
-            />
-            {option.name}
+              style={{ border: '1px solid' }}
+            >
+              {option.name}
+            </CheckableTag>
           </label>
-        </div>
+        </span>
       );
     });
   }
   render() {
-    return <div>{this.checkboxGroup()}</div>;
+    return <span>{this.checkTagGroup()}</span>;
   }
 }
 
-export { RfTextArea, RfInput, RfRate, CheckboxGroup };
+export { RfTextArea, RfInput, RfRate, CheckTagGroup };
