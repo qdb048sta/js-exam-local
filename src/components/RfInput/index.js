@@ -5,7 +5,10 @@ import { rateTips } from './constants';
 const { TextArea } = Input;
 const { CheckableTag } = Tag;
 const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-
+const style = {
+  color: 'red',
+  background: '#fff1f0',
+};
 const RfInput = ({ input, ...custom }) => <Input {...input} {...custom} />;
 
 const RfTextArea = ({ input, label, meta: { touched, error } }) => (
@@ -50,7 +53,16 @@ class CheckTagGroup extends React.Component {
                 }
                 return input.onChange(newValue);
               }}
-              style={{ border: '1px solid' }}
+              style={
+                !option.analysis && input.value.indexOf(option.name) !== -1
+                  ? {
+                      border: '1px solid',
+                      marginBottom: '8px',
+                      color: 'red',
+                      background: '#fff1f0',
+                    }
+                  : { border: '1px solid', marginBottom: '8px' }
+              }
             >
               {option.name}
             </CheckableTag>
