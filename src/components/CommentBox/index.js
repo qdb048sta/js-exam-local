@@ -2,8 +2,25 @@ import React from 'react';
 import { Modal, Button } from 'antd';
 import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
-import Field from 'redux-form/es/Field';
-import { RfTextArea } from 'components/RfInput';
+import { Field } from 'redux-form';
+import { RfRate, RfTextArea, CheckTagGroup } from 'components/RfInput';
+// import CheckboxGroup from 'antd/lib/checkbox/Group';
+
+let optionsList = [
+  { id: 1, name: 'Good Commuicator' },
+  { id: 2, name: 'Poor Communicator' },
+  { id: 3, name: 'Lack of Confidence' },
+  { id: 4, name: 'Unnecessarily Confident' },
+  { id: 5, name: 'Lack of Interaction' },
+];
+
+const validate = values => {
+  const errors = {};
+  if (!values.rateTech) errors.rateTech = 'Techical Rate Required';
+  if (!values.rateDetail) errors.rateDetail = 'Detail Rate Required';
+  if (!values.rateComplete) errors.rateComplete = 'Completenes Rate Required';
+  return errors;
+};
 
 class CommentBox extends React.Component {
   constructor(props) {
@@ -15,18 +32,40 @@ class CommentBox extends React.Component {
   }
 
   render() {
-    const { visible, setVisible } = this.props;
+    const { visible } = this.props;
     return (
       <>
-        <Modal visible={visible} footer={false} onCancel={setVisible}>
-          <h1>Write a Summary</h1>
+        <Modal
+          visible={visible}
+          footer={false}
+          closable={false}
+          maskClosable={false}
+        >
           <form onSubmit={this.submitForm}>
+            <h1>Rate the Problem</h1>
+            <Field name="rateTech" component={RfRate} label="Technical Skill" />
             <Field
-              name="content"
-              component={RfTextArea}
-              placeholder="Enter Summary"
+              name="rateDetail"
+              component={RfRate}
+              label="Detail Oriented"
             />
-            <Button htmlType="submit"> Add Summary </Button>
+            <Field
+              name="rateComplete"
+              component={RfRate}
+              label="Completeness"
+            />
+            <Field name="summary" component={RfTextArea} />
+            <h1>Overall Review</h1>
+            <div>
+              <Field
+                name="tags"
+                type="checkbox"
+                component={CheckTagGroup}
+                options={optionsList}
+              />
+            </div>
+
+            <Button htmlType="submit"> Add Review </Button>
           </form>
         </Modal>
       </>
@@ -44,4 +83,5 @@ export default reduxForm({
   // pass from parent for embed same form multiple times
   // https://stackoverflow.com/questions/37456526/how-to-embed-the-same-redux-form-multiple-times-on-a-page/37464048#37464048
   form: 'InterviewerComment',
+  validate,
 })(CommentBox);
