@@ -46,16 +46,16 @@ const DescriptionRow = ({ description }) => (
   <div className={styles.description}>{description}</div>
 );
 
-const getRow = row => {
+const getRow = (row, index) => {
   switch (row.type) {
     case 'test':
-      return <TestRow key={inspect(row)} {...row} />;
+      return <TestRow key={inspect(row + index)} {...row} />;
     case 'assert':
-      return <AssertRow key={inspect(row)} {...row} />;
+      return <AssertRow key={inspect(row + index)} {...row} />;
     case 'end':
-      return <EndRow key={inspect(row)} {...row} />;
+      return <EndRow key={inspect(row + index)} {...row} />;
     case undefined && typeof row === 'string':
-      return <DescriptionRow description={row} key={row} />;
+      return <DescriptionRow description={row} key={row + index} />;
     default:
       return null;
   }

@@ -8,6 +8,7 @@ import debouncedRunCode from 'utils/runCode';
 import ControlWidget from 'components/Widgets/ControlWidget/EditQuestionsPage';
 import ReactPage from './ReactPage';
 import JavaScriptPage from './JavaScriptPage';
+import ConceptPage from './ConceptPage';
 
 import {
   createQuestionAction,
@@ -16,11 +17,15 @@ import {
   fetchQuestionList,
   fetchQuestion,
 } from '../../redux/question/actions';
+import { QUESTION_TYPE } from '../ExamPage/constants';
 
 const getPageComponent = args => {
   switch (args.categoryIndex) {
     case 1: {
       return <ReactPage {...args} />;
+    }
+    case 2: {
+      return <ConceptPage {...args} />;
     }
     default: {
       return <JavaScriptPage {...args} />;
@@ -81,22 +86,21 @@ class Page extends Component {
 
   getQuestionList = async () => {
     const { categoryIndex } = this.state;
-    await this.props.actions.fetchQuestionList(
-      categoryIndex === 0 ? 'javascript' : 'react',
-    );
+    await this.props.actions.fetchQuestionList(QUESTION_TYPE[categoryIndex]);
   };
 
   onChangeQuestion = async questionIndex => {
     const { id } = this.props.question.list[questionIndex];
     this.setState({ isLoading: true, questionIndex });
     await this.props.actions.fetchQuestion(id);
-    const { tags, content: code, test } = this.props.question;
+    const { tags, content: code, test, name } = this.props.question;
     this.setState({
       tags,
       code,
       test,
       isLoading: false,
       id,
+      name,
     });
   };
 
@@ -115,7 +119,7 @@ class Page extends Component {
           name,
           content,
           test,
-          type: categoryIndex === 0 ? 'javascript' : 'react',
+          type: QUESTION_TYPE[categoryIndex],
         });
 
         this.setState({
@@ -133,6 +137,7 @@ class Page extends Component {
         tags,
         content,
         test,
+        name,
       });
     }
     this.setState({ isLoading: false });
@@ -206,9 +211,7 @@ class Page extends Component {
   onSync = async () => {
     const { categoryIndex } = this.state;
     this.setState({ isLoading: true });
-    await this.props.actions.fetchQuestionList(
-      categoryIndex === 0 ? 'javascript' : 'react',
-    );
+    await this.props.actions.fetchQuestionList(QUESTION_TYPE[categoryIndex]);
     this.setState({ isLoading: false });
   };
 
@@ -256,8 +259,8 @@ const mapDispatchToProps = dispatch => {
       createQuestionAction: async type => {
         await dispatch(createQuestionAction(type));
       },
-      updateQuestionAction: async id => {
-        await dispatch(updateQuestionAction(id));
+      updateQuestionAction: async data => {
+        await dispatch(updateQuestionAction(data));
       },
       deleteQuestionAction: async type => {
         await dispatch(deleteQuestionAction(type));
