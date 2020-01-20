@@ -20,6 +20,8 @@ const listTestsDateQl = `query ListTests(
   }
 }`;
 
+const style = { minHeight: '90vh' };
+
 const CandidateListPage = () => (
   <Connect query={graphqlOperation(listTestsDateQl, { limit: 2000 })}>
     {({ data: { listTests: tests }, loading, error }) => {
@@ -31,6 +33,7 @@ const CandidateListPage = () => (
       }
       return (
         <PageSpin spinning={loading}>
+          {loading && <div style={style} />}
           {!loading && error && (
             <PageEmpty description={<span>Error Occuring</span>} />
           )}

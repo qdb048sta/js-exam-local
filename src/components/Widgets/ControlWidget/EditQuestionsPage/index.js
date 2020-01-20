@@ -98,7 +98,7 @@ ControlWidget.propTypes = {
   onChangeCategory: PropTypes.func,
   onChangeQuestion: PropTypes.func,
   questionList: PropTypes.array,
-  disableSubmit: PropTypes.func,
+  disableSubmit: PropTypes.bool,
 };
 
 export default ControlWidget;
