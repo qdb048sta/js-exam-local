@@ -429,6 +429,8 @@ class Page extends Component {
           onSubmit={this.onCreateComment}
           visible={commentBoxVisible}
           setVisible={setCommentBox}
+          overallData={[1, 2, 3]}
+          // todo:data here
         />
         <Modal
           title=""

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import reduxForm from 'redux-form/es/reduxForm';
 import { Field } from 'redux-form';
 import { RfRate, RfTextArea, CheckTagGroup } from 'components/RfInput';
+
 // import CheckboxGroup from 'antd/lib/checkbox/Group';
 
 let optionsList = [
@@ -30,7 +31,9 @@ class CommentBox extends React.Component {
       this.props.reset(); // reset form after submitting
     });
   }
-
+  componentWillMount() {
+    this.props.initialize({ tags: ['Lack of Confidence'] });
+  }
   render() {
     const { visible } = this.props;
     return (
@@ -62,6 +65,7 @@ class CommentBox extends React.Component {
                 type="checkbox"
                 component={CheckTagGroup}
                 options={optionsList}
+                defaultValue={['Lack of Confidence']}
               />
             </div>
 
