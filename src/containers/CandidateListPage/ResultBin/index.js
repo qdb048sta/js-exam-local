@@ -3,14 +3,14 @@ import { Connect } from 'aws-amplify-react';
 import { graphqlOperation } from 'aws-amplify';
 import moment from 'moment';
 
-import { listTests } from 'graphql/queries';
-import { onCreateTest, onDeleteTest } from 'graphql/subscriptions';
 import PropTypes from 'prop-types';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
 
 import { Collapse } from 'antd';
+
+import { listTests, onCreateTest, onDeleteTest } from './graphql';
 
 import TestList from '../TestList';
 
