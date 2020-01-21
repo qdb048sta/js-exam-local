@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import vm from 'vm';
-import runCode, { wrapCode } from '../../src/utils/runCode';
+import runCode, { wrapCode } from '../../utils/runCode';
 
 describe('runCode spec', () => {
   const testCode =

@@ -85,7 +85,7 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build -r git@github.com:innovap3/js-exam.git",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "test": "jest"
+    "test": "react-scripts test"
   },
   "browserslist": [
     ">0.2%",
@@ -97,5 +97,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "jest": {
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
   }
 }

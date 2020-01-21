@@ -2,7 +2,7 @@
 
 exports[`Border index spec should render border component properly 1`] = `
 <div
-  class="undefined  undefined undefined"
+  class="border  horizontal vertical"
   style="width: 1px; height: 10px; padding-right: 1px; padding-bottom: 1px;"
 />
 `;
