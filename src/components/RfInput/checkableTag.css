@@ -1,0 +1,3 @@
+.my-check-tag.ant-tag-checkable:not(.ant-tag-checkable-checked):hover{
+    color: red
+}
