@@ -56,14 +56,12 @@ class CheckTagGroup extends React.Component {
                   ? {
                       border: '1px solid',
                       marginBottom: '8px',
-                      color: 'red',
-                      background: '#fff1f0',
+                      color: '#fff',
+                      background: '#ff4d4f',
                     }
                   : {
                       border: '1px solid',
                       marginBottom: '8px',
-                      transition: 'ease .5s',
-                      ':hover': { color: '#ccc' },
                     }
               }
             >
