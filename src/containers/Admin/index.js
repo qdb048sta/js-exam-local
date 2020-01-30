@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withAuthenticator } from 'aws-amplify-react';
-import { checkPermission } from 'utils/auth';
+import { checkPermission } from 'utils/auth/auth';
 
 import NotFoundPage from 'containers/NotFoundPage';
 import Header from './Header';
