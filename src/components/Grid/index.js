@@ -1,5 +1,5 @@
 import React from 'react';
-import Border from 'components/Border';
+import Border from './Border';
 import styles from './Grid.module.scss';
 
 export default class Grid extends React.Component {
@@ -7,7 +7,7 @@ export default class Grid extends React.Component {
     super(props);
     const { layout, borderSize } = this.props;
     this.ref = React.createRef();
-    this.borderSize = borderSize || 10;
+    this.borderSize = borderSize || 5;
     this.layout = layout;
     this.columns = layout
       .reduce((cal, item) => {
@@ -128,7 +128,12 @@ export default class Grid extends React.Component {
         ref={this.ref}
       >
         {columns.map((column, indexOfColumn) => {
-          const maxWidth = Math.max(...column.map(item => item.maxWidth || 0));
+          const maxWidth = Math.max(
+            ...column.map(
+              item =>
+                (item.width > item.maxWidth ? item.width : item.maxWidth) || 0,
+            ),
+          );
           const minWidth = Math.min(
             ...column.map(item => item.minWidth || 999999),
           );

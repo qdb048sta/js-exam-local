@@ -2,7 +2,7 @@
   "name": "js-exam",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jeno5980515.github.io/js-exam/",
+  "homepage": "https://innovap3.github.io/js-exam/",
   "repository": {
     "type": "git",
     "url": "git@github.com:innovap3/js-exam.git"
@@ -20,10 +20,12 @@
     "@babel/register": "7.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
-    "babel-loader": "8.0.4",
+    "babel-plugin-import": "^1.11.0",
     "babel-plugin-lodash": "3.3.4",
     "cross-env": "^5.2.0",
-    "eslint": "5.6.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.3",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-config-prettier": "3.1.0",
@@ -32,12 +34,14 @@
     "eslint-plugin-prettier": "3.0.0",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-redux-saga": "0.9.0",
-    "node-sass": "^4.9.4"
+    "node-sass": "^4.13.0",
+    "prettier": "1.19.1",
+    "react-test-renderer": "^16.12.0"
   },
   "dependencies": {
     "@babel/standalone": "^7.1.0",
     "@sentry/browser": "^4.3.0",
-    "antd": "^3.10.2",
+    "antd": "^3.12.4",
     "aws-amplify": "^1.1.9",
     "aws-amplify-react": "^2.1.3",
     "blueimp-md5": "^2.10.0",
@@ -47,9 +51,11 @@
     "gh-pages": "^2.0.0",
     "history": "^4.7.2",
     "hoist-non-react-statics": "^3.2.1",
-    "idb": "^2.1.3",
+    "husky": "^3.1.0",
     "invariant": "^2.2.4",
-    "lodash": "4.17.11",
+    "lint-staged": "^9.5.0",
+    "lodash": "^4.17.15",
+    "node-sass": "^4.13.0",
     "prop-types": "15.6.2",
     "react": "16.6.0",
     "react-ace": "^6.2.0",
@@ -57,24 +63,40 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "4.3.1",
     "react-scripts": "^2.1.1",
+    "react-stonecutter": "^0.3.9",
     "redux": "4.0.1",
     "redux-form": "^8.1.0",
-    "redux-saga": "0.16.2",
     "redux-thunk": "^2.3.0",
     "sinon": "^2.3.5",
+    "source-map-explorer": "^2.1.2",
     "tape": "^4.9.1",
     "tape-dom": "0.0.12"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,html,scss}": [
+      "npm run format",
+      "git add"
+    ]
+  },
   "scripts": {
+    "format": "prettier \"src/**/*.{js,jsx,html,scss}\" --write",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
     "start": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 start",
     "build": "cross-env NODE_PATH=src/ react-scripts --max_old_space_size=4096 build",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build -r git@github.com:innovap3/js-exam.git",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "test": "jest"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }

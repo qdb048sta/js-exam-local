@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.column.createRoom {
+  height: calc(100vh - 48px);
+  width: 50%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 50px;
+}

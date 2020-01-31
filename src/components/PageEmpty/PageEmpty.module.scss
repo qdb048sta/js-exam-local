@@ -1,0 +1,11 @@
+.empty {
+  display: flex;
+  height: 90vh;
+  flex-direction: column;
+  justify-content: center;
+
+  :global(.ant-empty-description) {
+    margin-top: 5px;
+    font-size: 20px;
+  }
+}

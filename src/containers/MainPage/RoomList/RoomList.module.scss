@@ -1,0 +1,49 @@
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.list {
+  list-style-type: none;
+}
+
+.listItem {
+  border-radius: 10px;
+
+  .tag {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+  }
+}
+
+.cover {
+  padding: 10px;
+  font-size: 25px;
+  color: #000;
+  text-align: center;
+  background-color: #eee;
+  position: relative;
+
+  .room {
+    display: block;
+    color: #333;
+    font-size: 16px;
+  }
+  .floatTop {
+    position: absolute;
+    right: 3%;
+    top: 5%;
+    font-size: 16px;
+  }
+  .floatTop:hover {
+    transition: all 0.1s ease-in-out;
+    transform: scale(1.3);
+  }
+}

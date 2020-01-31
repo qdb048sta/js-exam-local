@@ -9,7 +9,6 @@ export const onUpdateJeUserByJeUserId = `subscription OnUpdateJeUserByJeUserId($
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -70,7 +69,6 @@ export const onUpdateTestByTestId = `subscription OnUpdateTestByTestId($id: Stri
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -101,7 +99,7 @@ export const onUpdateTestByTestId = `subscription OnUpdateTestByTestId($id: Stri
         syncCode
         timeBegin
         timeEnd
-        videoUrl
+        status
       }
       nextToken
     }
@@ -124,7 +122,6 @@ export const onUpdateRoomByRoomId = `subscription OnUpdateRoomByRoomId($id: Stri
     }
     subjectId
     description
-    status
     host {
       id
       name
@@ -144,7 +141,7 @@ export const onUpdateRoomByRoomId = `subscription OnUpdateRoomByRoomId($id: Stri
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -160,6 +157,7 @@ export const onUpdateRecordByRecordId = `subscription OnUpdateRecordByRecordId($
     }
     timeBegin
     timeEnd
+    status
     comment {
       items {
         author
@@ -170,6 +168,7 @@ export const onUpdateRecordByRecordId = `subscription OnUpdateRecordByRecordId($
     }
     history {
       items {
+        id
         time
         code
       }
@@ -181,7 +180,6 @@ export const onUpdateRecordByRecordId = `subscription OnUpdateRecordByRecordId($
       content
       test
     }
-    videoUrl
     question {
       id
       type
@@ -202,7 +200,6 @@ export const onUpdateRecordByRecordId = `subscription OnUpdateRecordByRecordId($
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -223,7 +220,6 @@ export const onCreateRoom = `subscription OnCreateRoom {
     }
     subjectId
     description
-    status
     host {
       id
       name
@@ -243,7 +239,7 @@ export const onCreateRoom = `subscription OnCreateRoom {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -262,7 +258,6 @@ export const onUpdateRoom = `subscription OnUpdateRoom {
     }
     subjectId
     description
-    status
     host {
       id
       name
@@ -282,7 +277,7 @@ export const onUpdateRoom = `subscription OnUpdateRoom {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -301,7 +296,6 @@ export const onDeleteRoom = `subscription OnDeleteRoom {
     }
     subjectId
     description
-    status
     host {
       id
       name
@@ -321,7 +315,7 @@ export const onDeleteRoom = `subscription OnDeleteRoom {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -334,7 +328,6 @@ export const onCreateJeUser = `subscription OnCreateJeUser {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -372,7 +365,6 @@ export const onUpdateJeUser = `subscription OnUpdateJeUser {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -410,7 +402,6 @@ export const onDeleteJeUser = `subscription OnDeleteJeUser {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -519,7 +510,6 @@ export const onCreateTest = `subscription OnCreateTest {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -550,7 +540,7 @@ export const onCreateTest = `subscription OnCreateTest {
         syncCode
         timeBegin
         timeEnd
-        videoUrl
+        status
       }
       nextToken
     }
@@ -566,7 +556,6 @@ export const onUpdateTest = `subscription OnUpdateTest {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -597,7 +586,7 @@ export const onUpdateTest = `subscription OnUpdateTest {
         syncCode
         timeBegin
         timeEnd
-        videoUrl
+        status
       }
       nextToken
     }
@@ -613,7 +602,6 @@ export const onDeleteTest = `subscription OnDeleteTest {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -644,7 +632,7 @@ export const onDeleteTest = `subscription OnDeleteTest {
         syncCode
         timeBegin
         timeEnd
-        videoUrl
+        status
       }
       nextToken
     }
@@ -664,6 +652,7 @@ export const onCreateRecord = `subscription OnCreateRecord {
     }
     timeBegin
     timeEnd
+    status
     comment {
       items {
         author
@@ -674,6 +663,7 @@ export const onCreateRecord = `subscription OnCreateRecord {
     }
     history {
       items {
+        id
         time
         code
       }
@@ -685,7 +675,6 @@ export const onCreateRecord = `subscription OnCreateRecord {
       content
       test
     }
-    videoUrl
     question {
       id
       type
@@ -706,7 +695,6 @@ export const onCreateRecord = `subscription OnCreateRecord {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -724,6 +712,7 @@ export const onUpdateRecord = `subscription OnUpdateRecord {
     }
     timeBegin
     timeEnd
+    status
     comment {
       items {
         author
@@ -734,6 +723,7 @@ export const onUpdateRecord = `subscription OnUpdateRecord {
     }
     history {
       items {
+        id
         time
         code
       }
@@ -745,7 +735,6 @@ export const onUpdateRecord = `subscription OnUpdateRecord {
       content
       test
     }
-    videoUrl
     question {
       id
       type
@@ -766,7 +755,6 @@ export const onUpdateRecord = `subscription OnUpdateRecord {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -784,6 +772,7 @@ export const onDeleteRecord = `subscription OnDeleteRecord {
     }
     timeBegin
     timeEnd
+    status
     comment {
       items {
         author
@@ -794,6 +783,7 @@ export const onDeleteRecord = `subscription OnDeleteRecord {
     }
     history {
       items {
+        id
         time
         code
       }
@@ -805,7 +795,6 @@ export const onDeleteRecord = `subscription OnDeleteRecord {
       content
       test
     }
-    videoUrl
     question {
       id
       type
@@ -826,7 +815,6 @@ export const onDeleteRecord = `subscription OnDeleteRecord {
       id
       subjectId
       description
-      status
       createTime
       password
     }
@@ -844,7 +832,7 @@ export const onCreateComment = `subscription OnCreateComment {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -860,7 +848,7 @@ export const onUpdateComment = `subscription OnUpdateComment {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -876,13 +864,14 @@ export const onDeleteComment = `subscription OnDeleteComment {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
 `;
 export const onCreateHistory = `subscription OnCreateHistory {
   onCreateHistory {
+    id
     time
     code
     record {
@@ -891,13 +880,23 @@ export const onCreateHistory = `subscription OnCreateHistory {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
+    }
+    snapComments {
+      items {
+        id
+        time
+        author
+        content
+      }
+      nextToken
     }
   }
 }
 `;
 export const onUpdateHistory = `subscription OnUpdateHistory {
   onUpdateHistory {
+    id
     time
     code
     record {
@@ -906,13 +905,23 @@ export const onUpdateHistory = `subscription OnUpdateHistory {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
+    }
+    snapComments {
+      items {
+        id
+        time
+        author
+        content
+      }
+      nextToken
     }
   }
 }
 `;
 export const onDeleteHistory = `subscription OnDeleteHistory {
   onDeleteHistory {
+    id
     time
     code
     record {
@@ -921,7 +930,58 @@ export const onDeleteHistory = `subscription OnDeleteHistory {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
+    }
+    snapComments {
+      items {
+        id
+        time
+        author
+        content
+      }
+      nextToken
+    }
+  }
+}
+`;
+export const onCreateSnapComment = `subscription OnCreateSnapComment {
+  onCreateSnapComment {
+    id
+    time
+    author
+    content
+    history {
+      id
+      time
+      code
+    }
+  }
+}
+`;
+export const onUpdateSnapComment = `subscription OnUpdateSnapComment {
+  onUpdateSnapComment {
+    id
+    time
+    author
+    content
+    history {
+      id
+      time
+      code
+    }
+  }
+}
+`;
+export const onDeleteSnapComment = `subscription OnDeleteSnapComment {
+  onDeleteSnapComment {
+    id
+    time
+    author
+    content
+    history {
+      id
+      time
+      code
     }
   }
 }
@@ -939,7 +999,7 @@ export const onCreateQuestionSnapshot = `subscription OnCreateQuestionSnapshot {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -957,7 +1017,7 @@ export const onUpdateQuestionSnapshot = `subscription OnUpdateQuestionSnapshot {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }
@@ -975,7 +1035,7 @@ export const onDeleteQuestionSnapshot = `subscription OnDeleteQuestionSnapshot {
       syncCode
       timeBegin
       timeEnd
-      videoUrl
+      status
     }
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import 'brace';
 import 'brace/mode/javascript';
@@ -11,20 +12,40 @@ import ConsoleWidget from 'components/Widgets/ConsoleWidget';
 import CodeWidget from 'components/Widgets/CodeWidget';
 import TestWidget from 'components/Widgets/TestWidget';
 import TapeWidget from 'components/Widgets/TapeWidget';
-
 import debouncedRunCode from 'utils/runCode';
+import { JAVASCRIPT as GRID_LABEL_JAVASCRIPT } from 'utils/gridLabel';
 
 import styles from './JavaScriptPage.module.scss';
 
 class JavaScriptPage extends Component {
-  constructor(props) {
-    super(props);
-    this.controlHeight = 70;
-  }
+  static propTypes = {
+    isExaming: PropTypes.bool,
+    code: PropTypes.string,
+    compiledCode: PropTypes.string,
+    test: PropTypes.string,
+    consoleMsg: PropTypes.array,
+    tape: PropTypes.array,
+    handleCodeChange: PropTypes.func,
+    wrappedConsole: PropTypes.object,
+    resetConsole: PropTypes.func,
+    addTape: PropTypes.func,
+    resetTape: PropTypes.func,
+  };
+
+  controlHeight = 70;
 
   componentDidMount() {
-    const { compiledCode, wrappedConsole, resetConsole, addTape } = this.props;
+    const {
+      compiledCode,
+      wrappedConsole,
+      addTape,
+      resetConsole,
+      resetTape,
+    } = this.props;
     resetConsole();
+    resetTape();
+
+    // WARNING: This is not debounced
     debouncedRunCode({
       code: compiledCode,
       wrappedConsole,
@@ -40,9 +61,10 @@ class JavaScriptPage extends Component {
       resetTape,
     } = this.props;
     const { compiledCode, wrappedConsole } = nextProps;
-    if (previousCompiledCode !== compiledCode) {
+    if (compiledCode && previousCompiledCode !== compiledCode) {
       resetConsole();
       resetTape();
+      // WARNING: This is not debounced
       debouncedRunCode({
         code: compiledCode,
         wrappedConsole,
@@ -54,11 +76,12 @@ class JavaScriptPage extends Component {
 
   render() {
     const {
+      isExaming,
       code,
       test,
       handleCodeChange,
       tape,
-      console: _console,
+      consoleMsg,
     } = this.props;
     const layout = [
       {
@@ -81,9 +104,6 @@ class JavaScriptPage extends Component {
         minWidth: 100,
         maxWidth: 700,
       },
-      // {
-      //   key: 'control', x: 1, y: 0, width: window.innerWidth / 2, height: this.controlHeight, static: true
-      // },
       {
         key: 'tape',
         x: 1,
@@ -110,22 +130,23 @@ class JavaScriptPage extends Component {
     return (
       <div className={styles.app}>
         <Grid layout={layout} totalWidth="100%" totalHeight="100%" autoResize>
-          <GridItem key="code">
+          <GridItem key="code" label={GRID_LABEL_JAVASCRIPT.code}>
             <CodeWidget
               handleCodeChange={handleCodeChange}
               data={code}
+              readOnly={!isExaming}
               mode="javascript"
               theme="monokai"
             />
           </GridItem>
-          <GridItem key="test">
+          <GridItem key="test" label={GRID_LABEL_JAVASCRIPT.test}>
             <TestWidget data={test} />
           </GridItem>
-          <GridItem key="tape">
+          <GridItem key="tape" label={GRID_LABEL_JAVASCRIPT.tape}>
             <TapeWidget data={tape} />
           </GridItem>
-          <GridItem key="console">
-            <ConsoleWidget data={_console} />
+          <GridItem key="console" label={GRID_LABEL_JAVASCRIPT.console}>
+            <ConsoleWidget data={consoleMsg} />
           </GridItem>
         </Grid>
       </div>
