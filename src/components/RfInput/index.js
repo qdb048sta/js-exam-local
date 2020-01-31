@@ -33,7 +33,8 @@ const RfRate = ({ input, label, type, meta: { touched, error } }) => (
 
 class CheckTagGroup extends React.Component {
   checkTagGroup() {
-    let { label, required, options, input, meta } = this.props;
+    let { input, options } = this.props;
+
     return options.map((option, index) => {
       return (
         <span className="checkTag" key={index}>
