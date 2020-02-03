@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Grid from '../../../src/components/Grid/index';
+import Grid from './index';
 
 describe('Grid index spec', () => {
   const mockLayout = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import Border from '../../../../src/components/Grid/Border';
+import Border from './index';
 
 describe('Border index spec', () => {
   it('should render border component properly', () => {

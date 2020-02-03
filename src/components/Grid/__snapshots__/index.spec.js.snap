@@ -2,27 +2,28 @@
 
 exports[`Grid index spec should render Grid properly 1`] = `
 <div
+  class="grid"
   style="width: 100%; height: 100%;"
 >
   <div
-    class="undefined  undefined"
+    class="border  horizontal"
     style="width: 648px; padding-right: 1px;"
   >
     <div
-      class="undefined  undefined"
+      class="border  vertical"
       style="width: 647px; height: 462px; padding-bottom: 1px;"
     />
     <div
-      class="undefined "
+      class="border "
       style="width: 647px; height: -462px;"
     />
   </div>
   <div
-    class="undefined "
+    class="border "
     style="width: -647px;"
   >
     <div
-      class="undefined "
+      class="border "
       style="width: -647px; height: 0px;"
     />
   </div>
