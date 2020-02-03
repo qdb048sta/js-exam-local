@@ -2,8 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { BrowserRouter } from 'react-router-dom';
 import sinon from 'sinon';
-import JavaScriptPage from '../../../../src/components/CodingView/JavaScript';
-import * as runCodeUtils from '../../../../src/utils/runCode';
+import * as runCodeUtils from '../../../utils/runCode';
+import JavaScriptPage from './index';
 
 describe('Coding View Javascript index', () => {
   it('should render Javascript coding view properly', () => {

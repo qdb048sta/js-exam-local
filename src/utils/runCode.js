@@ -6,7 +6,7 @@ import vm from 'vm';
 import spy from './spy';
 import getPatchedTape from './tape';
 
-const wrapCode = (code = '') => {
+export const wrapCode = (code = '') => {
   return code.replace(/for *\(.*\{|while *\(.*\{|do *\{/g, loopHead => {
     return `let __jsExamCount__ = 0;
       const __jsExamDetector__ = (c) => {

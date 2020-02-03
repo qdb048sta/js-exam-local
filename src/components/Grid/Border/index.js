@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Border.module.scss';
 
 class Border extends Component {
+  static propTypes = {
+    allowHeight: PropTypes.bool,
+    allowWidth: PropTypes.bool,
+    borderSize: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    maxHeight: PropTypes.number,
+    minHeight: PropTypes.number,
+    onUpdate: PropTypes.func,
+    disabled: PropTypes.bool,
+  };
+
   constructor(props) {
     super(props);
     const { allowWidth, allowHeight, disabled, borderSize } = this.props;

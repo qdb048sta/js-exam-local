@@ -1,24 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Coding View Javascript index should render Javascript coding view properly 1`] = `
-<div>
+<div
+  class="app"
+>
   <div
+    class="grid"
     style="width: 100%; height: 100%;"
   >
     <div
-      class="undefined  undefined"
+      class="border  horizontal"
       style="width: 567px; padding-right: 5px;"
     >
       <div
-        class="undefined  undefined"
+        class="border  vertical"
         style="width: 562px; height: 484px; padding-bottom: 5px;"
       >
-        <div>
-          <div>
+        <div
+          class="item"
+        >
+          <div
+            class="label"
+          >
             code
           </div>
           <div
-            class=" ace_editor ace-monokai ace_dark"
+            class=" ace_editor ace-monokai ace_dark code"
             id="brace-editor"
             style="width: 500px; height: 500px;"
           >
@@ -108,15 +115,19 @@ exports[`Coding View Javascript index should render Javascript coding view prope
         </div>
       </div>
       <div
-        class="undefined "
+        class="border "
         style="width: 562px; height: -484px;"
       >
-        <div>
-          <div>
+        <div
+          class="item"
+        >
+          <div
+            class="label"
+          >
             unit test
           </div>
           <div
-            class="undefined"
+            class="test-widget"
           >
             <div
               class=" ace_editor ace-tm"
@@ -211,42 +222,62 @@ exports[`Coding View Javascript index should render Javascript coding view prope
       </div>
     </div>
     <div
-      class="undefined "
+      class="border "
       style="width: -562px;"
     >
       <div
-        class="undefined  undefined"
+        class="border  vertical"
         style="width: -562px; height: 384px; padding-bottom: 5px;"
       >
-        <div>
-          <div>
+        <div
+          class="item"
+        >
+          <div
+            class="label"
+          >
             unit test result
           </div>
-          <div>
-            <div>
+          <div
+            class="tape"
+          >
+            <div
+              class="description"
+            >
               1
             </div>
           </div>
         </div>
       </div>
       <div
-        class="undefined "
+        class="border "
         style="width: -562px; height: -384px;"
       >
-        <div>
-          <div>
+        <div
+          class="item"
+        >
+          <div
+            class="label"
+          >
             console
           </div>
           <div
-            class="undefined "
+            class="console-widget "
           >
-            <div>
-              <div>
+            <div
+              class="console"
+            >
+              <div
+                class="text"
+              >
                 1
               </div>
             </div>
-            <div>
-              <div>
+            <div
+              class="console"
+            >
+              <div
+                class="text"
+              >
                 2
               </div>
             </div>
