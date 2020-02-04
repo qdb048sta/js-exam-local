@@ -65,7 +65,6 @@ class CommentBox extends React.Component {
                 type="checkbox"
                 component={CheckTagGroup}
                 options={optionsList}
-                defaultValue={['Lack of Confidence']}
               />
             </div>
 
