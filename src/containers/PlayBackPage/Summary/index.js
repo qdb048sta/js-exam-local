@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Comment, Avatar, List, Rate, Row, Col } from 'antd';
 
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+import { desc } from './constant';
+
 const Summary = ({ summaryList, visible, onCancel }) => (
   <Modal
     title={`${summaryList.length} summary`}

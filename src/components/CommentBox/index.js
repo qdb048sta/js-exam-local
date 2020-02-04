@@ -5,15 +5,7 @@ import reduxForm from 'redux-form/es/reduxForm';
 import { Field } from 'redux-form';
 import { RfRate, RfTextArea, CheckTagGroup } from 'components/RfInput';
 
-// import CheckboxGroup from 'antd/lib/checkbox/Group';
-
-let optionsList = [
-  { id: 1, name: 'Good Commuicator', analysis: true },
-  { id: 2, name: 'Poor Communicator', analysis: false },
-  { id: 3, name: 'Lack of Confidence', analysis: false },
-  { id: 4, name: 'Unnecessarily Confident', analysis: false },
-  { id: 5, name: 'Lack of Interaction', analysis: false },
-];
+import { optionsList } from './constant';
 
 const validate = values => {
   const errors = {};
@@ -31,47 +23,37 @@ class CommentBox extends React.Component {
       this.props.reset(); // reset form after submitting
     });
   }
-  componentWillMount() {
+  // testing with mock data
+  componentDidMount() {
     this.props.initialize({ tags: ['Lack of Confidence'] });
   }
   render() {
     const { visible } = this.props;
     return (
-      <>
-        <Modal
-          visible={visible}
-          footer={false}
-          closable={false}
-          maskClosable={false}
-        >
-          <form onSubmit={this.submitForm}>
-            <h1>Rate the Problem</h1>
-            <Field name="rateTech" component={RfRate} label="Technical Skill" />
+      <Modal
+        visible={visible}
+        footer={false}
+        closable={false}
+        maskClosable={false}
+      >
+        <form onSubmit={this.submitForm}>
+          <h1>Rate the Problem</h1>
+          <Field name="rateTech" component={RfRate} label="Technical Skill" />
+          <Field name="rateDetail" component={RfRate} label="Detail Oriented" />
+          <Field name="rateComplete" component={RfRate} label="Completeness" />
+          <Field name="summary" component={RfTextArea} />
+          <h1>Overall Review</h1>
+          <div>
             <Field
-              name="rateDetail"
-              component={RfRate}
-              label="Detail Oriented"
+              name="tags"
+              type="checkbox"
+              component={CheckTagGroup}
+              options={optionsList}
             />
-            <Field
-              name="rateComplete"
-              component={RfRate}
-              label="Completeness"
-            />
-            <Field name="summary" component={RfTextArea} />
-            <h1>Overall Review</h1>
-            <div>
-              <Field
-                name="tags"
-                type="checkbox"
-                component={CheckTagGroup}
-                options={optionsList}
-              />
-            </div>
-
-            <Button htmlType="submit"> Add Review </Button>
-          </form>
-        </Modal>
-      </>
+          </div>
+          <Button htmlType="submit"> Add Review </Button>
+        </form>
+      </Modal>
     );
   }
 }

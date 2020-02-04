@@ -1,11 +1,11 @@
 import React from 'react';
-import { Input, Rate, Icon, Tooltip, Tag, Row, Col } from 'antd';
-import { rateTips } from './constants';
+import { Input, Rate, Icon, Tooltip, Tag, Typography, Row, Col } from 'antd';
+import { rateTips, desc } from './constants';
 import './checkableTag.css';
 
 const { TextArea } = Input;
+const { Text } = Typography;
 const { CheckableTag } = Tag;
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 const RfInput = ({ input, ...custom }) => <Input {...input} {...custom} />;
 
 const RfTextArea = ({ input, label, meta: { touched, error } }) => (
@@ -27,7 +27,9 @@ const RfRate = ({ input, label, type, meta: { touched, error } }) => (
     <Col span={8}>
       <Rate {...input} tooltips={desc} type={type} />
     </Col>
-    <Col span={9}>{touched && error && <span>{error}</span>}</Col>
+    <Col span={9}>
+      {touched && error && <Text type="warning">{error}</Text>}
+    </Col>
   </Row>
 );
 
