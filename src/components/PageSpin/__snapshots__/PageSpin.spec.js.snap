@@ -2,7 +2,7 @@
 
 exports[`Page Spinner should render a page spinner 1`] = `
 <div
-  className="ant-spin ant-spin-lg ant-spin-spinning"
+  className="ant-spin ant-spin-lg ant-spin-spinning spin"
 >
   <span
     className="ant-spin-dot ant-spin-dot-spin"
