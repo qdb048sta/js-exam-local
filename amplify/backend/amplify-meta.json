@@ -1,56 +1,62 @@
 {
 	"providers": {
 		"awscloudformation": {
-			"AuthRoleName": "innovap3schema-20181210133041-authRole",
-			"UnauthRoleArn": "arn:aws:iam::917699728562:role/innovap3schema-20181210133041-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::917699728562:role/innovap3schema-20181210133041-authRole",
+			"AuthRoleName": "amplify-jsexam2020-dev-70345-authRole",
+			"UnauthRoleArn": "arn:aws:iam::917699728562:role/amplify-jsexam2020-dev-70345-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::917699728562:role/amplify-jsexam2020-dev-70345-authRole",
 			"Region": "us-east-1",
-			"DeploymentBucketName": "innovap3schema-20181210133041-deployment",
-			"UnauthRoleName": "innovap3schema-20181210133041-unauthRole",
-			"StackName": "innovap3schema-20181210133041",
-			"StackId": "arn:aws:cloudformation:us-east-1:917699728562:stack/innovap3schema-20181210133041/d2498130-fc3c-11e8-afef-50d501eb4c17"
+			"DeploymentBucketName": "amplify-jsexam2020-dev-70345-deployment",
+			"UnauthRoleName": "amplify-jsexam2020-dev-70345-unauthRole",
+			"StackName": "amplify-jsexam2020-dev-70345",
+			"StackId": "arn:aws:cloudformation:us-east-1:917699728562:stack/amplify-jsexam2020-dev-70345/9b86fad0-47a2-11ea-a8a9-0e1b8dfea4f7",
+			"AmplifyAppId": "d1sjdh0upn0kbu"
 		}
 	},
 	"auth": {
-		"cognitob94b116c": {
+		"jsexam20201a0ee7e3": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/innovap3schema-20181210133041-deployment/amplify-cfn-templates/auth/cognitob94b116c-cloudformation-template.yml",
-				"logicalId": "authcognitob94b116c"
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-jsexam2020-dev-70345-deployment/amplify-cfn-templates/auth/jsexam20201a0ee7e3-cloudformation-template.yml",
+				"logicalId": "authjsexam20201a0ee7e3"
 			},
-			"lastPushTimeStamp": "2018-12-10T06:33:48.792Z",
+			"lastPushTimeStamp": "2020-02-05T00:19:19.851Z",
 			"output": {
-				"AppClientSecret": "1lddcd2coe58scr6atdf7piokm70sbkcb14l9ok41hh63fa0eknn",
-				"UserPoolId": "us-east-1_M8wfpyIKJ",
-				"AppClientIDWeb": "nkjhni8fo530fjmdkgseadri5",
-				"AppClientID": "3p70uvgvg00hdq8vn1ru3ea5hu",
-				"IdentityPoolId": "us-east-1:08150bca-b94b-4b22-b34b-2b3cc4b4f2c8",
-				"IdentityPoolName": "cognitob94b116c_identitypool_b94b116c",
-				"UserPoolName": "cognitob94b116c_userpool_b94b116c"
+				"AppClientSecret": "1e5v84k849j5vmb0i97dvokk6qe9b7ef3941krq5k07tq9lvfdss",
+				"UserPoolId": "us-east-1_dKxxMytBU",
+				"AppClientIDWeb": "1ervntt9bmbl89b7f5d5c1h1ct",
+				"AppClientID": "4gh9gep24if9pvb31lh5q8vmgb",
+				"IdentityPoolId": "us-east-1:1f309c8c-10ea-4f8d-99c5-deb82e94696e",
+				"IdentityPoolName": "jsexam20201a0ee7e3_identitypool_1a0ee7e3__dev",
+				"UserPoolName": "jsexam20201a0ee7e3_userpool_1a0ee7e3"
 			},
-			"lastPushDirHash": "7cbg08GUxRvQ7+130kbPkN34o1o="
+			"lastPushDirHash": "DKBj15GX9QqWyUP0Nk2qSKiSHnA="
 		}
 	},
 	"api": {
-		"innovap3schema": {
+		"jsexam2020": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
-				"securityType": "AMAZON_COGNITO_USER_POOLS",
-				"GraphQLAPIIdOutput": "ccjdcq6kbrbevoex4fc5gqymgu",
-				"GraphQLAPIEndpointOutput": "https://l2ef6zhywnel3att32o53ns2ve.appsync-api.us-east-1.amazonaws.com/graphql",
-				"GraphQLAPIKeyOutput": "da2-v4fklrao7nhl7mopzsohuztka4",
-				"AuthCognitoUserPoolIdOutput": "us-east-1_M8wfpyIKJ",
-				"AuthCognitoUserPoolNativeClientId": "See UserPool: us-east-1_M8wfpyIKJ",
-				"AuthCognitoUserPoolJSClientId": "See UserPool: us-east-1_M8wfpyIKJ"
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authjsexam20201a0ee7e3"
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "ihih3eurjbehrf6bxntjeutbsi",
+				"GraphQLAPIEndpointOutput": "https://zwibm7wctvggrapdhtf5kkd77i.appsync-api.us-east-1.amazonaws.com/graphql"
 			},
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/innovap3schema-20181210133041-deployment/amplify-cfn-templates/api/cloudformation-template.json",
-				"logicalId": "apiinnovap3schema"
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-jsexam2020-dev-70345-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apijsexam2020"
 			},
-			"lastPushTimeStamp": "2018-12-10T06:33:48.792Z",
-			"lastPushDirHash": "S8+Dqs2ZKdsOP7FX8vF6kjsGxTk="
+			"lastPushTimeStamp": "2020-02-05T00:19:25.804Z",
+			"lastPushDirHash": "ZehA5mS5vYrZ7un4xj7HQTIAI9w="
 		}
 	}
 }

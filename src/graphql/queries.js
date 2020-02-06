@@ -1,58 +1,38 @@
-// eslint-disable
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getRoom = `query GetRoom($id: ID!) {
-  getRoom(id: $id) {
-    id
-    test {
-      id
-      subjectId
-      description
-      timeBegin
-      timeEnd
-      status
-      tags
-    }
-    subjectId
-    description
-    host {
-      id
-      name
-    }
-    createTime
-    password
-    users {
-      items {
-        id
-        name
-      }
-      nextToken
-    }
-    currentRecord {
-      id
-      subjectId
-      syncCode
-      timeBegin
-      timeEnd
-      status
-    }
-  }
-}
-`;
-export const listRooms = `query ListRooms(
-  $filter: ModelRoomFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getRoom = /* GraphQL */ `
+  query GetRoom($id: ID!) {
+    getRoom(id: $id) {
       id
       test {
         id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
         subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
         description
         timeBegin
         timeEnd
+        records {
+          nextToken
+        }
         status
         tags
       }
@@ -61,6 +41,36 @@ export const listRooms = `query ListRooms(
       host {
         id
         name
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        hostTest {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
       }
       createTime
       password
@@ -75,127 +85,254 @@ export const listRooms = `query ListRooms(
         id
         subjectId
         syncCode
+        interviewer {
+          id
+          name
+        }
         timeBegin
         timeEnd
         status
+        comment {
+          nextToken
+        }
+        history {
+          nextToken
+        }
+        ques {
+          type
+          name
+          content
+          test
+        }
+        question {
+          id
+          type
+          name
+          content
+          test
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
       }
     }
-    nextToken
   }
-}
 `;
-export const getJeUser = `query GetJeUser($id: ID!) {
-  getJEUser(id: $id) {
-    id
-    name
-    room {
-      id
-      subjectId
-      description
-      createTime
-      password
-    }
-    team {
-      id
-      name
-      description
-    }
-    test {
-      id
-      subjectId
-      description
-      timeBegin
-      timeEnd
-      status
-      tags
-    }
-    hostTest {
-      id
-      subjectId
-      description
-      timeBegin
-      timeEnd
-      status
-      tags
+export const listRooms = /* GraphQL */ `
+  query ListRooms(
+    $filter: ModelRoomFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        subjectId
+        description
+        host {
+          id
+          name
+        }
+        createTime
+        password
+        users {
+          nextToken
+        }
+        currentRecord {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
+      }
+      nextToken
     }
   }
-}
 `;
-export const listJeUsers = `query ListJeUsers(
-  $filter: ModelJEUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listJEUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getJeUser = /* GraphQL */ `
+  query GetJeUser($id: ID!) {
+    getJEUser(id: $id) {
       id
       name
       room {
         id
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
         subjectId
         description
+        host {
+          id
+          name
+        }
         createTime
         password
+        users {
+          nextToken
+        }
+        currentRecord {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
       }
       team {
         id
         name
         description
+        users {
+          nextToken
+        }
+        questionSet {
+          nextToken
+        }
       }
       test {
         id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
         subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
         description
         timeBegin
         timeEnd
+        records {
+          nextToken
+        }
         status
         tags
       }
       hostTest {
         id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
         subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
         description
         timeBegin
         timeEnd
+        records {
+          nextToken
+        }
         status
         tags
       }
     }
-    nextToken
   }
-}
 `;
-export const getTeam = `query GetTeam($id: ID!) {
-  getTeam(id: $id) {
-    id
-    name
-    description
-    users {
+export const listJeUsers = /* GraphQL */ `
+  query ListJeUsers(
+    $filter: ModelJEUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listJEUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
-      }
-      nextToken
-    }
-    questionSet {
-      items {
-        id
-        name
-        description
-        tags
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        hostTest {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
       }
       nextToken
     }
   }
-}
 `;
-export const listTeams = `query ListTeams(
-  $filter: ModelTeamFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getTeam = /* GraphQL */ `
+  query GetTeam($id: ID!) {
+    getTeam(id: $id) {
       id
       name
       description
@@ -216,75 +353,75 @@ export const listTeams = `query ListTeams(
         nextToken
       }
     }
-    nextToken
   }
-}
 `;
-export const getTest = `query GetTest($id: ID!) {
-  getTest(id: $id) {
-    id
-    room {
-      id
-      subjectId
-      description
-      createTime
-      password
-    }
-    team {
-      id
-      name
-      description
-    }
-    subjectId
-    users {
+export const listTeams = /* GraphQL */ `
+  query ListTeams(
+    $filter: ModelTeamFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
+        description
+        users {
+          nextToken
+        }
+        questionSet {
+          nextToken
+        }
       }
       nextToken
     }
-    host {
-      id
-      name
-    }
-    description
-    timeBegin
-    timeEnd
-    records {
-      items {
-        id
-        subjectId
-        syncCode
-        timeBegin
-        timeEnd
-        status
-      }
-      nextToken
-    }
-    status
-    tags
   }
-}
 `;
-export const listTests = `query ListTests(
-  $filter: ModelTestFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTests(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getTest = /* GraphQL */ `
+  query GetTest($id: ID!) {
+    getTest(id: $id) {
       id
       room {
         id
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
         subjectId
         description
+        host {
+          id
+          name
+        }
         createTime
         password
+        users {
+          nextToken
+        }
+        currentRecord {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
       }
       team {
         id
         name
         description
+        users {
+          nextToken
+        }
+        questionSet {
+          nextToken
+        }
       }
       subjectId
       users {
@@ -297,6 +434,36 @@ export const listTests = `query ListTests(
       host {
         id
         name
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        hostTest {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
       }
       description
       timeBegin
@@ -315,83 +482,89 @@ export const listTests = `query ListTests(
       status
       tags
     }
-    nextToken
   }
-}
 `;
-export const getRecord = `query GetRecord($id: ID!) {
-  getRecord(id: $id) {
-    id
-    subjectId
-    syncCode
-    interviewer {
-      id
-      name
-    }
-    timeBegin
-    timeEnd
-    status
-    comment {
-      items {
-        author
-        time
-        content
-      }
-      nextToken
-    }
-    history {
+export const listTests = /* GraphQL */ `
+  query ListTests(
+    $filter: ModelTestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTests(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        time
-        code
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        status
+        tags
       }
       nextToken
     }
-    ques {
-      type
-      name
-      content
-      test
-    }
-    question {
-      id
-      type
-      name
-      content
-      test
-    }
-    test {
-      id
-      subjectId
-      description
-      timeBegin
-      timeEnd
-      status
-      tags
-    }
-    room {
-      id
-      subjectId
-      description
-      createTime
-      password
-    }
   }
-}
 `;
-export const listRecords = `query ListRecords(
-  $filter: ModelRecordFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getRecord = /* GraphQL */ `
+  query GetRecord($id: ID!) {
+    getRecord(id: $id) {
       id
       subjectId
       syncCode
       interviewer {
         id
         name
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        hostTest {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
       }
       timeBegin
       timeEnd
@@ -424,51 +597,141 @@ export const listRecords = `query ListRecords(
         name
         content
         test
+        record {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
       }
       test {
         id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
         subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
         description
         timeBegin
         timeEnd
+        records {
+          nextToken
+        }
         status
         tags
       }
       room {
         id
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
         subjectId
         description
+        host {
+          id
+          name
+        }
         createTime
         password
+        users {
+          nextToken
+        }
+        currentRecord {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
       }
     }
-    nextToken
   }
-}
 `;
-export const getComment = `query GetComment($id: ID!) {
-  getComment(id: $id) {
-    author
-    time
-    content
-    record {
-      id
-      subjectId
-      syncCode
-      timeBegin
-      timeEnd
-      status
+export const listRecords = /* GraphQL */ `
+  query ListRecords(
+    $filter: ModelRecordFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRecords(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        subjectId
+        syncCode
+        interviewer {
+          id
+          name
+        }
+        timeBegin
+        timeEnd
+        status
+        comment {
+          nextToken
+        }
+        history {
+          nextToken
+        }
+        ques {
+          type
+          name
+          content
+          test
+        }
+        question {
+          id
+          type
+          name
+          content
+          test
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+      }
+      nextToken
     }
   }
-}
 `;
-export const listComments = `query ListComments(
-  $filter: ModelCommentFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
       author
       time
       content
@@ -476,47 +739,79 @@ export const listComments = `query ListComments(
         id
         subjectId
         syncCode
+        interviewer {
+          id
+          name
+        }
         timeBegin
         timeEnd
         status
+        comment {
+          nextToken
+        }
+        history {
+          nextToken
+        }
+        ques {
+          type
+          name
+          content
+          test
+        }
+        question {
+          id
+          type
+          name
+          content
+          test
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
       }
     }
-    nextToken
   }
-}
 `;
-export const getHistory = `query GetHistory($id: ID!) {
-  getHistory(id: $id) {
-    id
-    time
-    code
-    record {
-      id
-      subjectId
-      syncCode
-      timeBegin
-      timeEnd
-      status
-    }
-    snapComments {
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
-        time
         author
+        time
         content
+        record {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
       }
       nextToken
     }
   }
-}
 `;
-export const listHistorys = `query ListHistorys(
-  $filter: ModelHistoryFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getHistory = /* GraphQL */ `
+  query GetHistory($id: ID!) {
+    getHistory(id: $id) {
       id
       time
       code
@@ -524,9 +819,48 @@ export const listHistorys = `query ListHistorys(
         id
         subjectId
         syncCode
+        interviewer {
+          id
+          name
+        }
         timeBegin
         timeEnd
         status
+        comment {
+          nextToken
+        }
+        history {
+          nextToken
+        }
+        ques {
+          type
+          name
+          content
+          test
+        }
+        question {
+          id
+          type
+          name
+          content
+          test
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
       }
       snapComments {
         items {
@@ -538,31 +872,38 @@ export const listHistorys = `query ListHistorys(
         nextToken
       }
     }
-    nextToken
   }
-}
 `;
-export const getSnapComment = `query GetSnapComment($id: ID!) {
-  getSnapComment(id: $id) {
-    id
-    time
-    author
-    content
-    history {
-      id
-      time
-      code
+export const listHistorys = /* GraphQL */ `
+  query ListHistorys(
+    $filter: ModelHistoryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listHistorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        time
+        code
+        record {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
+        snapComments {
+          nextToken
+        }
+      }
+      nextToken
     }
   }
-}
 `;
-export const listSnapComments = `query ListSnapComments(
-  $filter: ModelSnapCommentFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listSnapComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getSnapComment = /* GraphQL */ `
+  query GetSnapComment($id: ID!) {
+    getSnapComment(id: $id) {
       id
       time
       author
@@ -571,37 +912,46 @@ export const listSnapComments = `query ListSnapComments(
         id
         time
         code
+        record {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
+        snapComments {
+          nextToken
+        }
       }
     }
-    nextToken
   }
-}
 `;
-export const getQuestionSnapshot = `query GetQuestionSnapshot($id: ID!) {
-  getQuestionSnapshot(id: $id) {
-    id
-    type
-    name
-    content
-    test
-    record {
-      id
-      subjectId
-      syncCode
-      timeBegin
-      timeEnd
-      status
+export const listSnapComments = /* GraphQL */ `
+  query ListSnapComments(
+    $filter: ModelSnapCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSnapComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        time
+        author
+        content
+        history {
+          id
+          time
+          code
+        }
+      }
+      nextToken
     }
   }
-}
 `;
-export const listQuestionSnapshots = `query ListQuestionSnapshots(
-  $filter: ModelQuestionSnapshotFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listQuestionSnapshots(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getQuestionSnapshot = /* GraphQL */ `
+  query GetQuestionSnapshot($id: ID!) {
+    getQuestionSnapshot(id: $id) {
       id
       type
       name
@@ -611,52 +961,96 @@ export const listQuestionSnapshots = `query ListQuestionSnapshots(
         id
         subjectId
         syncCode
+        interviewer {
+          id
+          name
+        }
         timeBegin
         timeEnd
         status
+        comment {
+          nextToken
+        }
+        history {
+          nextToken
+        }
+        ques {
+          type
+          name
+          content
+          test
+        }
+        question {
+          id
+          type
+          name
+          content
+          test
+        }
+        test {
+          id
+          subjectId
+          description
+          timeBegin
+          timeEnd
+          status
+          tags
+        }
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
       }
     }
-    nextToken
   }
-}
 `;
-export const getQuestionSet = `query GetQuestionSet($id: ID!) {
-  getQuestionSet(id: $id) {
-    id
-    team {
-      id
-      name
-      description
-    }
-    questions {
+export const listQuestionSnapshots = /* GraphQL */ `
+  query ListQuestionSnapshots(
+    $filter: ModelQuestionSnapshotFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuestionSnapshots(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
         type
         name
         content
         test
-        tags
+        record {
+          id
+          subjectId
+          syncCode
+          timeBegin
+          timeEnd
+          status
+        }
       }
       nextToken
     }
-    name
-    description
-    tags
   }
-}
 `;
-export const listQuestionSets = `query ListQuestionSets(
-  $filter: ModelQuestionSetFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listQuestionSets(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getQuestionSet = /* GraphQL */ `
+  query GetQuestionSet($id: ID!) {
+    getQuestionSet(id: $id) {
       id
       team {
         id
         name
         description
+        users {
+          nextToken
+        }
+        questionSet {
+          nextToken
+        }
       }
       questions {
         items {
@@ -673,38 +1067,48 @@ export const listQuestionSets = `query ListQuestionSets(
       description
       tags
     }
-    nextToken
   }
-}
 `;
-export const getQuestion = `query GetQuestion($id: ID!) {
-  getQuestion(id: $id) {
-    id
-    type
-    questionSet {
-      id
-      name
-      description
-      tags
+export const listQuestionSets = /* GraphQL */ `
+  query ListQuestionSets(
+    $filter: ModelQuestionSetFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuestionSets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        team {
+          id
+          name
+          description
+        }
+        questions {
+          nextToken
+        }
+        name
+        description
+        tags
+      }
+      nextToken
     }
-    name
-    content
-    test
-    tags
   }
-}
 `;
-export const listQuestions = `query ListQuestions(
-  $filter: ModelQuestionFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listQuestions(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+export const getQuestion = /* GraphQL */ `
+  query GetQuestion($id: ID!) {
+    getQuestion(id: $id) {
       id
       type
       questionSet {
         id
+        team {
+          id
+          name
+          description
+        }
+        questions {
+          nextToken
+        }
         name
         description
         tags
@@ -714,7 +1118,30 @@ export const listQuestions = `query ListQuestions(
       test
       tags
     }
-    nextToken
   }
-}
+`;
+export const listQuestions = /* GraphQL */ `
+  query ListQuestions(
+    $filter: ModelQuestionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listQuestions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        questionSet {
+          id
+          name
+          description
+          tags
+        }
+        name
+        content
+        test
+        tags
+      }
+      nextToken
+    }
+  }
 `;
