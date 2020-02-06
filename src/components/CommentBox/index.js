@@ -23,10 +23,12 @@ class CommentBox extends React.Component {
       this.props.reset(); // reset form after submitting
     });
   }
+
   // testing with mock data
   componentDidMount() {
     this.props.initialize({ tags: ['Lack of Confidence'] });
   }
+
   render() {
     const { visible } = this.props;
     return (
@@ -61,7 +63,8 @@ CommentBox.propTypes = {
   visible: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  setVisible: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  initialize: PropTypes.func.isRequired,
 };
 
 export default reduxForm({

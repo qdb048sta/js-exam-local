@@ -1,5 +1,5 @@
 // mock data
-export let optionsList = [
+export const optionsList = [
   { id: 1, name: 'Good Commuicator', analysis: true },
   { id: 2, name: 'Poor Communicator', analysis: false },
   { id: 3, name: 'Lack of Confidence', analysis: false },
