@@ -22,6 +22,7 @@ export function autoLogin() {
   };
 }
 
+// this function seens never used
 export function submitPassword(password) {
   return {
     type: LOGIN,

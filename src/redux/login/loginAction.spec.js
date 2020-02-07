@@ -74,9 +74,9 @@ describe('test login action', () => {
       jest.spyOn(Storage.prototype, 'setItem');
       setHosingsSpy = jest
         .spyOn(actions, 'setHostings')
-        .mockImplementation(id => ({
+        .mockImplementation(data => ({
           type: SET_HOSTINGS,
-          id,
+          data,
         }));
       API.graphql = jest.fn(() => apiPromise(true, userRooms));
       graphqlOperation.mockImplementation(() => 'some graphql code');
@@ -102,11 +102,11 @@ describe('test login action', () => {
     it('should dispatch SET_HOSTINGS if user hosts rooms', () => {
       expect(dispatch).toHaveBeenNthCalledWith(1, {
         type: SET_HOSTINGS,
-        id: 'id_1',
+        data: 'id_1',
       });
       expect(dispatch).toHaveBeenNthCalledWith(2, {
         type: SET_HOSTINGS,
-        id: 'id_2',
+        data: 'id_2',
       });
     });
 
