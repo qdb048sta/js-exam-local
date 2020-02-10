@@ -10,6 +10,11 @@
 			"StackName": "amplify-jsexam2020-dev-70345",
 			"StackId": "arn:aws:cloudformation:us-east-1:917699728562:stack/amplify-jsexam2020-dev-70345/9b86fad0-47a2-11ea-a8a9-0e1b8dfea4f7",
 			"AmplifyAppId": "d1sjdh0upn0kbu"
+		},
+		"categories": {
+			"auth": {
+				"jsexam20201a0ee7e3": {}
+			}
 		}
 	},
 	"auth": {
@@ -17,11 +22,6 @@
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [],
-			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/amplify-jsexam2020-dev-70345-deployment/amplify-cfn-templates/auth/jsexam20201a0ee7e3-cloudformation-template.yml",
-				"logicalId": "authjsexam20201a0ee7e3"
-			},
-			"lastPushTimeStamp": "2020-02-05T00:19:19.851Z",
 			"output": {
 				"AppClientSecret": "1e5v84k849j5vmb0i97dvokk6qe9b7ef3941krq5k07tq9lvfdss",
 				"UserPoolId": "us-east-1_dKxxMytBU",
@@ -31,7 +31,11 @@
 				"IdentityPoolName": "jsexam20201a0ee7e3_identitypool_1a0ee7e3__dev",
 				"UserPoolName": "jsexam20201a0ee7e3_userpool_1a0ee7e3"
 			},
-			"lastPushDirHash": "DKBj15GX9QqWyUP0Nk2qSKiSHnA="
+			"lastPushTimeStamp": "2020-02-10T04:17:34.782Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-jsexam2020-dev-70345-deployment/amplify-cfn-templates/auth/jsexam20201a0ee7e3-cloudformation-template.yml",
+				"logicalId": "authjsexam20201a0ee7e3"
+			}
 		}
 	},
 	"api": {
@@ -51,12 +55,12 @@
 				"GraphQLAPIIdOutput": "ihih3eurjbehrf6bxntjeutbsi",
 				"GraphQLAPIEndpointOutput": "https://zwibm7wctvggrapdhtf5kkd77i.appsync-api.us-east-1.amazonaws.com/graphql"
 			},
+			"lastPushTimeStamp": "2020-02-10T04:17:34.789Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-jsexam2020-dev-70345-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apijsexam2020"
 			},
-			"lastPushTimeStamp": "2020-02-05T00:19:25.804Z",
-			"lastPushDirHash": "ZehA5mS5vYrZ7un4xj7HQTIAI9w="
+			"lastPushDirHash": "gxklqPRRssSH9Z4McM5kNdJjiYI="
 		}
 	}
 }

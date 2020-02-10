@@ -157,6 +157,12 @@ type Subscription {
   onDeleteQuestion: Question @aws_subscribe(mutations: ["deleteQuestion"])
 }
 
+type Jtest {
+  id: ID!
+  name: String
+  alias: String
+}
+
 enum ModelSortDirection {
   ASC
   DESC
