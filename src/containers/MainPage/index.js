@@ -7,8 +7,6 @@ import { Button, Input, Modal } from 'antd';
 import debounce from 'lodash/debounce';
 
 import { deleteRoomAction } from 'redux/room/actions';
-import { listRooms } from 'graphql/queries';
-import { onCreateRoom, onDeleteRoom } from 'graphql/subscriptions';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
@@ -16,6 +14,7 @@ import PageControlBar from 'components/PageControlBar';
 import RoomList from './RoomList';
 import CreateRoomModal from './CreateRoomModal';
 
+import { listRooms, onCreateRoom, onDeleteRoom } from './graphql';
 import style from './MainPage.module.scss';
 
 const Search = Input.Search;

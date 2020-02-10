@@ -47,11 +47,7 @@ class TagWidget extends Component {
           ? tags.map(tag => {
               const isLongTag = tag.length > 20;
               const tagElem = (
-                <Tag
-                  key={tag}
-                  closable
-                  afterClose={() => this.handleClose(tag)}
-                >
+                <Tag key={tag} closable onClose={() => this.handleClose(tag)}>
                   {isLongTag ? `${tag.slice(0, 20)}...` : tag}
                 </Tag>
               );
