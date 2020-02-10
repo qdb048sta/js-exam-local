@@ -44,6 +44,14 @@ function scrollToPanel(key) {
 const ResultBin = ({ testsDate }) => {
   let sortedTests;
 
+  const testShelfLife = 30;
+
+  const expiredDate = moment()
+    .subtract('days', testShelfLife)
+    .format('YYYY-MM-DD');
+
+  testsDate = testsDate.filter(testD => testD > expiredDate);
+
   testsDate.sort(byTime(false));
 
   return testsDate ? (
