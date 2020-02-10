@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-jsexam2020-dev-70345-authRole",
+            "UnauthRoleArn": "arn:aws:iam::917699728562:role/amplify-jsexam2020-dev-70345-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::917699728562:role/amplify-jsexam2020-dev-70345-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-jsexam2020-dev-70345-deployment",
+            "UnauthRoleName": "amplify-jsexam2020-dev-70345-unauthRole",
+            "StackName": "amplify-jsexam2020-dev-70345",
+            "StackId": "arn:aws:cloudformation:us-east-1:917699728562:stack/amplify-jsexam2020-dev-70345/9b86fad0-47a2-11ea-a8a9-0e1b8dfea4f7",
+            "AmplifyAppId": "d1sjdh0upn0kbu"
+        },
+        "categories": {
+            "auth": {
+                "jsexam20201a0ee7e3": {}
+            }
+        }
+    }
+}
