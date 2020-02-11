@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deleteTestAction } from 'redux/test/actions';
 import { formatTime } from 'utils/format';
-
 import { List, Avatar, Icon, Modal } from 'antd';
+import { deleteTestAction } from '../../../redux/test/actions';
 import style from './TestList.module.scss';
 
 class TestList extends React.Component {
