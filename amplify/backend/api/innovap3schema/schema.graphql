@@ -124,6 +124,3 @@ type Subscription {
   onUpdateRecordByRecordId(id: String): Record @aws_subscribe(mutations: ["updateRecord"])
 }
 
-type Jtest {
-  id: ID!
-}
