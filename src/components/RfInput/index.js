@@ -42,8 +42,9 @@ class CheckTagGroup extends React.Component {
       <span className="checkTag" key={option.id}>
         <label>
           <CheckableTag
-            className={!option.analysis && 'my-check-tag'}
+            style={{ border: '1px solid', marginBottom: '8px' }}
             checked={input.value.indexOf(option.name) !== -1}
+            className={!option.analysis ? 'negative-tag' : ''}
             value={option.name}
             onChange={checked => {
               const newValue = [...input.value];
@@ -54,19 +55,6 @@ class CheckTagGroup extends React.Component {
               }
               return input.onChange(newValue);
             }}
-            style={
-              !option.analysis && input.value.indexOf(option.name) !== -1
-                ? {
-                    border: '1px solid',
-                    marginBottom: '8px',
-                    color: '#fff',
-                    background: '#ff4d4f',
-                  }
-                : {
-                    border: '1px solid',
-                    marginBottom: '8px',
-                  }
-            }
           >
             {option.name}
           </CheckableTag>
