@@ -62,7 +62,14 @@ type Comment @model {
   author: String
   time: AWSDateTime
   content: String
+  rate: CommentRate
   record: Record @connection(name: "RecordComments")
+}
+
+type CommentRate {
+  speed: Int!
+  quality: Int!
+  completeness: Int!
 }
 
 type History @model {

@@ -62,7 +62,14 @@ type Comment {
   author: String
   time: AWSDateTime
   content: String
+  rate: CommentRate
   record: Record
+}
+
+type CommentRate {
+  speed: Int!
+  quality: Int!
+  completeness: Int!
 }
 
 type History {
@@ -567,6 +574,12 @@ input ModelRecordConditionInput {
   not: ModelRecordConditionInput
 }
 
+input CommentRateInput {
+  speed: Int!
+  quality: Int!
+  completeness: Int!
+}
+
 type ModelCommentConnection {
   items: [Comment]
   nextToken: String
@@ -585,6 +598,7 @@ input CreateCommentInput {
   author: String
   time: AWSDateTime
   content: String
+  rate: CommentRateInput
   commentRecordId: ID
 }
 
@@ -592,6 +606,7 @@ input UpdateCommentInput {
   author: String
   time: AWSDateTime
   content: String
+  rate: CommentRateInput
   commentRecordId: ID
 }
 
