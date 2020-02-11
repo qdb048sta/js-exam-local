@@ -8,6 +8,8 @@ import { formatTime } from 'utils/format';
 import { List, Avatar, Icon, Modal } from 'antd';
 import style from './TestList.module.scss';
 
+import CandidateSummary from './CandidateSummary/index';
+
 class TestList extends React.Component {
   state = {
     delConfirmModalVisible: false,
@@ -58,6 +60,7 @@ class TestList extends React.Component {
               }
               actions={[
                 // <span>Overview</span>,
+                <CandidateSummary item={item} />,
                 <Link
                   to={{
                     pathname: `/admin/playback/${item.id}`,
@@ -72,6 +75,7 @@ class TestList extends React.Component {
                 title={item.subjectId}
                 description={formatTime(item.timeBegin)}
               />
+              {console.log(item)}
               {item && item.tags && item.tags[0] === localStorage.username && (
                 <button
                   type="button"
