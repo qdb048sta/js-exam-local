@@ -10,6 +10,7 @@ import {
   DEL_HOSTINGS,
   LOGOUT,
 } from './constants';
+import * as loginAction from './actions';
 
 export function autoLogin() {
   return async dispatch => {
@@ -21,6 +22,7 @@ export function autoLogin() {
   };
 }
 
+// this function seens never used
 export function submitPassword(password) {
   return {
     type: LOGIN,
@@ -43,7 +45,7 @@ export function setUsername(data) {
         }),
       );
       result.forEach(jeUser => {
-        if (jeUser.room) dispatch(setHostings(jeUser.room.id));
+        if (jeUser.room) dispatch(loginAction.setHostings(jeUser.room.id));
       });
     } catch (error) {
       console.log('error:', error);
