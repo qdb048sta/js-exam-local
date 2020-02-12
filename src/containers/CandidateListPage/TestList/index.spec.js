@@ -22,7 +22,7 @@ describe('TestList index', () => {
       subjectId: 'testerror',
       description: null,
       timeBegin: '2020-01-17T02:35:53.776Z',
-      tags: ['Ken'],
+      tags: ['Kenny'],
     },
   ];
 
@@ -30,6 +30,10 @@ describe('TestList index', () => {
   const mockStore = configureMockStore(middlewares);
   const initialState = {};
   const testStore = mockStore(initialState);
+  let wrapper;
+  let list;
+  let renderedItem;
+  let deleteButton;
 
   function withProvider(component) {
     return mount(
@@ -39,43 +43,35 @@ describe('TestList index', () => {
     );
   }
 
+  beforeAll(() => {
+    localStorage.setItem('username', 'Kenny');
+    wrapper = withProvider(<TestList data={tests} />);
+    list = wrapper.find('TestList').instance();
+    renderedItem = wrapper.find(List.Item.Meta);
+    deleteButton = wrapper.find('.floatTop');
+  });
+
   beforeEach(() => {
     testStore.clearActions();
     jest.clearAllMocks();
   });
 
   it('should render TestList', () => {
-    localStorage.setItem('username', 'Ken');
-    const wrapper = withProvider(<TestList data={tests} />);
-    const renderedItem = wrapper.find(List.Item.Meta);
-    const deleteButton = wrapper.find('.floatTop');
     expect(wrapper.render()).toMatchSnapshot();
     expect(renderedItem.length).toEqual(2);
     expect(deleteButton.length).toEqual(1);
   });
 
   it('should handleDeleteButton and hideDelConfirmModal properly', () => {
-    localStorage.setItem('username', 'Arthur');
-    const listItem = {
-      id: '5d22073f-af1a-4548-8466-c918a59f9f4c',
-      subjectId: 'at1420',
-      description: null,
-      timeBegin: '2020-02-05T06:20:31.030Z',
-      tags: ['Arthur'],
-    };
-    const wrapper = withProvider(<TestList data={tests} />);
-    const list = wrapper.find('TestList').instance();
-    list.handleDeleteButton(listItem)();
+    deleteButton.simulate('click');
     expect(list.state.delConfirmModalVisible).toBeTruthy();
-    expect(list.state.delTest).toEqual(listItem);
+    expect(list.state.delTest).toEqual(tests[1]);
     list.hideDelConfirmModal();
     expect(list.state.delConfirmModalVisible).toBeFalsy();
   });
 
   it('should handleOnOkDelConfirmModal', async () => {
     jest.useFakeTimers();
-    const wrapper = withProvider(<TestList data={tests} />);
-    const list = wrapper.find('TestList').instance();
     list.state.delTest = 'atest';
     const theMock = jest.fn(delTest => jest.fn());
     deleteActionUtils.deleteTestAction = theMock;
