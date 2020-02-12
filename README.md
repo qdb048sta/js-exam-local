@@ -52,7 +52,7 @@ v0.1.0
 
 ### Step 1. Install Amplify-cli
 
-1. Run the command `npm -i -g @aws-amplify/cli@4.13.1` 
+1. Run the command `npm i -g @aws-amplify/cli@4.13.1` 
 2. Run the command `amplify` and make sure it will show usage information
 
 ### Step 2. Setup Local Config
