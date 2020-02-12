@@ -36,7 +36,6 @@ schema_20181108.graphql
 .idea/
 
 # amplify
-#amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
