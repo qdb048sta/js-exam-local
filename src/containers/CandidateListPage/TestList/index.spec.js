@@ -47,10 +47,11 @@ describe('TestList index', () => {
   it('should render TestList', () => {
     localStorage.setItem('username', 'Ken');
     const wrapper = withProvider(<TestList data={tests} />);
-
+    const renderedItem = wrapper.find(List.Item.Meta);
+    const deleteButton = wrapper.find('.floatTop');
     expect(wrapper.render()).toMatchSnapshot();
-    expect(wrapper.find(List.Item.Meta).length).toEqual(2);
-    expect(wrapper.find('.floatTop').length).toEqual(1);
+    expect(renderedItem.length).toEqual(2);
+    expect(deleteButton.length).toEqual(1);
   });
 
   it('should handleDeleteButton and hideDelConfirmModal properly', () => {
@@ -76,13 +77,7 @@ describe('TestList index', () => {
     const wrapper = withProvider(<TestList data={tests} />);
     const list = wrapper.find('TestList').instance();
     list.state.delTest = 'atest';
-    const mockInner = jest.fn(
-      () =>
-        new Promise(resolve => {
-          resolve();
-        }),
-    );
-    const theMock = jest.fn(delTest => mockInner);
+    const theMock = jest.fn(delTest => jest.fn());
     deleteActionUtils.deleteTestAction = theMock;
 
     const hideDelConfirmSpy = jest.spyOn(list, 'hideDelConfirmModal');
