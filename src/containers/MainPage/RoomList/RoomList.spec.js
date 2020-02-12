@@ -52,6 +52,8 @@ describe('<RoomList />', () => {
 
   it('should render as snapshot', () => {
     expect(subject.html()).toMatchSnapshot();
+    expect(subject.find('li').length).toEqual(2);
+    expect(subject.find('button i.anticon-delete').length).toEqual(1);
   });
 
   it('should render properly when no data', () => {
