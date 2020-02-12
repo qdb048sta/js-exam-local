@@ -35,7 +35,7 @@ schema_20181108.graphql
 # webstorm
 .idea/
 
-#amplify
+# amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data

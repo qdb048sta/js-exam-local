@@ -15,6 +15,11 @@ export const getTest = `query GetTest($id: ID! $limit: Int) {
           items {
             author
             time
+            rate {
+              quality
+              speed
+              completeness
+            }
             content
           }
           nextToken
