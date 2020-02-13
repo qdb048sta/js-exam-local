@@ -1,6 +1,6 @@
 export const rateTips = {
-  'Technical Skill': 'Technical skill on solving such problem.',
-  'Detail Oriented':
+  Quality: 'Technical skill on solving such problem.',
+  Speed:
     ' Problem Comprehension. Validate their assumptions and identify edge cases upfront.',
   Completeness: 'How much did interviewee complete the problem.',
 };

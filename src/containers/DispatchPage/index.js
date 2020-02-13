@@ -313,11 +313,15 @@ class Page extends Component {
 
   onCreateComment = async data => {
     const { id } = this.props.record;
-    // Stringify data(JSON format), and parse it when needed
     const params = {
       commentRecordId: id,
       author: User.getUserName(),
-      content: JSON.stringify(data),
+      rate: {
+        quality: data.input.rateQuality,
+        speed: data.input.rateSpeed,
+        completeness: data.input.rateComplete,
+      },
+      content: data.input.summary,
     };
     await createComment(params);
     message.success('Add Comment successfully');

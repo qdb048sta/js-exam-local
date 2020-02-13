@@ -2,6 +2,8 @@ import React from 'react';
 import { Connect } from 'aws-amplify-react';
 import { graphqlOperation } from 'aws-amplify';
 
+import PropTypes from 'prop-types';
+
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
 
@@ -52,5 +54,9 @@ class PlaybackPage extends React.PureComponent {
     );
   }
 }
+
+PlaybackPage.propTypes = {
+  match: PropTypes.object,
+};
 
 export default PlaybackPage;
