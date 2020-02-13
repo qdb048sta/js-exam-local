@@ -8,7 +8,6 @@ import { RfRate, RfTextArea, CheckTagGroup } from 'components/RfInput';
 import { optionsList } from './constant';
 
 const validate = values => {
-  console.log(values);
   const errors = {};
   if (!values.rateQuality) errors.rateQuality = 'Quality Rate Required';
   if (!values.rateSpeed) errors.rateSpeed = 'Speed Rate Required';
