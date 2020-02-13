@@ -52,7 +52,7 @@ v0.1.0
 
 ### Step 1. Install Amplify-cli
 
-1. Run the command `npm -i -g @aws-amplify/cli@4.13.1` 
+1. Run the command `npm i -g @aws-amplify/cli@4.13.1` (Install [nvm](https://github.com/nvm-sh/nvm) if you have trouble with installing package globally) 
 2. Run the command `amplify` and make sure it will show usage information
 
 ### Step 2. Setup Local Config
@@ -61,6 +61,7 @@ v0.1.0
 
 1. Kindly ask your team member for `.aws` credential info
 2. Put whole folder into user directory (`echo $HOME` will display actual path)
+3. You can also use `amplify init` to config/setup an .aws credential folder
 
 ### Step 3. Init project
 
