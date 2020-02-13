@@ -29,6 +29,9 @@ describe('<CreateRoomModal />', () => {
   };
 
   describe('before create room success', () => {
+    beforeAll(() => {
+      window.location.href = '/#/admin';
+    });
     beforeEach(() => {
       jest.resetAllMocks();
       const store = configureStore({});
@@ -128,7 +131,7 @@ describe('<CreateRoomModal />', () => {
       jest.spyOn(message, 'success');
       const copyLink = subject.find('input');
       expect(copyLink.prop('value')).toBe(
-        `http://localhost//${createdRoomData.id}`,
+        `http://localhost/#/exam/${createdRoomData.id}`,
       );
       const copyLinkButton = subject.find('button.copyButton');
       copyLinkButton.simulate('click');
