@@ -14,7 +14,7 @@ function deleteTestAction(delTest) {
       }),
     );
     try {
-      // get the full infomation of test instead of using param of function directly,
+      // get the full information of test instead of using param of function directly,
       // since aws graphql sometime fetch data incompletely when query list.
       const {
         data: { getTest: test },
