@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { deleteTestAction } from 'redux/test/actions';
 import { formatTime } from 'utils/format';
 
-import { List, Avatar, Icon, Modal } from 'antd';
+import { List, Avatar, Icon, Button, Modal } from 'antd';
 import style from './TestList.module.scss';
 
 import CandidateSummary from './CandidateSummary/index';
@@ -15,6 +15,8 @@ class TestList extends React.Component {
     delConfirmModalVisible: false,
     delTest: null,
     delAnime: false,
+    testResultModalVisible: false,
+    testRedultModalTarget: [],
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -43,6 +45,23 @@ class TestList extends React.Component {
     }, 500);
   };
 
+  showTestResultModal = e => {
+    // console.log(e.target.getAttribute('candidateName'));
+    this.setState({
+      testResultModalVisible: true,
+      testRedultModalTarget: [
+        e.target.getAttribute('candidate'),
+        e.target.getAttribute('interviewer'),
+      ],
+    });
+  };
+
+  testRedultModalCancel = () => {
+    this.setState({
+      testResultModalVisible: false,
+    });
+  };
+
   render() {
     const { data } = this.props;
     const { delTest, delConfirmModalVisible, delAnime } = this.state;
@@ -59,8 +78,14 @@ class TestList extends React.Component {
                   : ''
               }
               actions={[
-                // <span>Overview</span>,
-                <CandidateSummary item={item} />,
+                <Button
+                  size="small"
+                  onClick={this.showTestResultModal}
+                  candidate={item.subjectId}
+                  interviewer={item.tags[0]}
+                >
+                  Open Summary
+                </Button>,
                 <Link
                   to={{
                     pathname: `/admin/playback/${item.id}`,
@@ -75,7 +100,6 @@ class TestList extends React.Component {
                 title={item.subjectId}
                 description={formatTime(item.timeBegin)}
               />
-              {console.log(item)}
               {item && item.tags && item.tags[0] === localStorage.username && (
                 <button
                   type="button"
@@ -88,6 +112,16 @@ class TestList extends React.Component {
             </List.Item>
           )}
         />
+        <Modal
+          title={`Candidate：${this.state.testRedultModalTarget[0]}`}
+          visible={this.state.testResultModalVisible}
+          onCancel={this.testRedultModalCancel}
+          footer={null}
+          width={700}
+        >
+          <h2>Interview Questions</h2>
+          <CandidateSummary testListData={this.state.testRedultModalTarget} />,
+        </Modal>
         <Modal
           title=""
           visible={delConfirmModalVisible}
@@ -110,5 +144,4 @@ TestList.propTypes = {
 const mapDispatchToProps = dispatch => ({
   deleteTestAction: delTest => dispatch(deleteTestAction(delTest)),
 });
-
 export default connect(null, mapDispatchToProps)(TestList);
