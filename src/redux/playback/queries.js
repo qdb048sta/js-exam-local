@@ -11,6 +11,11 @@ export const queryRecordWithHistory = `
         items {
           author
           time
+          rate {
+            quality
+            speed
+            completeness
+          }
           content
         }
         nextToken

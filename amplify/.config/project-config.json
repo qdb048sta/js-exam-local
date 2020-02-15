@@ -1,7 +1,4 @@
 {
-    "providers": [
-        "awscloudformation"
-    ],
     "projectName": "jsexam2020",
     "version": "3.0",
     "frontend": "javascript",
@@ -14,8 +11,7 @@
             "StartCommand": "npm run-script start"
         }
     },
-    "providers": {
-        "awscloudformation": "C:\\Users\\jackie.chao\\Documents\\Innova\\dev_bin\\node-v8.12.0\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-provider-awscloudformation"
-    },
-    "version": "3.0"
+    "providers": [
+        "awscloudformation"
+    ]
 }

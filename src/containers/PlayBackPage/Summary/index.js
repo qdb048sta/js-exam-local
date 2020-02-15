@@ -22,38 +22,26 @@ const SummaryList = ({ data }) => (
     renderItem={item => (
       <React.Fragment>
         <Row type="flex" align="middle">
-          <Col span={6}>Technical Skill</Col>
+          <Col span={6}>Code Quality</Col>
           <Col span={18}>
-            <Rate
-              disabled
-              tooltips={desc}
-              value={JSON.parse(item.content).input.rateTech}
-            />
+            <Rate disabled tooltips={desc} value={item.rate.quality} />
           </Col>
         </Row>
         <Row type="flex" align="middle">
-          <Col span={6}>Detail Oriented</Col>
+          <Col span={6}>Speed</Col>
           <Col span={18}>
-            <Rate
-              disabled
-              tooltips={desc}
-              value={JSON.parse(item.content).input.rateDetail}
-            />
+            <Rate disabled tooltips={desc} value={item.rate.speed} />
           </Col>
         </Row>
         <Row type="flex" align="middle">
           <Col span={6}>Completeness</Col>
           <Col span={18}>
-            <Rate
-              disabled
-              tooltips={desc}
-              value={JSON.parse(item.content).input.rateComplete}
-            />
+            <Rate disabled tooltips={desc} value={item.rate.completeness} />
           </Col>
         </Row>
         <Comment
           author={item.author}
-          content={JSON.parse(item.content).input.summary}
+          content={item.content}
           avatar={<Avatar>{item.author[0].toUpperCase()}</Avatar>}
         />
       </React.Fragment>
