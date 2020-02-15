@@ -11,7 +11,7 @@ import {
   subscribeOnUpdateRecordByRecordId,
   RECORD_STATUS,
 } from 'utils/record';
-import createComment from 'utils/comment';
+import createComment from 'utils/comment/comment';
 import User from 'utils/user';
 
 import { getRoomInfo, deleteRoomAction, setRoomHost } from 'redux/room/actions';

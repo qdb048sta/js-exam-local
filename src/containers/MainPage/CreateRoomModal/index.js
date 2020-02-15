@@ -13,7 +13,7 @@ import { createRoomActions, createRoom } from 'redux/createRoomModal/actions';
 import reducer from 'redux/createRoomModal/reducer';
 import style from './CreateRoomModal.module.scss';
 
-class CreateRoomModal extends React.PureComponent {
+export class CreateRoomModal extends React.PureComponent {
   state = {
     name: '',
     disabled: true,

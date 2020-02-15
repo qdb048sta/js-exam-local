@@ -3,7 +3,7 @@ module.exports = {
   moduleFileExtensions: ['js'],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
-    '\\.(css|less|sass|scss)$': '<rootDir>/src/__mocks__/fileMock.js',
+    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
   },
   setupTestFrameworkScriptFile: '<rootDir>/src/setupTests.js',
 };
