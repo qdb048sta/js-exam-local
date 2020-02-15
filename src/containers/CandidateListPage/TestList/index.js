@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
-import { List, Avatar, Icon, Modal } from 'antd';
+import { List, Avatar, Icon, Button, Modal } from 'antd';
 import { deleteTestAction } from '../../../redux/test/actions';
 import style from './TestList.module.scss';
 
@@ -15,7 +15,7 @@ class TestList extends React.Component {
     delTest: null,
     delAnime: false,
     testResultModalVisible: false,
-    testRedultModalTarget: [],
+    testResultModalTarget: [],
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -48,14 +48,14 @@ class TestList extends React.Component {
     // console.log(e.target.getAttribute('candidateName'));
     this.setState({
       testResultModalVisible: true,
-      testRedultModalTarget: [
+      testResultModalTarget: [
         e.target.getAttribute('candidate'),
         e.target.getAttribute('interviewer'),
       ],
     });
   };
 
-  testRedultModalCancel = () => {
+  testResultModalCancel = () => {
     this.setState({
       testResultModalVisible: false,
     });
@@ -112,14 +112,14 @@ class TestList extends React.Component {
           )}
         />
         <Modal
-          title={`Candidate：${this.state.testRedultModalTarget[0]}`}
+          title={`Candidate：${this.state.testResultModalTarget[0]}`}
           visible={this.state.testResultModalVisible}
-          onCancel={this.testRedultModalCancel}
+          onCancel={this.testResultModalCancel}
           footer={null}
           width={700}
         >
           <h2>Interview Questions</h2>
-          <CandidateSummary testListData={this.state.testRedultModalTarget} />,
+          <CandidateSummary testListData={this.state.testResultModalTarget} />,
         </Modal>
         <Modal
           title=""
