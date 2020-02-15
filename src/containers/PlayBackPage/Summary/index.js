@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Comment, Avatar, List, Rate, Row, Col } from 'antd';
+import { Modal, Comment, Avatar, List, Rate, Icon, Row, Col } from 'antd';
 
-import { desc } from './constant';
+import { rateDesc, hintDesc } from './constant';
 
 const Summary = ({ summaryList, visible, onCancel }) => (
   <Modal
@@ -24,19 +24,25 @@ const SummaryList = ({ data }) => (
         <Row type="flex" align="middle">
           <Col span={6}>Code Quality</Col>
           <Col span={18}>
-            <Rate disabled tooltips={desc} value={item.rate.quality} />
-          </Col>
-        </Row>
-        <Row type="flex" align="middle">
-          <Col span={6}>Speed</Col>
-          <Col span={18}>
-            <Rate disabled tooltips={desc} value={item.rate.speed} />
+            <Rate disabled tooltips={rateDesc} value={item.rate.quality} />
           </Col>
         </Row>
         <Row type="flex" align="middle">
           <Col span={6}>Completeness</Col>
           <Col span={18}>
-            <Rate disabled tooltips={desc} value={item.rate.completeness} />
+            <Rate disabled tooltips={rateDesc} value={item.rate.completeness} />
+          </Col>
+        </Row>
+        <Row type="flex" align="middle">
+          <Col span={6}>Hints Given</Col>
+          <Col span={18}>
+            <Rate
+              character={<Icon type="bulb" theme="filled" />}
+              style={{ color: 'grey' }}
+              disabled
+              tooltips={hintDesc}
+              value={item.rate.hint}
+            />
           </Col>
         </Row>
         <Comment

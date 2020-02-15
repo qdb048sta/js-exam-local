@@ -318,7 +318,7 @@ class Page extends Component {
       author: User.getUserName(),
       rate: {
         quality: data.input.rateQuality,
-        speed: data.input.rateSpeed,
+        hint: data.input.rateHint,
         completeness: data.input.rateComplete,
       },
       content: data.input.summary,

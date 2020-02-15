@@ -50,7 +50,6 @@ export function fetchRecordWithHistory(id, index) {
       } else {
         dispatch(changeCode({ rawCode: result.ques.content }));
       }
-      console.log(result);
     } catch (e) {
       console.log(e);
     }

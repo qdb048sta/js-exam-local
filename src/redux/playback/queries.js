@@ -13,7 +13,7 @@ export const queryRecordWithHistory = `
           time
           rate {
             quality
-            speed
+            hint
             completeness
           }
           content

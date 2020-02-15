@@ -9,9 +9,9 @@ import { optionsList } from './constant';
 
 const validate = values => {
   const errors = {};
-  if (!values.rateQuality) errors.rateQuality = 'Quality Rate Required';
-  if (!values.rateSpeed) errors.rateSpeed = 'Speed Rate Required';
-  if (!values.rateComplete) errors.rateComplete = 'Completeness Rate Required';
+  if (!values.rateQuality) errors.rateQuality = 'Quality Required';
+  if (!values.rateHint) errors.rateHint = 'Hints Required';
+  if (!values.rateComplete) errors.rateComplete = 'Completeness Required';
   return errors;
 };
 
@@ -41,8 +41,8 @@ class CommentBox extends React.Component {
         <form onSubmit={this.submitForm}>
           <h1>Rate the task</h1>
           <Field name="rateQuality" component={RfRate} label="Quality" />
-          <Field name="rateSpeed" component={RfRate} label="Speed" />
           <Field name="rateComplete" component={RfRate} label="Completeness" />
+          <Field name="rateHint" component={RfRate} label="Hint" />
           <Field name="summary" component={RfTextArea} />
           <h1>Overall Review</h1>
           <div>
