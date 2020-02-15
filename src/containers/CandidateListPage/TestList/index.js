@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
+
 import { List, Avatar, Icon, Button, Modal } from 'antd';
 import { deleteTestAction } from '../../../redux/test/actions';
+
 import style from './TestList.module.scss';
 
 import CandidateSummary from './CandidateSummary/index';
