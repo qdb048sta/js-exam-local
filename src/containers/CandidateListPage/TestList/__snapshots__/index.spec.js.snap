@@ -65,6 +65,21 @@ exports[`TestList index should render TestList 1`] = `
             class="ant-list-item-action"
           >
             <li>
+              <button
+                candidate="Zone"
+                class="ant-btn ant-btn-sm"
+                interviewer="Hank"
+                type="button"
+              >
+                <span>
+                  Open Summary
+                </span>
+              </button>
+              <em
+                class="ant-list-item-action-split"
+              />
+            </li>
+            <li>
               <a
                 href="/admin/playback/9faebbd5-936e-4d3f-8345-ae63c100c9d7"
               >
@@ -153,6 +168,21 @@ exports[`TestList index should render TestList 1`] = `
           <ul
             class="ant-list-item-action"
           >
+            <li>
+              <button
+                candidate="testerror"
+                class="ant-btn ant-btn-sm"
+                interviewer="Kenny"
+                type="button"
+              >
+                <span>
+                  Open Summary
+                </span>
+              </button>
+              <em
+                class="ant-list-item-action-split"
+              />
+            </li>
             <li>
               <a
                 href="/admin/playback/ea52ba9d-5d72-4ac2-8e22-ac4570264706"
