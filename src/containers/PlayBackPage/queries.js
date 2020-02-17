@@ -17,7 +17,7 @@ export const getTest = `query GetTest($id: ID! $limit: Int) {
             time
             rate {
               quality
-              speed
+              hint
               completeness
             }
             content

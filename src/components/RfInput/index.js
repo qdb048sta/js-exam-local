@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Rate, Icon, Tooltip, Tag, Typography, Row, Col } from 'antd';
-import { rateTips, desc } from './constants';
+import { rateTips, rateDesc, hintDesc } from './constants';
 import './checkableTag.css';
 
 const { TextArea } = Input;
@@ -26,7 +26,17 @@ const RfRate = ({ input, label, type, meta: { touched, error } }) => (
       </Tooltip>
     </Col>
     <Col span={8}>
-      <Rate {...input} tooltips={desc} type={type} />
+      {label === 'Hint' ? (
+        <Rate
+          character={<Icon type="bulb" theme="filled" />}
+          style={{ color: 'grey' }}
+          {...input}
+          tooltips={hintDesc}
+          type={type}
+        />
+      ) : (
+        <Rate {...input} tooltips={rateDesc} type={type} />
+      )}
     </Col>
     <Col span={9}>
       {touched && error && <Text type="warning">{error}</Text>}

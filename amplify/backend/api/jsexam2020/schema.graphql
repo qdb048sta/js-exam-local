@@ -38,6 +38,7 @@ type Test @model {
   timeBegin: AWSDateTime
   timeEnd: AWSDateTime 
   records: [Record] @connection(name: "TestRecords")
+  results: [Result] @connection(name: "TestResults")
   status: String! # open/closed
   tags: [String]
 }
@@ -58,16 +59,28 @@ type Record @model {
   room: Room @connection(name: "RoomCurrentRecord")
 }
 
+type Result @model {
+  input: String
+  author: String
+  role: Reviewer
+  test: Test @connection(name: "TestResults")
+}
+
+enum Reviewer {
+  HOST
+  OBSERVER
+}
+
 type Comment @model {
   author: String
   time: AWSDateTime
   content: String
-  rate: CommentRate
+  rate: Rate
   record: Record @connection(name: "RecordComments")
 }
 
-type CommentRate {
-  speed: Int!
+type Rate {
+  hint: Int!
   quality: Int!
   completeness: Int!
 }
