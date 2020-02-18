@@ -3,6 +3,7 @@ import * as mutations from 'graphql/mutations';
 import { getTest } from 'graphql/queries';
 import graphqlActionHelper, { ACTION_STATE } from 'utils/graphqlActionHelper';
 import { deleteRoomAction } from 'redux/room/actions';
+import { updateTestEndTime } from 'utils/test';
 
 function deleteTestAction(delTest) {
   return async dispatch => {
@@ -68,4 +69,38 @@ function deleteTestAction(delTest) {
   };
 }
 
-export { deleteTestAction };
+function updateTestEndTimeData(id) {
+  return async dispatch => {
+    dispatch(
+      graphqlActionHelper({
+        method: 'UPDATE',
+        dataName: 'TEST',
+        actionState: ACTION_STATE.STARTED,
+      }),
+    );
+
+    try {
+      const result = await updateTestEndTime(id);
+      dispatch(
+        graphqlActionHelper({
+          method: 'UPDATE',
+          dataName: 'TEST',
+          actionState: ACTION_STATE.SUCCESS,
+          result,
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        graphqlActionHelper({
+          method: 'UPDATE',
+          dataName: 'TEST',
+          actionState: ACTION_STATE.FAILURE,
+          result: error,
+        }),
+      );
+      console.log(error);
+    }
+  };
+}
+
+export { deleteTestAction, updateTestEndTimeData };

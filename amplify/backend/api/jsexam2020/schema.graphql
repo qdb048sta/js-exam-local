@@ -3,7 +3,7 @@ type Room @model {
   test: Test @connection(name: "RoomTests")
   subjectId: String # could be email
   description: String
-  host: JEUser
+  host: JEUser @connection(name: "HostJEUserRoom")
   createTime: AWSDateTime
   password: String
   users: [JEUser] @connection(name: "RoomJEUsers") # host & observers
@@ -17,6 +17,7 @@ type JEUser @model {
   team: Team @connection(name: "TeamJEUsers")
   test: Test @connection(name: "TestJEUsers")
   hostTest: Test @connection(name: "TestHost") # the test this JEUser host
+  hostRoom: Room @connection(name: "HostJEUserRoom")
 }
 
 type Team @model {
@@ -75,11 +76,20 @@ type Comment @model {
   author: String
   time: AWSDateTime
   content: String
+<<<<<<< Updated upstream
   rate: Rate
   record: Record @connection(name: "RecordComments")
 }
 
 type Rate {
+=======
+  rate: Rate @connection(name: "CommentRate")
+  record: Record @connection(name: "RecordComments")
+}
+
+type Rate @model {
+  comment: Comment @connection(name: "CommentRate")
+>>>>>>> Stashed changes
   hint: Int!
   quality: Int!
   completeness: Int!

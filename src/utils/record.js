@@ -44,6 +44,7 @@ const endRecord = async id => {
     input: {
       id,
       status: RECORD_STATUS.closed,
+      timeEnd: new Date(),
     },
   };
   const result = await API.graphql(

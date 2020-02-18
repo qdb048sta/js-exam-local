@@ -3,6 +3,7 @@ import React from 'react';
 // JSON.stringify will cause problem when the target contains
 // circular in the object structure.
 import { inspect } from 'util';
+import { checkAllPass } from 'utils/checkAllPass';
 
 import styles from './TapeWidget.module.scss';
 
@@ -62,6 +63,7 @@ const getRow = (row, index) => {
 };
 
 const TapeWidget = ({ data }) => {
+  checkAllPass(data);
   return <div className={styles.tape}>{data.map(getRow)}</div>;
 };
 
