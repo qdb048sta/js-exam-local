@@ -23,6 +23,8 @@ import {
   endRecordData,
 } from 'redux/record/actions';
 
+import { updateTestEndTimeData } from 'redux/test/actions';
+
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
 import CommentBox from 'components/CommentBox';
@@ -357,10 +359,12 @@ class Page extends Component {
 
   onEndExam = async () => {
     const { record, actions } = this.props;
+    const testId = this.props.room.test.id;
 
     this.setState({ isLoading: true });
     try {
       await actions.endRecordData(record.id);
+      await actions.updateTestEndTimeData(testId);
     } catch (error) {
       console.error('end exam error', error);
     } finally {
@@ -467,6 +471,7 @@ export default withRouter(
         fetchQuestion: id => dispatch(fetchQuestion(id)),
         createRecordData: params => dispatch(createRecordData(params)),
         endRecordData: id => dispatch(endRecordData(id)),
+        updateTestEndTimeData: id => dispatch(updateTestEndTimeData(id)),
         setCurrentRecord: recordData => dispatch(setCurrentRecord(recordData)),
         setRoomHost: isHost => dispatch(setRoomHost(isHost)),
         setLatestHistory: data => dispatch(setLatestHistory(data)),
