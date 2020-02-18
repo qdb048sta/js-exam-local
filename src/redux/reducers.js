@@ -3,7 +3,7 @@
  */
 
 import { combineReducers } from 'redux';
-import formReducer from 'redux-form/es/reducer';
+import { reducer as formReducer } from 'redux-form';
 
 import login from 'redux/login/reducer';
 import room from 'redux/room/reducer';

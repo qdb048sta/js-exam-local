@@ -11,7 +11,7 @@ import {
   subscribeOnUpdateRecordByRecordId,
   RECORD_STATUS,
 } from 'utils/record';
-import createComment from 'utils/comment';
+import createComment from 'utils/comment/comment';
 import User from 'utils/user';
 
 import { getRoomInfo, deleteRoomAction, setRoomHost } from 'redux/room/actions';
@@ -313,11 +313,15 @@ class Page extends Component {
 
   onCreateComment = async data => {
     const { id } = this.props.record;
-    // Stringify data(JSON format), and parse it when needed
     const params = {
       commentRecordId: id,
       author: User.getUserName(),
-      content: JSON.stringify(data),
+      rate: {
+        quality: data.input.rateQuality,
+        hint: data.input.rateHint,
+        completeness: data.input.rateComplete,
+      },
+      content: data.input.summary,
     };
     await createComment(params);
     message.success('Add Comment successfully');
