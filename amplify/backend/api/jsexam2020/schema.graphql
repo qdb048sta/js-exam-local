@@ -60,8 +60,12 @@ type Record @model {
 }
 
 type Result @model {
-  input: String
-  author: String
+  logic: Int!
+  language: Int!
+  workwith: Int!
+  techreview: String!
+  perstyreview: String!
+  author: String!
   role: Reviewer
   test: Test @connection(name: "TestResults")
 }
