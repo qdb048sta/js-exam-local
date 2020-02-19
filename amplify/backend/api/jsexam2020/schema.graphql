@@ -3,7 +3,7 @@ type Room @model {
   test: Test @connection(name: "RoomTests")
   subjectId: String # could be email
   description: String
-  host: JEUser @connection(name: "RoomHostJEUser")
+  host: JEUser @connection
   createTime: AWSDateTime
   password: String
   users: [JEUser] @connection(name: "RoomJEUsers") # host & observers
@@ -17,7 +17,6 @@ type JEUser @model {
   team: Team @connection(name: "TeamJEUsers")
   test: Test @connection(name: "TestJEUsers")
   hostTest: Test @connection(name: "TestHost") # the test this JEUser host
-  hostRooms: [Room] @connection(name: "RoomHostJEUser")
 }
 
 type Team @model {
