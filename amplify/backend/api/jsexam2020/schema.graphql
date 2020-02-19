@@ -3,7 +3,7 @@ type Room @model {
   test: Test @connection(name: "RoomTests")
   subjectId: String # could be email
   description: String
-  host: JEUser @connection(name: "HostJEUserRoom")
+  host: JEUser @connection(name: "RoomHostJEUser")
   createTime: AWSDateTime
   password: String
   users: [JEUser] @connection(name: "RoomJEUsers") # host & observers
@@ -17,7 +17,7 @@ type JEUser @model {
   team: Team @connection(name: "TeamJEUsers")
   test: Test @connection(name: "TestJEUsers")
   hostTest: Test @connection(name: "TestHost") # the test this JEUser host
-  hostRoom: Room @connection(name: "HostJEUserRoom")
+  hostRooms: [Room] @connection(name: "RoomHostJEUser")
 }
 
 type Team @model {
@@ -61,8 +61,12 @@ type Record @model {
 }
 
 type Result @model {
-  input: String
-  author: String
+  logic: Int!
+  language: Int!
+  workwith: Int!
+  techreview: String!
+  perstyreview: String!
+  author: String!
   role: Reviewer
   test: Test @connection(name: "TestResults")
 }
@@ -80,13 +84,7 @@ type Comment @model {
   record: Record @connection(name: "RecordComments")
 }
 
-type Rate {
-  rate: Rate @connection(name: "CommentRate")
-  record: Record @connection(name: "RecordComments")
-}
-
-type Rate @model {
-  comment: Comment @connection(name: "CommentRate")
+type Rate @model{
   hint: Int!
   quality: Int!
   completeness: Int!
