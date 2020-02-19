@@ -76,20 +76,17 @@ type Comment @model {
   author: String
   time: AWSDateTime
   content: String
-<<<<<<< Updated upstream
   rate: Rate
   record: Record @connection(name: "RecordComments")
 }
 
 type Rate {
-=======
   rate: Rate @connection(name: "CommentRate")
   record: Record @connection(name: "RecordComments")
 }
 
 type Rate @model {
   comment: Comment @connection(name: "CommentRate")
->>>>>>> Stashed changes
   hint: Int!
   quality: Int!
   completeness: Int!
