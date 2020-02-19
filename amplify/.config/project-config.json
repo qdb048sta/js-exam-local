@@ -10,12 +10,8 @@
             "BuildCommand": "npm run-script build",
             "StartCommand": "npm run-script start"
         }
-<<<<<<< Updated upstream
     },
     "providers": [
         "awscloudformation"
     ]
-=======
-    }
->>>>>>> Stashed changes
 }
