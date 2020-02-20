@@ -124,6 +124,7 @@ class TestList extends React.Component {
                 </Link>,
               ]}
             >
+              {console.log(item)}
               <List.Item.Meta
                 avatar={<Avatar icon="code" className={style.avatar} />}
                 title={item.subjectId}
