@@ -12,7 +12,6 @@ import style from './TestList.module.scss';
 import SummaryCard from '../../../components/Summary/SummaryCard';
 import InterviewQuestions from '../../../components/Summary/InterviewQuestions';
 import AddSummaryCard from '../../../components/Summary/AddSummaryCard';
-import Summary from '../../../components/Summary';
 
 class TestList extends React.Component {
   state = {
@@ -124,7 +123,6 @@ class TestList extends React.Component {
                 </Link>,
               ]}
             >
-              {console.log(item)}
               <List.Item.Meta
                 avatar={<Avatar icon="code" className={style.avatar} />}
                 title={item.subjectId}
@@ -171,12 +169,11 @@ class TestList extends React.Component {
         >
           <h2 style={{ fontWeight: '600' }}>Interview Questions</h2>
           <h3>Interviewer：{testResultModalTarget[1]}</h3>
-          {/* <InterviewQuestions testListData={testResultModalTarget} />
+          <InterviewQuestions testListData={testResultModalTarget} />
           <Divider dashed />
           <h3>Interviewer：{testResultModalTarget[1]}</h3>
           <InterviewQuestions testListData={testResultModalTarget} />
-          <Divider dashed /> */}
-          <Summary />
+          <Divider dashed />
           <h2 style={{ fontWeight: '600' }}>Comments</h2>
           <Row type="flex" align="middle" justify="space-around">
             <SummaryCard testListData={testResultModalTarget} />
