@@ -7,8 +7,8 @@ class SummaryCard extends React.Component {
     const { testListData } = this.props;
     return (
       <>
-        <Col span={16}>
-          <Row type="flex" align="middle" justify="space-between">
+        <Col span={10}>
+          <Row type="flex" align="middle" justify="space-around">
             <h3>Interviewer：{testListData[1]}</h3>
           </Row>
           <Card>
@@ -46,7 +46,7 @@ class SummaryCard extends React.Component {
 }
 
 SummaryCard.propTypes = {
-  testListData: PropTypes.array,
+  testListData: PropTypes.array.isRequired,
 };
 
 export default SummaryCard;

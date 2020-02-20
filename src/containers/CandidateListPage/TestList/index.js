@@ -9,9 +9,10 @@ import { deleteTestAction } from '../../../redux/test/actions';
 
 import style from './TestList.module.scss';
 
-import SummaryCard from './SummaryCard';
-import InterviewQuestions from './InterviewQuestions';
-import AddSummaryCard from './AddSummaryCard';
+import SummaryCard from '../../../components/Summary/SummaryCard';
+import InterviewQuestions from '../../../components/Summary/InterviewQuestions';
+import AddSummaryCard from '../../../components/Summary/AddSummaryCard';
+import Summary from '../../../components/Summary';
 
 class TestList extends React.Component {
   state = {
@@ -51,7 +52,6 @@ class TestList extends React.Component {
   };
 
   showTestResultModal = e => {
-    // console.log(e.target.getAttribute('candidateName'));
     this.setState({
       testResultModalVisible: true,
       testResultModalTarget: [
@@ -85,7 +85,15 @@ class TestList extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { delTest, delConfirmModalVisible, delAnime } = this.state;
+    const {
+      delTest,
+      delConfirmModalVisible,
+      delAnime,
+      testResultModalVisible,
+      testResultModalTarget,
+      addSummaryModalVisible,
+      addSummaryModalTarget,
+    } = this.state;
     return (
       <>
         <List
@@ -154,41 +162,42 @@ class TestList extends React.Component {
           )}
         />
         <Modal
-          title={`Candidate：${this.state.testResultModalTarget[0]}`}
-          visible={this.state.testResultModalVisible}
+          title={`Candidate：${testResultModalTarget[0]}`}
+          visible={testResultModalVisible}
           onCancel={this.testResultModalCancel}
           footer={null}
-          width={700}
+          width={1000}
         >
-          <h2>Interview Questions</h2>
-          <Row type="flex" align="middle">
-            <InterviewQuestions
-              testListData={this.state.testResultModalTarget}
-            />
-          </Row>
+          <h2 style={{ fontWeight: '600' }}>Interview Questions</h2>
+          <h3>Interviewer：{testResultModalTarget[1]}</h3>
+          {/* <InterviewQuestions testListData={testResultModalTarget} />
           <Divider dashed />
-          <h2>Comments</h2>
+          <h3>Interviewer：{testResultModalTarget[1]}</h3>
+          <InterviewQuestions testListData={testResultModalTarget} />
+          <Divider dashed /> */}
+          <Summary />
+          <h2 style={{ fontWeight: '600' }}>Comments</h2>
           <Row type="flex" align="middle" justify="space-around">
-            <SummaryCard testListData={this.state.testResultModalTarget} />
+            <SummaryCard testListData={testResultModalTarget} />
+            <SummaryCard testListData={testResultModalTarget} />
           </Row>
         </Modal>
         <Modal
-          title={`Interviewer：${this.state.addSummaryModalTarget[1]}`}
-          visible={this.state.addSummaryModalVisible}
+          title={`Interviewer：${addSummaryModalTarget[1]}`}
+          visible={addSummaryModalVisible}
           onCancel={this.addSummaryModalCancel}
           footer={null}
-          width={700}
+          width={800}
         >
           <h2>Interview Questions</h2>
           <Row type="flex" align="middle">
             <InterviewQuestions />
           </Row>
-          <Divider dashed />
           <h2>Comments</h2>
           <Row type="flex" align="middle" justify="space-around">
-            <AddSummaryCard testListData={this.state.addSummaryModalTarget} />
+            <AddSummaryCard testListData={addSummaryModalTarget} />
           </Row>
-          <Button type="primary" style={{ margin: '16px 0 0 500px' }}>
+          <Button type="primary" style={{ margin: '16px 0 0 550px' }}>
             Add Summary
           </Button>
         </Modal>

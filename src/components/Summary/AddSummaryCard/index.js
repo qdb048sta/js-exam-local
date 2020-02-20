@@ -44,7 +44,7 @@ class AddSummaryCard extends React.Component {
 }
 
 AddSummaryCard.propTypes = {
-  testListData: PropTypes.array,
+  testListData: PropTypes.array.isRequired,
 };
 
 export default AddSummaryCard;
