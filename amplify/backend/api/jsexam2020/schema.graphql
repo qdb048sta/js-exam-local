@@ -79,14 +79,10 @@ type Comment @model {
   author: String
   time: AWSDateTime
   content: String
-  rate: Rate
-  record: Record @connection(name: "RecordComments")
-}
-
-type Rate @model{
   hint: Int!
   quality: Int!
   completeness: Int!
+  record: Record @connection(name: "RecordComments")
 }
 
 type History @model {
