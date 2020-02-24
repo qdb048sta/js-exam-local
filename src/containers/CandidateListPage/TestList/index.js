@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
 
-import { List, Avatar, Icon, Button, Modal } from 'antd';
+import { Row, List, Avatar, Icon, Button, Modal, Divider, Tooltip } from 'antd';
 import { deleteTestAction } from '../../../redux/test/actions';
 
 import style from './TestList.module.scss';
 
-import CandidateSummary from './CandidateSummary/index';
+import SummaryCard from '../../../components/Summary/SummaryCard';
+import InterviewQuestions from '../../../components/Summary/InterviewQuestions';
+import AddSummaryCard from '../../../components/Summary/AddSummaryCard';
 
 class TestList extends React.Component {
   state = {
@@ -18,6 +20,8 @@ class TestList extends React.Component {
     delAnime: false,
     testResultModalVisible: false,
     testResultModalTarget: [],
+    addSummaryModalVisible: false,
+    addSummaryModalTarget: [],
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -47,7 +51,6 @@ class TestList extends React.Component {
   };
 
   showTestResultModal = e => {
-    // console.log(e.target.getAttribute('candidateName'));
     this.setState({
       testResultModalVisible: true,
       testResultModalTarget: [
@@ -63,9 +66,33 @@ class TestList extends React.Component {
     });
   };
 
+  showAddSummaryModal = e => {
+    this.setState({
+      addSummaryModalVisible: true,
+      addSummaryModalTarget: [
+        e.target.getAttribute('candidate'),
+        e.target.getAttribute('interviewer'),
+      ],
+    });
+  };
+
+  addSummaryModalCancel = () => {
+    this.setState({
+      addSummaryModalVisible: false,
+    });
+  };
+
   render() {
     const { data } = this.props;
-    const { delTest, delConfirmModalVisible, delAnime } = this.state;
+    const {
+      delTest,
+      delConfirmModalVisible,
+      delAnime,
+      testResultModalVisible,
+      testResultModalTarget,
+      addSummaryModalVisible,
+      addSummaryModalTarget,
+    } = this.state;
     return (
       <>
         <List
@@ -96,33 +123,81 @@ class TestList extends React.Component {
                 </Link>,
               ]}
             >
-              {console.log(item)}
               <List.Item.Meta
                 avatar={<Avatar icon="code" className={style.avatar} />}
                 title={item.subjectId}
                 description={formatTime(item.timeBegin)}
               />
               {item && item.tags && item.tags[0] === localStorage.username && (
-                <button
-                  type="button"
-                  className={style.floatTop}
-                  onClick={this.handleDeleteButton(item)}
-                >
-                  <Icon type="delete" theme="twoTone" twoToneColor="#f00" />
-                </button>
+                <>
+                  <button
+                    type="button"
+                    className={style.floatTop}
+                    onClick={this.handleDeleteButton(item)}
+                  >
+                    <Icon type="delete" theme="twoTone" twoToneColor="#f00" />
+                  </button>
+                  <Tooltip
+                    placement="top"
+                    title="write summary"
+                    onClick={this.handleSummaryEdit}
+                  >
+                    <Button
+                      type="link"
+                      icon="edit"
+                      style={{
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                        margin: '0 -20px 0 20px',
+                      }}
+                      candidate={item.subjectId}
+                      interviewer={item.tags[0]}
+                      onClick={this.showAddSummaryModal}
+                    />
+                  </Tooltip>
+                </>
               )}
             </List.Item>
           )}
         />
         <Modal
-          title={`Candidate：${this.state.testResultModalTarget[0]}`}
-          visible={this.state.testResultModalVisible}
+          title={`Candidate：${testResultModalTarget[0]}`}
+          visible={testResultModalVisible}
           onCancel={this.testResultModalCancel}
           footer={null}
-          width={700}
+          width={1000}
+        >
+          <h2 style={{ fontWeight: '600' }}>Interview Questions</h2>
+          <h3>Interviewer：{testResultModalTarget[1]}</h3>
+          <InterviewQuestions testListData={testResultModalTarget} />
+          <Divider dashed />
+          <h3>Interviewer：{testResultModalTarget[1]}</h3>
+          <InterviewQuestions testListData={testResultModalTarget} />
+          <Divider dashed />
+          <h2 style={{ fontWeight: '600' }}>Comments</h2>
+          <Row type="flex" align="middle" justify="space-around">
+            <SummaryCard testListData={testResultModalTarget} />
+            <SummaryCard testListData={testResultModalTarget} />
+          </Row>
+        </Modal>
+        <Modal
+          title={`Interviewer：${addSummaryModalTarget[1]}`}
+          visible={addSummaryModalVisible}
+          onCancel={this.addSummaryModalCancel}
+          footer={null}
+          width={800}
         >
           <h2>Interview Questions</h2>
-          <CandidateSummary testListData={this.state.testResultModalTarget} />,
+          <Row type="flex" align="middle">
+            <InterviewQuestions />
+          </Row>
+          <h2>Comments</h2>
+          <Row type="flex" align="middle" justify="space-around">
+            <AddSummaryCard testListData={addSummaryModalTarget} />
+          </Row>
+          <Button type="primary" style={{ margin: '16px 0 0 550px' }}>
+            Add Summary
+          </Button>
         </Modal>
         <Modal
           title=""

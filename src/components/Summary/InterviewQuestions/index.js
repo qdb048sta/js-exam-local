@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { API, graphqlOperation } from 'aws-amplify';
-import { Row, Col, Rate, Divider } from 'antd';
+import { Row, Col, Rate, Icon } from 'antd';
 
-import { getTest } from '../../../../graphql/queries';
-import CommentCard from '../CommentCard';
+import { getTest } from '../../../graphql/queries';
 
-class CandidateSummary extends React.Component {
+class InterviewQuestions extends React.Component {
   // async getTestItemById(item) {
   //   const {
   //     data: { getTest: test },
@@ -15,16 +13,12 @@ class CandidateSummary extends React.Component {
   // }
 
   render() {
-    const { testListData } = this.props;
-    // console.log(testListData);
-    // const data = this.getTestItemById(item);
     return (
       <>
         {/* {data.then(obj => {
           console.log(typeof obj);
         })} */}
-
-        <Row type="flex" align="middle">
+        <Row type="flex" align="middle" style={{ marginTop: '20px' }}>
           <Col span={8} offset={3}>
             <h4>1. mergeSort</h4>
           </Col>
@@ -44,33 +38,43 @@ class CandidateSummary extends React.Component {
             <h4 style={{ display: 'inline' }}> How much hints </h4>
           </Col>
           <Col span={8}>
-            <Rate disabled defaultValue={2} />
+            <Rate
+              disabled
+              defaultValue={2}
+              character={<Icon type="bulb" theme="filled" />}
+              style={{ color: 'grey' }}
+            />
           </Col>
         </Row>
-        <Divider dashed />
-        {/* <Row type="flex" align="middle">
-          <Col span={11} offset={2}>
+        <Row type="flex" align="middle" style={{ marginTop: '20px' }}>
+          <Col span={8} offset={3}>
             <h4>2. forEach, map and reduce</h4>
           </Col>
           <Col span={4}>
             <h4 style={{ display: 'inline' }}> Code quality </h4>
           </Col>
-          <Col span={4}>
+          <Col span={8}>
             <Rate disabled defaultValue={2} />
           </Col>
-          <Col span={4} offset={13}>
+          <Col span={4} offset={11}>
             <h4 style={{ display: 'inline' }}> Compeleteness </h4>
           </Col>
-          <Col span={4}>
+          <Col span={8}>
             <Rate disabled defaultValue={2} />
           </Col>
-          <Col span={4} offset={13}>
+          <Col span={4} offset={11}>
             <h4 style={{ display: 'inline' }}> How much hints </h4>
           </Col>
-          <Col span={4}>
-            <Rate disabled defaultValue={2} />
+          <Col span={8}>
+            <Rate
+              disabled
+              defaultValue={2}
+              character={<Icon type="bulb" theme="filled" />}
+              style={{ color: 'grey' }}
+            />
           </Col>
         </Row>
+        {/* </Row> 
         <Divider dashed />
         <Row type="flex" align="middle">
           <Col span={11} offset={2}>
@@ -96,13 +100,9 @@ class CandidateSummary extends React.Component {
           </Col>
         </Row>
         <Divider dashed /> */}
-        <h2>Comments</h2>
-        <CommentCard testListData={testListData} />
       </>
     );
   }
 }
-CandidateSummary.propTypes = {
-  testListData: PropTypes.array,
-};
-export default CandidateSummary;
+
+export default InterviewQuestions;
