@@ -321,7 +321,7 @@ class Page extends Component {
       quality: data.input.rateQuality,
       hint: data.input.rateHint,
       completeness: data.input.rateComplete,
-      content: data.input.summary || '2',
+      content: data.input.summary,
     };
     await createComment(params);
     message.success('Add Comment successfully');
