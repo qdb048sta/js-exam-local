@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator, SignIn, VerifyContact } from 'aws-amplify-react';
 import { checkPermission } from 'utils/auth/auth';
 
 import NotFoundPage from 'containers/NotFoundPage';
@@ -46,4 +46,4 @@ Admin.propTypes = {
   ]).isRequired,
 };
 
-export default withAuthenticator(Admin);
+export default withAuthenticator(Admin, false, [<SignIn />]);
