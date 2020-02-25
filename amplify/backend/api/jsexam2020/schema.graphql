@@ -82,6 +82,7 @@ type Comment @model {
   hint: Int!
   quality: Int!
   completeness: Int!
+  tags: [String]
   record: Record @connection(name: "RecordComments")
 }
 
