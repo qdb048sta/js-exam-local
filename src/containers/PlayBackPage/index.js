@@ -26,8 +26,9 @@ class PlaybackPage extends React.PureComponent {
             id: testId,
           })}
         >
-          {({ data: { getTest: test }, loading, error }) => {
-            return (
+          {({ data, loading, error }) => {
+            const test = data && data.getTest ? data.getTest : null;
+            return data && data.getTest ? (
               <PageSpin spinning={loading}>
                 {!loading && error && (
                   <PageEmpty description={<span>Error Occuring</span>} />
@@ -47,7 +48,7 @@ class PlaybackPage extends React.PureComponent {
                   />
                 )}
               </PageSpin>
-            );
+            ) : null;
           }}
         </Connect>
       </div>
