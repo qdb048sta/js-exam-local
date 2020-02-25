@@ -318,12 +318,10 @@ class Page extends Component {
     const params = {
       commentRecordId: id,
       author: User.getUserName(),
-      rate: {
-        quality: data.input.rateQuality,
-        hint: data.input.rateHint,
-        completeness: data.input.rateComplete,
-      },
-      content: data.input.summary,
+      quality: data.input.rateQuality,
+      hint: data.input.rateHint,
+      completeness: data.input.rateComplete,
+      content: data.input.summary || '2',
     };
     await createComment(params);
     message.success('Add Comment successfully');

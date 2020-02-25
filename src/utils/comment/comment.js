@@ -3,13 +3,9 @@ import * as mutations from 'graphql/mutations';
 
 // TODO: On UI this is the pop up of creating terminal
 const createComment = async commentData => {
-  const { commentRecordId, author, rate, content } = commentData;
   const params = {
     input: {
-      commentRecordId,
-      author,
-      rate,
-      content,
+      ...commentData,
       time: new Date(),
     },
   };
