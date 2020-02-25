@@ -796,6 +796,9 @@ export const listComments = /* GraphQL */ `
         author
         time
         content
+        hint
+        completeness
+        quality
         record {
           id
           subjectId
