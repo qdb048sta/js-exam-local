@@ -174,7 +174,7 @@ class TestList extends React.Component {
           <h3>Interviewer：{testResultModalTarget[1]}</h3>
           <InterviewQuestions testListData={testResultModalTarget} />
           <Divider dashed />
-          <h2 style={{ fontWeight: '600' }}>Comments</h2>
+          <h2 style={{ fontWeight: '600' }}>Summary</h2>
           <Row type="flex" align="middle" justify="space-around">
             <SummaryCard testListData={testResultModalTarget} />
             <SummaryCard testListData={testResultModalTarget} />
@@ -191,7 +191,7 @@ class TestList extends React.Component {
           <Row type="flex" align="middle">
             <InterviewQuestions />
           </Row>
-          <h2>Comments</h2>
+          <h2>Summary</h2>
           <Row type="flex" align="middle" justify="space-around">
             <AddSummaryCard testListData={addSummaryModalTarget} />
           </Row>
