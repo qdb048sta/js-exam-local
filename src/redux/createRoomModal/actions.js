@@ -38,7 +38,7 @@ const getJEUserByName = name =>
 
 const createJEUser = name =>
   API.graphql(
-    graphqlOperation(mutations.createJEUser, {
+    graphqlOperation(mutations.createJeUser, {
       input: { name },
     }),
   )
