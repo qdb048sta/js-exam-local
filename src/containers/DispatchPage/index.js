@@ -321,6 +321,7 @@ class Page extends Component {
       quality: data.input.rateQuality,
       hint: data.input.rateHint,
       completeness: data.input.rateComplete,
+      tags: data.input.tags,
       content: data.input.summary,
     };
     await createComment(params);
