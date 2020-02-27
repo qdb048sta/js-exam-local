@@ -1,16 +1,18 @@
 projects:
-  innovap3jsexam:
-    schemaPath: ../develop/src/graphql/schema.json
+  jsexam2020:
+    schemaPath: amplify/backend/api/jsexam2020/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:
-      - amplify/**
+      - ./amplify/**
     extensions:
       amplify:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
-        graphQLApiId: ccjdcq6kbrbevoex4fc5gqymgu
+        region: us-east-1
+        apiId: null
+        maxDepth: 2
 extensions:
   amplify:
     version: 3

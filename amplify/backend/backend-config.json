@@ -1,6 +1,6 @@
 {
 	"auth": {
-		"jsexam20201a0ee7e3": {
+		"jsexam6d4f91c1": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []
@@ -16,7 +16,7 @@
 					"defaultAuthentication": {
 						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
 						"userPoolConfig": {
-							"userPoolId": "authjsexam20201a0ee7e3"
+							"userPoolId": "authjsexam6d4f91c1"
 						}
 					}
 				}

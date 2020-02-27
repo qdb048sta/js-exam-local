@@ -7,32 +7,10 @@ export const getRoom = /* GraphQL */ `
       id
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -41,92 +19,19 @@ export const getRoom = /* GraphQL */ `
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       createTime
       password
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       currentRecord {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -140,34 +45,10 @@ export const listRooms = /* GraphQL */ `
     listRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       nextToken
     }
@@ -180,105 +61,31 @@ export const getJeUser = /* GraphQL */ `
       name
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       hostTest {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -295,36 +102,6 @@ export const listJeUsers = /* GraphQL */ `
       items {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       nextToken
     }
@@ -337,19 +114,9 @@ export const getTeam = /* GraphQL */ `
       name
       description
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       questionSet {
-        items {
-          id
-          name
-          description
-          tags
-        }
         nextToken
       }
     }
@@ -366,12 +133,6 @@ export const listTeams = /* GraphQL */ `
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       nextToken
     }
@@ -383,100 +144,31 @@ export const getTest = /* GraphQL */ `
       id
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       subjectId
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       description
       timeBegin
       timeEnd
       records {
-        items {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
+        nextToken
+      }
+      results {
         nextToken
       }
       status
@@ -493,32 +185,10 @@ export const listTests = /* GraphQL */ `
     listTests(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -535,54 +205,14 @@ export const getRecord = /* GraphQL */ `
       interviewer {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       timeBegin
       timeEnd
       status
       comment {
-        items {
-          author
-          time
-          content
-        }
         nextToken
       }
       history {
-        items {
-          id
-          time
-          code
-        }
         nextToken
       }
       ques {
@@ -597,76 +227,22 @@ export const getRecord = /* GraphQL */ `
         name
         content
         test
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
     }
   }
@@ -682,48 +258,51 @@ export const listRecords = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getResult = /* GraphQL */ `
+  query GetResult($id: ID!) {
+    getResult(id: $id) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const listResults = /* GraphQL */ `
+  query ListResults(
+    $filter: ModelResultFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listResults(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        logic
+        language
+        workwith
+        techreview
+        perstyreview
+        author
+        role
       }
       nextToken
     }
@@ -735,52 +314,17 @@ export const getComment = /* GraphQL */ `
       author
       time
       content
+      hint
+      quality
+      completeness
+      tags
       record {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -797,16 +341,9 @@ export const listComments = /* GraphQL */ `
         time
         content
         hint
-        completeness
         quality
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
+        completeness
+        tags
       }
       nextToken
     }
@@ -822,56 +359,11 @@ export const getHistory = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
       snapComments {
-        items {
-          id
-          time
-          author
-          content
-        }
         nextToken
       }
     }
@@ -888,17 +380,6 @@ export const listHistorys = /* GraphQL */ `
         id
         time
         code
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
-        snapComments {
-          nextToken
-        }
       }
       nextToken
     }
@@ -915,17 +396,6 @@ export const getSnapComment = /* GraphQL */ `
         id
         time
         code
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
-        snapComments {
-          nextToken
-        }
       }
     }
   }
@@ -942,11 +412,6 @@ export const listSnapComments = /* GraphQL */ `
         time
         author
         content
-        history {
-          id
-          time
-          code
-        }
       }
       nextToken
     }
@@ -964,48 +429,9 @@ export const getQuestionSnapshot = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -1027,14 +453,6 @@ export const listQuestionSnapshots = /* GraphQL */ `
         name
         content
         test
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       nextToken
     }
@@ -1048,22 +466,8 @@ export const getQuestionSet = /* GraphQL */ `
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       questions {
-        items {
-          id
-          type
-          name
-          content
-          test
-          tags
-        }
         nextToken
       }
       name
@@ -1081,14 +485,6 @@ export const listQuestionSets = /* GraphQL */ `
     listQuestionSets(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        team {
-          id
-          name
-          description
-        }
-        questions {
-          nextToken
-        }
         name
         description
         tags
@@ -1104,14 +500,6 @@ export const getQuestion = /* GraphQL */ `
       type
       questionSet {
         id
-        team {
-          id
-          name
-          description
-        }
-        questions {
-          nextToken
-        }
         name
         description
         tags
@@ -1133,12 +521,6 @@ export const listQuestions = /* GraphQL */ `
       items {
         id
         type
-        questionSet {
-          id
-          name
-          description
-          tags
-        }
         name
         content
         test

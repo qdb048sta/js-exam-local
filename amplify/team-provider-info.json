@@ -1,19 +1,19 @@
 {
-    "dev": {
+    "prod": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-jsexam2020-dev-70345-authRole",
-            "UnauthRoleArn": "arn:aws:iam::917699728562:role/amplify-jsexam2020-dev-70345-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::917699728562:role/amplify-jsexam2020-dev-70345-authRole",
+            "AuthRoleName": "amplify-js-exam-prod-143156-authRole",
+            "UnauthRoleArn": "arn:aws:iam::602307824922:role/amplify-js-exam-prod-143156-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::602307824922:role/amplify-js-exam-prod-143156-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-jsexam2020-dev-70345-deployment",
-            "UnauthRoleName": "amplify-jsexam2020-dev-70345-unauthRole",
-            "StackName": "amplify-jsexam2020-dev-70345",
-            "StackId": "arn:aws:cloudformation:us-east-1:917699728562:stack/amplify-jsexam2020-dev-70345/9b86fad0-47a2-11ea-a8a9-0e1b8dfea4f7",
-            "AmplifyAppId": "d1sjdh0upn0kbu"
+            "DeploymentBucketName": "amplify-js-exam-prod-143156-deployment",
+            "UnauthRoleName": "amplify-js-exam-prod-143156-unauthRole",
+            "StackName": "amplify-js-exam-prod-143156",
+            "StackId": "arn:aws:cloudformation:us-east-1:602307824922:stack/amplify-js-exam-prod-143156/dd642dd0-592a-11ea-a8c7-12505ef78976",
+            "AmplifyAppId": "d3kfbonkvlp4tz"
         },
         "categories": {
             "auth": {
-                "jsexam20201a0ee7e3": {}
+                "jsexam6d4f91c1": {}
             }
         }
     }

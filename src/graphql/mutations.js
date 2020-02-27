@@ -10,32 +10,10 @@ export const createRoom = /* GraphQL */ `
       id
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -44,92 +22,19 @@ export const createRoom = /* GraphQL */ `
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       createTime
       password
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       currentRecord {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -143,32 +48,10 @@ export const updateRoom = /* GraphQL */ `
       id
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -177,92 +60,19 @@ export const updateRoom = /* GraphQL */ `
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       createTime
       password
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       currentRecord {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -276,32 +86,10 @@ export const deleteRoom = /* GraphQL */ `
       id
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -310,92 +98,19 @@ export const deleteRoom = /* GraphQL */ `
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       createTime
       password
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       currentRecord {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -410,105 +125,31 @@ export const createJeUser = /* GraphQL */ `
       name
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       hostTest {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -525,105 +166,31 @@ export const updateJeUser = /* GraphQL */ `
       name
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       hostTest {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -640,105 +207,31 @@ export const deleteJeUser = /* GraphQL */ `
       name
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       hostTest {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
@@ -755,19 +248,9 @@ export const createTeam = /* GraphQL */ `
       name
       description
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       questionSet {
-        items {
-          id
-          name
-          description
-          tags
-        }
         nextToken
       }
     }
@@ -783,19 +266,9 @@ export const updateTeam = /* GraphQL */ `
       name
       description
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       questionSet {
-        items {
-          id
-          name
-          description
-          tags
-        }
         nextToken
       }
     }
@@ -811,19 +284,9 @@ export const deleteTeam = /* GraphQL */ `
       name
       description
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       questionSet {
-        items {
-          id
-          name
-          description
-          tags
-        }
         nextToken
       }
     }
@@ -838,100 +301,31 @@ export const createTest = /* GraphQL */ `
       id
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       subjectId
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       description
       timeBegin
       timeEnd
       records {
-        items {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
+        nextToken
+      }
+      results {
         nextToken
       }
       status
@@ -948,100 +342,31 @@ export const updateTest = /* GraphQL */ `
       id
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       subjectId
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       description
       timeBegin
       timeEnd
       records {
-        items {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
+        nextToken
+      }
+      results {
         nextToken
       }
       status
@@ -1058,100 +383,31 @@ export const deleteTest = /* GraphQL */ `
       id
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       team {
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       subjectId
       users {
-        items {
-          id
-          name
-        }
         nextToken
       }
       host {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       description
       timeBegin
       timeEnd
       records {
-        items {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
+        nextToken
+      }
+      results {
         nextToken
       }
       status
@@ -1171,54 +427,14 @@ export const createRecord = /* GraphQL */ `
       interviewer {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       timeBegin
       timeEnd
       status
       comment {
-        items {
-          author
-          time
-          content
-        }
         nextToken
       }
       history {
-        items {
-          id
-          time
-          code
-        }
         nextToken
       }
       ques {
@@ -1233,76 +449,22 @@ export const createRecord = /* GraphQL */ `
         name
         content
         test
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
     }
   }
@@ -1319,54 +481,14 @@ export const updateRecord = /* GraphQL */ `
       interviewer {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       timeBegin
       timeEnd
       status
       comment {
-        items {
-          author
-          time
-          content
-        }
         nextToken
       }
       history {
-        items {
-          id
-          time
-          code
-        }
         nextToken
       }
       ques {
@@ -1381,76 +503,22 @@ export const updateRecord = /* GraphQL */ `
         name
         content
         test
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
     }
   }
@@ -1467,54 +535,14 @@ export const deleteRecord = /* GraphQL */ `
       interviewer {
         id
         name
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        hostTest {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       timeBegin
       timeEnd
       status
       comment {
-        items {
-          author
-          time
-          content
-        }
         nextToken
       }
       history {
-        items {
-          id
-          time
-          code
-        }
         nextToken
       }
       ques {
@@ -1529,76 +557,97 @@ export const deleteRecord = /* GraphQL */ `
         name
         content
         test
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
       }
       test {
         id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
         subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
         description
         timeBegin
         timeEnd
-        records {
-          nextToken
-        }
         status
         tags
       }
       room {
         id
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
         subjectId
         description
-        host {
-          id
-          name
-        }
         createTime
         password
-        users {
-          nextToken
-        }
-        currentRecord {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
+      }
+    }
+  }
+`;
+export const createResult = /* GraphQL */ `
+  mutation CreateResult(
+    $input: CreateResultInput!
+    $condition: ModelResultConditionInput
+  ) {
+    createResult(input: $input, condition: $condition) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const updateResult = /* GraphQL */ `
+  mutation UpdateResult(
+    $input: UpdateResultInput!
+    $condition: ModelResultConditionInput
+  ) {
+    updateResult(input: $input, condition: $condition) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const deleteResult = /* GraphQL */ `
+  mutation DeleteResult(
+    $input: DeleteResultInput!
+    $condition: ModelResultConditionInput
+  ) {
+    deleteResult(input: $input, condition: $condition) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
       }
     }
   }
@@ -1612,52 +661,17 @@ export const createComment = /* GraphQL */ `
       author
       time
       content
+      hint
+      quality
+      completeness
+      tags
       record {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -1671,52 +685,17 @@ export const updateComment = /* GraphQL */ `
       author
       time
       content
+      hint
+      quality
+      completeness
+      tags
       record {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -1730,52 +709,17 @@ export const deleteComment = /* GraphQL */ `
       author
       time
       content
+      hint
+      quality
+      completeness
+      tags
       record {
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -1793,56 +737,11 @@ export const createHistory = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
       snapComments {
-        items {
-          id
-          time
-          author
-          content
-        }
         nextToken
       }
     }
@@ -1861,56 +760,11 @@ export const updateHistory = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
       snapComments {
-        items {
-          id
-          time
-          author
-          content
-        }
         nextToken
       }
     }
@@ -1929,56 +783,11 @@ export const deleteHistory = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
       snapComments {
-        items {
-          id
-          time
-          author
-          content
-        }
         nextToken
       }
     }
@@ -1998,17 +807,6 @@ export const createSnapComment = /* GraphQL */ `
         id
         time
         code
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
-        snapComments {
-          nextToken
-        }
       }
     }
   }
@@ -2027,17 +825,6 @@ export const updateSnapComment = /* GraphQL */ `
         id
         time
         code
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
-        snapComments {
-          nextToken
-        }
       }
     }
   }
@@ -2056,17 +843,6 @@ export const deleteSnapComment = /* GraphQL */ `
         id
         time
         code
-        record {
-          id
-          subjectId
-          syncCode
-          timeBegin
-          timeEnd
-          status
-        }
-        snapComments {
-          nextToken
-        }
       }
     }
   }
@@ -2086,48 +862,9 @@ export const createQuestionSnapshot = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -2147,48 +884,9 @@ export const updateQuestionSnapshot = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -2208,48 +906,9 @@ export const deleteQuestionSnapshot = /* GraphQL */ `
         id
         subjectId
         syncCode
-        interviewer {
-          id
-          name
-        }
         timeBegin
         timeEnd
         status
-        comment {
-          nextToken
-        }
-        history {
-          nextToken
-        }
-        ques {
-          type
-          name
-          content
-          test
-        }
-        question {
-          id
-          type
-          name
-          content
-          test
-        }
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
       }
     }
   }
@@ -2265,22 +924,8 @@ export const createQuestionSet = /* GraphQL */ `
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       questions {
-        items {
-          id
-          type
-          name
-          content
-          test
-          tags
-        }
         nextToken
       }
       name
@@ -2300,22 +945,8 @@ export const updateQuestionSet = /* GraphQL */ `
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       questions {
-        items {
-          id
-          type
-          name
-          content
-          test
-          tags
-        }
         nextToken
       }
       name
@@ -2335,22 +966,8 @@ export const deleteQuestionSet = /* GraphQL */ `
         id
         name
         description
-        users {
-          nextToken
-        }
-        questionSet {
-          nextToken
-        }
       }
       questions {
-        items {
-          id
-          type
-          name
-          content
-          test
-          tags
-        }
         nextToken
       }
       name
@@ -2369,14 +986,6 @@ export const createQuestion = /* GraphQL */ `
       type
       questionSet {
         id
-        team {
-          id
-          name
-          description
-        }
-        questions {
-          nextToken
-        }
         name
         description
         tags
@@ -2398,14 +1007,6 @@ export const updateQuestion = /* GraphQL */ `
       type
       questionSet {
         id
-        team {
-          id
-          name
-          description
-        }
-        questions {
-          nextToken
-        }
         name
         description
         tags
@@ -2427,14 +1028,6 @@ export const deleteQuestion = /* GraphQL */ `
       type
       questionSet {
         id
-        team {
-          id
-          name
-          description
-        }
-        questions {
-          nextToken
-        }
         name
         description
         tags
