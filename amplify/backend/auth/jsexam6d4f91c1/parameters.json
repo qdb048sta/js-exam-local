@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "jsexam20201a0ee7e3_identitypool_1a0ee7e3",
+    "identityPoolName": "jsexam6d4f91c1_identitypool_6d4f91c1",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "jsexam1a0ee7e3",
-    "userPoolName": "jsexam20201a0ee7e3_userpool_1a0ee7e3",
+    "resourceNameTruncated": "jsexam6d4f91c1",
+    "userPoolName": "jsexam6d4f91c1_userpool_6d4f91c1",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -17,9 +17,7 @@
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
-    "requiredAttributes": [
-        "email"
-    ],
+    "requiredAttributes": [],
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
@@ -28,9 +26,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "jsexam1a0ee7e3_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "jsexam6d4f91c1_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "jsexam20201a0ee7e3",
+    "resourceName": "jsexam6d4f91c1",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -45,6 +43,11 @@
         ]
     },
     "useDefault": "default",
+    "triggers": "{}",
     "userPoolGroupList": [],
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [],
     "dependsOn": []
 }
