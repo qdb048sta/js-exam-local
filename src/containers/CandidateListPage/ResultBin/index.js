@@ -126,7 +126,7 @@ const ResultBin = ({ testsDate }) => {
                               />
                             )}
                             {!loading && sortedTests && (
-                              <TestList data={sortedTests} />
+                              <TestList testListData={sortedTests} />
                             )}
                           </PageSpin>
                         );
