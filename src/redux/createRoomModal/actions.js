@@ -34,7 +34,7 @@ const getJEUserByName = name =>
       }
       return resp.data.listJEUsers.items[0];
     })
-    .catch(err => console.error('getJEUserByName error:', err));
+    .catch(err => console.warn('getJEUserByName error:', err));
 
 const createJEUser = name =>
   API.graphql(
@@ -70,8 +70,6 @@ export function createRoom(data) {
             timeBegin: createTime,
             status: 'open',
             testHostId: jeUser.id,
-            // temporarily store host name in tags, since a jeUser cannot host mutiple test in current graphql schema
-            tags: localStorage.username,
             ...data,
           },
         }),
@@ -81,24 +79,34 @@ export function createRoom(data) {
         graphqlOperation(mutations.createRoom, {
           input: {
             roomTestId: testData.createTest.id,
+            roomHostId: jeUser.id,
             description: roomChar + roomNum,
             createTime,
             ...data,
           },
         }),
       );
-      // TODO: change graphql schema to connect jeUser and test and room. So that don't have to update manually.
-      const { data: jeUserUpdate } = await API.graphql(
+
+      await API.graphql(
+        graphqlOperation(mutations.createTestJeUser, {
+          input: {
+            userID: jeUser.id,
+            testID: testData.createTest.id,
+          },
+        }),
+      );
+
+      await API.graphql(
         graphqlOperation(mutations.updateJeUser, {
           input: {
             id: jeUser.id,
             jEUserRoomId: roomData.createRoom.id,
-            jEUserTestId: testData.createTest.id,
             jEUserHostTestId: testData.createTest.id,
           },
         }),
       );
-      const { data: testUpdate } = await API.graphql(
+
+      await API.graphql(
         graphqlOperation(mutations.updateTest, {
           input: {
             id: testData.createTest.id,

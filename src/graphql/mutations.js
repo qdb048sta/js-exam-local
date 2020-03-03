@@ -135,14 +135,8 @@ export const createJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -176,14 +170,8 @@ export const updateJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -217,14 +205,8 @@ export const deleteJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -328,18 +310,6 @@ export const createTest = /* GraphQL */ `
       results {
         nextToken
       }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
-        nextToken
-      }
       status
       tags
     }
@@ -379,18 +349,6 @@ export const updateTest = /* GraphQL */ `
         nextToken
       }
       results {
-        nextToken
-      }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
         nextToken
       }
       status
@@ -434,20 +392,83 @@ export const deleteTest = /* GraphQL */ `
       results {
         nextToken
       }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
-        nextToken
-      }
       status
       tags
+    }
+  }
+`;
+export const createTestJeUser = /* GraphQL */ `
+  mutation CreateTestJeUser(
+    $input: CreateTestJEUserInput!
+    $condition: ModelTestJEUserConditionInput
+  ) {
+    createTestJEUser(input: $input, condition: $condition) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const updateTestJeUser = /* GraphQL */ `
+  mutation UpdateTestJeUser(
+    $input: UpdateTestJEUserInput!
+    $condition: ModelTestJEUserConditionInput
+  ) {
+    updateTestJEUser(input: $input, condition: $condition) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const deleteTestJeUser = /* GraphQL */ `
+  mutation DeleteTestJeUser(
+    $input: DeleteTestJEUserInput!
+    $condition: ModelTestJEUserConditionInput
+  ) {
+    deleteTestJEUser(input: $input, condition: $condition) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
     }
   }
 `;
@@ -682,156 +703,6 @@ export const deleteResult = /* GraphQL */ `
         description
         timeBegin
         timeEnd
-        status
-        tags
-      }
-    }
-  }
-`;
-export const createResult = /* GraphQL */ `
-  mutation CreateResult(
-    $input: CreateResultInput!
-    $condition: ModelResultConditionInput
-  ) {
-    createResult(input: $input, condition: $condition) {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        status
-        tags
-      }
-    }
-  }
-`;
-export const updateResult = /* GraphQL */ `
-  mutation UpdateResult(
-    $input: UpdateResultInput!
-    $condition: ModelResultConditionInput
-  ) {
-    updateResult(input: $input, condition: $condition) {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        status
-        tags
-      }
-    }
-  }
-`;
-export const deleteResult = /* GraphQL */ `
-  mutation DeleteResult(
-    $input: DeleteResultInput!
-    $condition: ModelResultConditionInput
-  ) {
-    deleteResult(input: $input, condition: $condition) {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
         status
         tags
       }

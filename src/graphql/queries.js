@@ -71,14 +71,8 @@ export const getJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -171,18 +165,6 @@ export const getTest = /* GraphQL */ `
       results {
         nextToken
       }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
-        nextToken
-      }
       status
       tags
     }
@@ -203,6 +185,44 @@ export const listTests = /* GraphQL */ `
         timeEnd
         status
         tags
+      }
+      nextToken
+    }
+  }
+`;
+export const getTestJeUser = /* GraphQL */ `
+  query GetTestJeUser($id: ID!) {
+    getTestJEUser(id: $id) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const listTestJeUsers = /* GraphQL */ `
+  query ListTestJeUsers(
+    $filter: ModelTestJEUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTestJEUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        testID
       }
       nextToken
     }
@@ -315,82 +335,6 @@ export const listResults = /* GraphQL */ `
         perstyreview
         author
         role
-      }
-      nextToken
-    }
-  }
-`;
-export const getResult = /* GraphQL */ `
-  query GetResult($id: ID!) {
-    getResult(id: $id) {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        status
-        tags
-      }
-    }
-  }
-`;
-export const listResults = /* GraphQL */ `
-  query ListResults(
-    $filter: ModelResultFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listResults(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        logic
-        language
-        workwith
-        techreview
-        perstyreview
-        author
-        role
-        test {
-          id
-          subjectId
-          description
-          timeBegin
-          timeEnd
-          status
-          tags
-        }
       }
       nextToken
     }
