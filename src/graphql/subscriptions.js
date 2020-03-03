@@ -18,14 +18,8 @@ export const onUpdateJeUserByJeUserId = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -85,18 +79,6 @@ export const onUpdateTestByTestId = /* GraphQL */ `
         nextToken
       }
       results {
-        nextToken
-      }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
         nextToken
       }
       status
@@ -312,14 +294,8 @@ export const onCreateJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -350,14 +326,8 @@ export const onUpdateJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -388,14 +358,8 @@ export const onDeleteJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -487,18 +451,6 @@ export const onCreateTest = /* GraphQL */ `
       results {
         nextToken
       }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
-        nextToken
-      }
       status
       tags
     }
@@ -535,18 +487,6 @@ export const onUpdateTest = /* GraphQL */ `
         nextToken
       }
       results {
-        nextToken
-      }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
         nextToken
       }
       status
@@ -587,20 +527,74 @@ export const onDeleteTest = /* GraphQL */ `
       results {
         nextToken
       }
-      results {
-        items {
-          logic
-          language
-          workwith
-          techreview
-          perstyreview
-          author
-          role
-        }
-        nextToken
-      }
       status
       tags
+    }
+  }
+`;
+export const onCreateTestJeUser = /* GraphQL */ `
+  subscription OnCreateTestJeUser {
+    onCreateTestJEUser {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onUpdateTestJeUser = /* GraphQL */ `
+  subscription OnUpdateTestJeUser {
+    onUpdateTestJEUser {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onDeleteTestJeUser = /* GraphQL */ `
+  subscription OnDeleteTestJeUser {
+    onDeleteTestJEUser {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
     }
   }
 `;
@@ -817,147 +811,6 @@ export const onDeleteResult = /* GraphQL */ `
         description
         timeBegin
         timeEnd
-        status
-        tags
-      }
-    }
-  }
-`;
-export const onCreateResult = /* GraphQL */ `
-  subscription OnCreateResult {
-    onCreateResult {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        status
-        tags
-      }
-    }
-  }
-`;
-export const onUpdateResult = /* GraphQL */ `
-  subscription OnUpdateResult {
-    onUpdateResult {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
-        status
-        tags
-      }
-    }
-  }
-`;
-export const onDeleteResult = /* GraphQL */ `
-  subscription OnDeleteResult {
-    onDeleteResult {
-      logic
-      language
-      workwith
-      techreview
-      perstyreview
-      author
-      role
-      test {
-        id
-        room {
-          id
-          subjectId
-          description
-          createTime
-          password
-        }
-        team {
-          id
-          name
-          description
-        }
-        subjectId
-        users {
-          nextToken
-        }
-        host {
-          id
-          name
-        }
-        description
-        timeBegin
-        timeEnd
-        records {
-          nextToken
-        }
-        results {
-          nextToken
-        }
         status
         tags
       }
