@@ -4,6 +4,18 @@ export const getTest = `query GetTest($id: ID! $limit: Int) {
       subjectId
       timeBegin
       timeEnd
+      results(limit: $limit) {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
+        nextToken
+      }
       records(limit: $limit) {
         items {
           id
