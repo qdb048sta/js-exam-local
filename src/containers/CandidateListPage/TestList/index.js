@@ -184,9 +184,9 @@ class TestList extends React.Component {
                 interviewers = test.records.items[0].comment.items.map(
                   c => c.author,
                 );
-                console.log(interviewers);
+                // console.log(interviewers);
                 const comments = test.records.items.map(r => r.comment.items);
-                console.log(comments);
+                // console.log(comments);
                 const interviewComments = interviewers.map((viewer, index) => {
                   const questions = test.records.items.map(r =>
                     Object.assign({}, r.ques),
@@ -199,7 +199,7 @@ class TestList extends React.Component {
                     questions,
                   };
                 });
-                console.log(interviewComments);
+                // console.log(interviewComments);
                 interviewerRecord = interviewComments;
               }
 
@@ -258,9 +258,9 @@ class TestList extends React.Component {
                 interviewers = test.records.items[0].comment.items.map(
                   c => c.author,
                 );
-                console.log(interviewers);
+                // console.log(interviewers);
                 const comments = test.records.items.map(r => r.comment.items);
-                console.log(comments);
+                // console.log(comments);
                 const interviewComments = interviewers.map((viewer, index) => {
                   const questions = test.records.items.map(r =>
                     Object.assign({}, r.ques),
@@ -273,7 +273,7 @@ class TestList extends React.Component {
                     questions,
                   };
                 });
-                console.log(interviewComments);
+                // console.log(interviewComments);
                 addSummaryRecord = interviewComments;
               }
               return data && data.getTest ? (

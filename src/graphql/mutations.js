@@ -328,6 +328,18 @@ export const createTest = /* GraphQL */ `
       results {
         nextToken
       }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
+        nextToken
+      }
       status
       tags
     }
@@ -369,6 +381,18 @@ export const updateTest = /* GraphQL */ `
       results {
         nextToken
       }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
+        nextToken
+      }
       status
       tags
     }
@@ -408,6 +432,18 @@ export const deleteTest = /* GraphQL */ `
         nextToken
       }
       results {
+        nextToken
+      }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
         nextToken
       }
       status
@@ -646,6 +682,156 @@ export const deleteResult = /* GraphQL */ `
         description
         timeBegin
         timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const createResult = /* GraphQL */ `
+  mutation CreateResult(
+    $input: CreateResultInput!
+    $condition: ModelResultConditionInput
+  ) {
+    createResult(input: $input, condition: $condition) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        status
+        tags
+      }
+    }
+  }
+`;
+export const updateResult = /* GraphQL */ `
+  mutation UpdateResult(
+    $input: UpdateResultInput!
+    $condition: ModelResultConditionInput
+  ) {
+    updateResult(input: $input, condition: $condition) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        status
+        tags
+      }
+    }
+  }
+`;
+export const deleteResult = /* GraphQL */ `
+  mutation DeleteResult(
+    $input: DeleteResultInput!
+    $condition: ModelResultConditionInput
+  ) {
+    deleteResult(input: $input, condition: $condition) {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        results {
+          nextToken
+        }
         status
         tags
       }

@@ -87,6 +87,18 @@ export const onUpdateTestByTestId = /* GraphQL */ `
       results {
         nextToken
       }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
+        nextToken
+      }
       status
       tags
     }
@@ -475,6 +487,18 @@ export const onCreateTest = /* GraphQL */ `
       results {
         nextToken
       }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
+        nextToken
+      }
       status
       tags
     }
@@ -513,6 +537,18 @@ export const onUpdateTest = /* GraphQL */ `
       results {
         nextToken
       }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
+        nextToken
+      }
       status
       tags
     }
@@ -549,6 +585,18 @@ export const onDeleteTest = /* GraphQL */ `
         nextToken
       }
       results {
+        nextToken
+      }
+      results {
+        items {
+          logic
+          language
+          workwith
+          techreview
+          perstyreview
+          author
+          role
+        }
         nextToken
       }
       status
@@ -769,6 +817,147 @@ export const onDeleteResult = /* GraphQL */ `
         description
         timeBegin
         timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onCreateResult = /* GraphQL */ `
+  subscription OnCreateResult {
+    onCreateResult {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onUpdateResult = /* GraphQL */ `
+  subscription OnUpdateResult {
+    onUpdateResult {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        results {
+          nextToken
+        }
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onDeleteResult = /* GraphQL */ `
+  subscription OnDeleteResult {
+    onDeleteResult {
+      logic
+      language
+      workwith
+      techreview
+      perstyreview
+      author
+      role
+      test {
+        id
+        room {
+          id
+          subjectId
+          description
+          createTime
+          password
+        }
+        team {
+          id
+          name
+          description
+        }
+        subjectId
+        users {
+          nextToken
+        }
+        host {
+          id
+          name
+        }
+        description
+        timeBegin
+        timeEnd
+        records {
+          nextToken
+        }
+        results {
+          nextToken
+        }
         status
         tags
       }
