@@ -100,7 +100,7 @@ export function createRoom(data) {
         graphqlOperation(mutations.updateJeUser, {
           input: {
             id: jeUser.id,
-            // jEUserRoomId: roomData.createRoom.id,
+            jEUserRoomId: roomData.createRoom.id,
             jEUserHostTestId: testData.createTest.id,
           },
         }),
