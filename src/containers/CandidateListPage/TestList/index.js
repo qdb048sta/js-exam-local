@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
+import { Connect } from 'aws-amplify-react';
+import { graphqlOperation } from 'aws-amplify';
 
-import { Row, List, Avatar, Icon, Button, Modal, Divider, Tooltip } from 'antd';
+import { Row, List, Avatar, Icon, Button, Modal, Tooltip } from 'antd';
 import { deleteTestAction } from '../../../redux/test/actions';
 
 import style from './TestList.module.scss';
+
+import { getTest } from './queries';
+import PageEmpty from '../../../components/PageEmpty';
+import PageSpin from '../../../components/PageSpin';
 
 import SummaryCard from '../../../components/Summary/SummaryCard';
 import InterviewQuestions from '../../../components/Summary/InterviewQuestions';
@@ -22,6 +28,7 @@ class TestList extends React.Component {
     testResultModalTarget: [],
     addSummaryModalVisible: false,
     addSummaryModalTarget: [],
+    testResultId: null,
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -53,10 +60,8 @@ class TestList extends React.Component {
   showTestResultModal = e => {
     this.setState({
       testResultModalVisible: true,
-      testResultModalTarget: [
-        e.target.getAttribute('candidate'),
-        e.target.getAttribute('interviewer'),
-      ],
+      testResultModalTarget: [e.target.getAttribute('candidate')],
+      testResultId: e.target.getAttribute('testid'),
     });
   };
 
@@ -69,10 +74,8 @@ class TestList extends React.Component {
   showAddSummaryModal = e => {
     this.setState({
       addSummaryModalVisible: true,
-      addSummaryModalTarget: [
-        e.target.getAttribute('candidate'),
-        e.target.getAttribute('interviewer'),
-      ],
+      addSummaryModalTarget: [e.target.getAttribute('candidate')],
+      testResultId: e.target.getAttribute('testid'),
     });
   };
 
@@ -83,7 +86,7 @@ class TestList extends React.Component {
   };
 
   render() {
-    const { data } = this.props;
+    const { testListData } = this.props;
     const {
       delTest,
       delConfirmModalVisible,
@@ -92,12 +95,13 @@ class TestList extends React.Component {
       testResultModalTarget,
       addSummaryModalVisible,
       addSummaryModalTarget,
+      testResultId,
     } = this.state;
     return (
       <>
         <List
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={testListData}
           renderItem={item => (
             <List.Item
               className={
@@ -110,7 +114,7 @@ class TestList extends React.Component {
                   size="small"
                   onClick={this.showTestResultModal}
                   candidate={item.subjectId}
-                  interviewer={item.tags[0]}
+                  testid={item.id}
                 >
                   Open Summary
                 </Button>,
@@ -151,7 +155,7 @@ class TestList extends React.Component {
                         margin: '0 -20px 0 20px',
                       }}
                       candidate={item.subjectId}
-                      interviewer={item.tags[0]}
+                      testid={item.id}
                       onClick={this.showAddSummaryModal}
                     />
                   </Tooltip>
@@ -167,37 +171,154 @@ class TestList extends React.Component {
           footer={null}
           width={1000}
         >
-          <h2 style={{ fontWeight: '600' }}>Interview Questions</h2>
-          <h3>Interviewer：{testResultModalTarget[1]}</h3>
-          <InterviewQuestions testListData={testResultModalTarget} />
-          <Divider dashed />
-          <h3>Interviewer：{testResultModalTarget[1]}</h3>
-          <InterviewQuestions testListData={testResultModalTarget} />
-          <Divider dashed />
-          <h2 style={{ fontWeight: '600' }}>Comments</h2>
-          <Row type="flex" align="middle" justify="space-around">
-            <SummaryCard testListData={testResultModalTarget} />
-            <SummaryCard testListData={testResultModalTarget} />
-          </Row>
+          <Connect
+            query={graphqlOperation(getTest, {
+              id: testResultId,
+            })}
+          >
+            {({ data, loading, error }) => {
+              const test = data && data.getTest;
+              let interviewerRecord;
+              let interviewers = [];
+              if (test && test.records && test.records.items[0]) {
+                interviewers = test.records.items[0].comment.items.map(
+                  c => c.author,
+                );
+                console.log(interviewers);
+                const comments = test.records.items.map(r => r.comment.items);
+                console.log(comments);
+                const interviewComments = interviewers.map((viewer, index) => {
+                  const questions = test.records.items.map(r =>
+                    Object.assign({}, r.ques),
+                  );
+                  questions.forEach((q, i) => {
+                    q.comment = comments[i][index];
+                  });
+                  return {
+                    interviewerName: viewer,
+                    questions,
+                  };
+                });
+                console.log(interviewComments);
+                interviewerRecord = interviewComments;
+              }
+
+              return test ? (
+                <PageSpin spinning={loading}>
+                  {!loading && error && (
+                    <PageEmpty description={<span>Error Occuring</span>} />
+                  )}
+
+                  {!loading && !test && (
+                    <PageEmpty
+                      description={<span>Data Not Found</span>}
+                      image="default"
+                    />
+                  )}
+
+                  {!loading && test && (
+                    <>
+                      <h2 style={{ fontWeight: '600' }}>Interview Questions</h2>
+                      {interviewerRecord.map(item => (
+                        <InterviewQuestions
+                          key={item.interviewerName}
+                          records={item}
+                        />
+                      ))}
+                      <h2 style={{ fontWeight: '600' }}>Summary</h2>
+                      <Row type="flex" align="middle" justify="space-around">
+                        {interviewerRecord.map((item, index) => (
+                          <SummaryCard key={index} records={item} />
+                        ))}
+                      </Row>
+                    </>
+                  )}
+                </PageSpin>
+              ) : null;
+            }}
+          </Connect>
         </Modal>
         <Modal
-          title={`Interviewer：${addSummaryModalTarget[1]}`}
+          title={`Candidate：${addSummaryModalTarget[0]}`}
           visible={addSummaryModalVisible}
           onCancel={this.addSummaryModalCancel}
           footer={null}
           width={800}
         >
-          <h2>Interview Questions</h2>
-          <Row type="flex" align="middle">
-            <InterviewQuestions />
-          </Row>
-          <h2>Comments</h2>
-          <Row type="flex" align="middle" justify="space-around">
-            <AddSummaryCard testListData={addSummaryModalTarget} />
-          </Row>
-          <Button type="primary" style={{ margin: '16px 0 0 550px' }}>
-            Add Summary
-          </Button>
+          <Connect
+            query={graphqlOperation(getTest, {
+              id: testResultId,
+            })}
+          >
+            {({ data, loading, error }) => {
+              const test = data && data.getTest;
+              let interviewers = [];
+              let addSummaryRecord;
+              if (test && test.records && test.records.items[0]) {
+                interviewers = test.records.items[0].comment.items.map(
+                  c => c.author,
+                );
+                console.log(interviewers);
+                const comments = test.records.items.map(r => r.comment.items);
+                console.log(comments);
+                const interviewComments = interviewers.map((viewer, index) => {
+                  const questions = test.records.items.map(r =>
+                    Object.assign({}, r.ques),
+                  );
+                  questions.forEach((q, i) => {
+                    q.comment = comments[i][index];
+                  });
+                  return {
+                    interviewerName: viewer,
+                    questions,
+                  };
+                });
+                console.log(interviewComments);
+                addSummaryRecord = interviewComments;
+              }
+              return data && data.getTest ? (
+                <PageSpin spinning={loading}>
+                  {!loading && error && (
+                    <PageEmpty description={<span>Error Occuring</span>} />
+                  )}
+
+                  {!loading && !test && (
+                    <PageEmpty
+                      description={<span>Data Not Found</span>}
+                      image="default"
+                    />
+                  )}
+
+                  {!loading && test && (
+                    <>
+                      {console.log(test)}
+                      <h2>Interview Questions</h2>
+                      {addSummaryRecord.map(
+                        item =>
+                          item.interviewerName === localStorage.username && (
+                            <InterviewQuestions
+                              key={item.interviewerName}
+                              records={item}
+                            />
+                          ),
+                      )}
+
+                      <h2>Summary</h2>
+                      <Row type="flex" align="middle" justify="space-around">
+                        <AddSummaryCard />
+                      </Row>
+                      <Button
+                        type="primary"
+                        style={{ margin: '16px 0 0 550px' }}
+                      >
+                        Add Summary
+                      </Button>
+                    </>
+                  )}
+                </PageSpin>
+              ) : null;
+            }}
+          </Connect>
         </Modal>
         <Modal
           title=""
@@ -215,7 +336,7 @@ class TestList extends React.Component {
   }
 }
 TestList.propTypes = {
-  data: PropTypes.array,
+  testListData: PropTypes.array,
 };
 
 const mapDispatchToProps = dispatch => ({
