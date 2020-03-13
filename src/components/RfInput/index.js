@@ -16,7 +16,6 @@ const RfTextArea = ({ input }) => (
 );
 
 const RfRate = ({ input, label, type, meta: { touched, error } }) => {
-  console.log(input);
   return (
     <Row type="flex" align="middle">
       <Col span={5}>

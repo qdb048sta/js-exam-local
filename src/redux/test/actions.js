@@ -121,13 +121,11 @@ function setTestInterviewer(testID, userID) {
       }),
     );
     try {
-      const resp = await API.graphql(
+      await API.graphql(
         graphqlOperation(mutations.createTestJeUser, {
           input: { testID, userID },
         }),
       );
-
-      console.log(resp);
     } catch (error) {
       dispatch(
         graphqlActionHelper({
