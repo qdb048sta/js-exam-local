@@ -11,38 +11,41 @@ const RfInput = ({ input, ...custom }) => <Input {...input} {...custom} />;
 
 const RfTextArea = ({ input }) => (
   <div>
-    <TextArea {...input} rows={3} placeholder="Write your opinion..." />
+    <TextArea {...input} rows={3} placeholder="Write your comments..." />
   </div>
 );
 
-const RfRate = ({ input, label, type, meta: { touched, error } }) => (
-  <Row type="flex" align="middle">
-    <Col span={5}>
-      <label>{label}</label>
-    </Col>
-    <Col span={2}>
-      <Tooltip title={rateTips[label]} placement="right">
-        <Icon type="info-circle" />
-      </Tooltip>
-    </Col>
-    <Col span={8}>
-      {label === 'Hint' ? (
-        <Rate
-          character={<Icon type="bulb" theme="filled" />}
-          style={{ color: 'grey' }}
-          {...input}
-          tooltips={hintDesc}
-          type={type}
-        />
-      ) : (
-        <Rate {...input} tooltips={rateDesc} type={type} />
-      )}
-    </Col>
-    <Col span={9}>
-      {touched && error && <Text type="warning">{error}</Text>}
-    </Col>
-  </Row>
-);
+const RfRate = ({ input, label, type, meta: { touched, error } }) => {
+  console.log(input);
+  return (
+    <Row type="flex" align="middle">
+      <Col span={5}>
+        <label>{label}</label>
+      </Col>
+      <Col span={2}>
+        <Tooltip title={rateTips[label]} placement="right">
+          <Icon type="info-circle" />
+        </Tooltip>
+      </Col>
+      <Col span={8}>
+        {label === 'Hint' ? (
+          <Rate
+            character={<Icon type="bulb" theme="filled" />}
+            style={{ color: 'grey' }}
+            {...input}
+            tooltips={[hintDesc]}
+            type={type}
+          />
+        ) : (
+          <Rate {...input} tooltips={[rateDesc]} type={type} />
+        )}
+      </Col>
+      <Col span={9}>
+        {touched && error && <Text type="warning">{error}</Text>}
+      </Col>
+    </Row>
+  );
+};
 
 class CheckTagGroup extends React.Component {
   checkTagGroup() {
@@ -78,8 +81,8 @@ class CheckTagGroup extends React.Component {
   }
 }
 CheckTagGroup.propTypes = {
-  input: PropTypes.string,
-  options: PropTypes.object.isRequired,
+  input: PropTypes.object,
+  options: PropTypes.arrayOf(Object).isRequired,
 };
 
 export { RfTextArea, RfInput, RfRate, CheckTagGroup };

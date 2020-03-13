@@ -770,6 +770,7 @@ export const onCreateResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -792,6 +793,7 @@ export const onUpdateResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -814,6 +816,7 @@ export const onDeleteResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;

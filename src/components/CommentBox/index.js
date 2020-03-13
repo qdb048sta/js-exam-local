@@ -24,10 +24,12 @@ class CommentBox extends React.Component {
     });
   }
 
+  rateValueFormatter = v => v || 0;
+
   // testing with mock data
-  componentDidMount() {
-    this.props.initialize({ tags: ['Lack of Confidence'] });
-  }
+  // componentDidMount() {
+  //   this.props.initialize({ tags: ['Lack of Confidence'] });
+  // }
 
   render() {
     const { visible } = this.props;
@@ -40,10 +42,29 @@ class CommentBox extends React.Component {
       >
         <form onSubmit={this.submitForm}>
           <h1>Rate the task</h1>
-          <Field name="rateQuality" component={RfRate} label="Quality" />
-          <Field name="rateComplete" component={RfRate} label="Completeness" />
-          <Field name="rateHint" component={RfRate} label="Hint" />
-          <Field name="summary" component={RfTextArea} />
+          <Field
+            name="rateQuality"
+            component={RfRate}
+            label="Quality"
+            format={this.rateValueFormatter}
+          />
+          <Field
+            name="rateComplete"
+            component={RfRate}
+            label="Completeness"
+            format={this.rateValueFormatter}
+          />
+          <Field
+            name="rateHint"
+            component={RfRate}
+            label="Hint"
+            format={this.rateValueFormatter}
+          />
+          <Field
+            name="summary"
+            component={RfTextArea}
+            placeholder="Write your opinion..."
+          />
           <h1>Overall Review</h1>
           <div>
             <Field
@@ -64,7 +85,7 @@ CommentBox.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
-  initialize: PropTypes.func.isRequired,
+  // initialize: PropTypes.func.isRequired,
 };
 
 export default reduxForm({

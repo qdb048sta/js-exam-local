@@ -80,6 +80,7 @@ type Result @model {
   author: String!
   role: Reviewer
   test: Test @connection(name: "TestResults")
+  time: AWSDateTime
 }
 
 enum Reviewer {
@@ -162,4 +163,3 @@ type Subscription {
   onUpdateRecordByRecordId(id: String): Record
     @aws_subscribe(mutations: ["updateRecord"])
 }
-

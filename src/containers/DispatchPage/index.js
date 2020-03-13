@@ -23,7 +23,7 @@ import {
   endRecordData,
 } from 'redux/record/actions';
 
-import { updateTestEndTimeData } from 'redux/test/actions';
+import { updateTestEndTimeData, setTestInterviewer } from 'redux/test/actions';
 
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
@@ -103,11 +103,15 @@ class Page extends Component {
         graphqlOperation(subscriptions.onCreateHistory),
       ).subscribe({
         next: ({ value }) => {
+          const onCreateHistory = value.data.onCreateHistory;
           const { record, actions } = this.props;
-          if (value.data.onCreateHistory.record.id === record.id) {
-            actions.setLatestHistory(value.data.onCreateHistory);
+          if (onCreateHistory.record.id === record.id) {
+            actions.setLatestHistory(onCreateHistory);
           }
-          if (value.data.onCreateHistory.snapComments.items.length === 0) {
+          if (
+            onCreateHistory.snapComments.items &&
+            onCreateHistory.snapComments.items.length === 0
+          ) {
             this.setState({ ran: false });
           }
         },
@@ -131,6 +135,16 @@ class Page extends Component {
   };
 
   setRoomSetting = async () => {
+    const jeUser = JSON.parse(localStorage.jeUser);
+    const isInterviewerExist = this.props.room.test.users.items
+      .map(v => v.userID)
+      .includes(jeUser.id);
+    if (!isInterviewerExist) {
+      await this.props.actions.setTestInterviewer(
+        this.props.room.test.id,
+        jeUser.id,
+      );
+    }
     // when question has dispatched, append the record data
     if (this.props.record.id) {
       this.subscribeRecordUpdate();
@@ -465,6 +479,8 @@ export default withRouter(
     dispatch => ({
       actions: {
         getRoomInfo: id => dispatch(getRoomInfo(id)),
+        setTestInterviewer: (testID, userID) =>
+          dispatch(setTestInterviewer(testID, userID)),
         deleteRoomAction: room => dispatch(deleteRoomAction(room)),
         fetchQuestionList: type => dispatch(fetchQuestionList(type)),
         fetchQuestion: id => dispatch(fetchQuestion(id)),

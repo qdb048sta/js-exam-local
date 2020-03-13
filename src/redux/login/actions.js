@@ -2,8 +2,8 @@ import { Auth } from 'aws-amplify';
 import filter from 'lodash/filter';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listJeUsers } from 'graphql/queries';
+import { createJeUser } from 'graphql/mutations';
 import {
-  LOGIN,
   AUTO_LOGIN,
   SET_USERNAME,
   SET_HOSTINGS,
@@ -11,6 +11,30 @@ import {
   LOGOUT,
 } from './constants';
 import * as loginAction from './actions';
+
+const getJEUserByName = name =>
+  API.graphql(
+    graphqlOperation(listJeUsers, {
+      filter: { name: { eq: name } },
+      limit: 1000,
+    }),
+  )
+    .then(resp => {
+      if (!resp.data.listJEUsers.items.length) {
+        throw Error('user not found');
+      }
+      return resp.data.listJEUsers.items[0];
+    })
+    .catch(err => console.warn('getJEUserByName error:', err));
+
+const createJEUser = name =>
+  API.graphql(
+    graphqlOperation(createJeUser, {
+      input: { name },
+    }),
+  )
+    .then(resp => resp.data.createJEUser)
+    .catch(err => console.error('createJEUser error:', err));
 
 export function autoLogin() {
   return async dispatch => {
@@ -22,31 +46,18 @@ export function autoLogin() {
   };
 }
 
-// this function seens never used
-export function submitPassword(password) {
-  return {
-    type: LOGIN,
-    password,
-  };
-}
-
 export function setUsername(data) {
   localStorage.setItem('username', data);
   return async dispatch => {
     try {
-      const {
-        data: {
-          listJEUsers: { items: result },
-        },
-      } = await API.graphql(
-        graphqlOperation(listJeUsers, {
-          filter: { name: { eq: data } },
-          limit: 1000,
-        }),
-      );
-      result.forEach(jeUser => {
-        if (jeUser.room) dispatch(loginAction.setHostings(jeUser.room.id));
-      });
+      const jeUser =
+        (await getJEUserByName(localStorage.username)) ||
+        (await createJEUser(localStorage.username));
+
+      localStorage.setItem('jeUser', JSON.stringify(jeUser));
+      if (jeUser.room) {
+        dispatch(loginAction.setHostings(jeUser.room.id));
+      }
     } catch (error) {
       console.log('error:', error);
     }
@@ -58,8 +69,7 @@ export function setUsername(data) {
 }
 
 export function setHostings(roomId) {
-  let hostings = JSON.parse(localStorage.getItem('hostings'));
-  if (!hostings) hostings = [];
+  const hostings = JSON.parse(localStorage.getItem('hostings')) || [];
   hostings.push(roomId);
   localStorage.setItem('hostings', JSON.stringify(hostings));
   return {
@@ -81,6 +91,7 @@ export function deleteHostings(roomId) {
 export function clearUser() {
   localStorage.removeItem('username');
   localStorage.removeItem('hostings');
+  localStorage.removeItem('jeUser');
   return {
     type: LOGOUT,
   };

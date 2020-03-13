@@ -656,6 +656,7 @@ export const createResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -681,6 +682,7 @@ export const updateResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -706,6 +708,7 @@ export const deleteResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
