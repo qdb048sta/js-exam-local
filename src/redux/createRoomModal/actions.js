@@ -15,35 +15,10 @@
  */
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
-import * as queries from 'graphql/queries';
 import { action } from 'utils/actionsHelper';
 import { message } from 'antd';
 import { setHostings } from 'redux/login/actions';
 import { CREATE_ROOM } from './constants';
-
-const getJEUserByName = name =>
-  API.graphql(
-    graphqlOperation(queries.listJeUsers, {
-      filter: { name: { eq: name } },
-      limit: 1000,
-    }),
-  )
-    .then(resp => {
-      if (!resp.data.listJEUsers.items.length) {
-        throw Error('user not found');
-      }
-      return resp.data.listJEUsers.items[0];
-    })
-    .catch(err => console.warn('getJEUserByName error:', err));
-
-const createJEUser = name =>
-  API.graphql(
-    graphqlOperation(mutations.createJeUser, {
-      input: { name },
-    }),
-  )
-    .then(resp => resp.data.createJEUser)
-    .catch(err => console.error('createJEUser error:', err));
 
 export const createRoomActions = {
   reset: () => action(CREATE_ROOM.RESET),
@@ -59,10 +34,7 @@ export function createRoom(data) {
       const roomNum = Math.floor(Math.random() * 98) + 1;
       const roomChar = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
       const createTime = new Date();
-
-      const jeUser =
-        (await getJEUserByName(localStorage.username)) ||
-        (await createJEUser(localStorage.username));
+      const jeUser = JSON.parse(localStorage.jeUser);
 
       const { data: testData } = await API.graphql(
         graphqlOperation(mutations.createTest, {

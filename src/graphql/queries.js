@@ -317,6 +317,7 @@ export const getResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -335,6 +336,7 @@ export const listResults = /* GraphQL */ `
         perstyreview
         author
         role
+        time
       }
       nextToken
     }

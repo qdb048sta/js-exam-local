@@ -10,14 +10,7 @@ import { Auth, API, graphqlOperation } from 'aws-amplify';
 import filter from 'lodash/filter';
 import { listJeUsers } from 'graphql/queries';
 import * as actions from './actions';
-import {
-  LOGIN,
-  AUTO_LOGIN,
-  SET_USERNAME,
-  SET_HOSTINGS,
-  DEL_HOSTINGS,
-  LOGOUT,
-} from './constants';
+import { AUTO_LOGIN, SET_HOSTINGS, DEL_HOSTINGS, LOGOUT } from './constants';
 
 describe('test login action', () => {
   const dispatch = jest.fn();
@@ -41,20 +34,10 @@ describe('test login action', () => {
     });
   });
 
-  describe('submitPassword', () => {
-    it('should dispatch LOGIN', () => {
-      const password = 'password';
-      const result = actions.submitPassword(password);
-      expect(result).toEqual({
-        type: LOGIN,
-        password,
-      });
-    });
-  });
-
   describe('setUserName', () => {
     const username = 'user name';
-    const userRooms = [{ room: { id: 'id_1' } }, { room: { id: 'id_2' } }];
+    const jeUsers = [{ name: username, room: { id: 'id_1' } }];
+    const jeUser = jeUsers[0];
     const apiPromise = (success, items) =>
       new Promise((resolve, reject) => {
         if (success)
@@ -67,8 +50,8 @@ describe('test login action', () => {
           });
         else reject(new Error('api error'));
       });
-    let setHosingsSpy;
 
+    let setHosingsSpy;
     beforeAll(async () => {
       jest.resetAllMocks();
       jest.spyOn(Storage.prototype, 'setItem');
@@ -78,7 +61,7 @@ describe('test login action', () => {
           type: SET_HOSTINGS,
           data,
         }));
-      API.graphql = jest.fn(() => apiPromise(true, userRooms));
+      API.graphql = jest.fn(() => apiPromise(true, jeUsers));
       graphqlOperation.mockImplementation(() => 'some graphql code');
       await actions.setUsername(username)(dispatch);
     });
@@ -89,6 +72,13 @@ describe('test login action', () => {
 
     it('should set username to localStorage', () => {
       expect(localStorage.setItem).toBeCalledWith('username', username);
+    });
+
+    it('should set jeUser to localStorage', () => {
+      expect(localStorage.setItem).toBeCalledWith(
+        'jeUser',
+        JSON.stringify(jeUser),
+      );
     });
 
     it('should trigger graphql api', () => {
@@ -104,17 +94,6 @@ describe('test login action', () => {
         type: SET_HOSTINGS,
         data: 'id_1',
       });
-      expect(dispatch).toHaveBeenNthCalledWith(2, {
-        type: SET_HOSTINGS,
-        data: 'id_2',
-      });
-    });
-
-    it('should dispatch SET_USERNAME', () => {
-      expect(dispatch).toHaveBeenNthCalledWith(3, {
-        type: SET_USERNAME,
-        data: username,
-      });
     });
 
     it('should not dispatch SET_HOSTINGS if no room hosted', async () => {
@@ -126,11 +105,14 @@ describe('test login action', () => {
 
     it('should catch error if graphql API return error', async () => {
       const consoleLogSpy = jest
-        .spyOn(console, 'log')
+        .spyOn(console, 'warn')
         .mockImplementation(jest.fn());
-      API.graphql = jest.fn(() => apiPromise(false, userRooms));
+      API.graphql = jest.fn(() => apiPromise(false, null));
       await actions.setUsername(username)(dispatch);
-      expect(console.log).toBeCalledWith('error:', new Error('api error'));
+      expect(console.warn).toBeCalledWith(
+        'getJEUserByName error:',
+        new Error('api error'),
+      );
       consoleLogSpy.mockRestore();
     });
   });

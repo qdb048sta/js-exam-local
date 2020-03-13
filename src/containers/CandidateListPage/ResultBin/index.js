@@ -45,19 +45,18 @@ const ResultBin = ({ testsDate }) => {
   let sortedTests;
 
   const testShelfLife = 30;
-
   const expiredDate = moment()
-    .subtract('days', testShelfLife)
+    .subtract(testShelfLife, 'days')
     .format('YYYY-MM-DD');
 
-  testsDate = testsDate.filter(testD => testD > expiredDate);
+  const availableTestDates = testsDate
+    .filter(testD => testD > expiredDate)
+    .sort(byTime());
 
-  testsDate.sort(byTime(false));
-
-  return testsDate ? (
-    <Collapse accordion onChange={scrollToPanel}>
-      {testsDate.map((testDate, i) => {
-        if (testDate) {
+  return (
+    availableTestDates.length && (
+      <Collapse accordion onChange={scrollToPanel}>
+        {availableTestDates.map(testDate => {
           const dayBeginUTC = moment(testDate).toISOString();
           const dayEndUTC = moment(testDate)
             .add(1, 'days')
@@ -89,15 +88,14 @@ const ResultBin = ({ testsDate }) => {
                     return prev;
                   }}
                 >
-                  {({ data: { listTests: tests }, loading, error }) => (
+                  {({ data: { listTests: tests }, loading, listTestErr }) => (
                     <Connect
                       subscription={graphqlOperation(onDeleteTest)}
-                      onSubscriptionMsg={(
-                        prev,
-                        { onDeleteTest: deletedTest },
-                      ) => deletedTest}
+                      onSubscriptionMsg={(__, { onDeleteTest: deletedTest }) =>
+                        deletedTest
+                      }
                     >
-                      {({ data: deletedTest, loading2, error2 }) => {
+                      {({ data: deletedTest }) => {
                         if (deletedTest.id) {
                           const delTestIndex = tests.items.findIndex(
                             test => test && test.id === deletedTest.id,
@@ -110,10 +108,10 @@ const ResultBin = ({ testsDate }) => {
                           tests &&
                           tests.items
                             .filter(test => isValid(test))
-                            .sort(byTime(false));
+                            .sort(byTime());
                         return (
                           <PageSpin spinning={loading}>
-                            {!loading && (error || error2) && (
+                            {!loading && listTestErr && (
                               <PageEmpty
                                 description={<span>Error Occuring</span>}
                               />
@@ -137,11 +135,10 @@ const ResultBin = ({ testsDate }) => {
               }
             </Panel>
           );
-        }
-        return null;
-      })}
-    </Collapse>
-  ) : null;
+        })}
+      </Collapse>
+    )
+  );
 };
 
 ResultBin.propTypes = {

@@ -1,5 +1,4 @@
 import {
-  LOGIN,
   AUTO_LOGIN,
   SET_USERNAME,
   SET_HOSTINGS,
@@ -16,12 +15,6 @@ const initialState = {
 
 const login = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN: {
-      return {
-        ...state,
-        isLogin: action.isLogin,
-      };
-    }
     case AUTO_LOGIN: {
       return {
         ...state,

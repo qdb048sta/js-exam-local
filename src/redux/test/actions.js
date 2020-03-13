@@ -1,6 +1,6 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
-import { getTest } from 'graphql/queries';
+import { getTest, get } from 'graphql/queries';
 import graphqlActionHelper, { ACTION_STATE } from 'utils/graphqlActionHelper';
 import { deleteRoomAction } from 'redux/room/actions';
 import { updateTestEndTime } from 'utils/test';
@@ -25,7 +25,7 @@ function deleteTestAction(delTest) {
       if (test.room) await dispatch(deleteRoomAction(test.room));
 
       // delete all records of the test
-      const recordsId = test.records
+      const recordsId = test.records.items
         ? test.records.items.map(record => record.id)
         : [];
 
@@ -39,10 +39,10 @@ function deleteTestAction(delTest) {
           ),
         );
       }
-      const delRecordResult = await Promise.all(delRecordQl);
+      await Promise.all(delRecordQl);
 
       // delete test
-      const delResult = await API.graphql(
+      await API.graphql(
         graphqlOperation(mutations.deleteTest, {
           input: { id: test.id },
         }),
@@ -89,6 +89,43 @@ function updateTestEndTimeData(id) {
           result,
         }),
       );
+
+      dispatch(
+        graphqlActionHelper({
+          method: 'UPDATE',
+          dataName: 'TEST',
+          actionState: ACTION_STATE.SUCCESS,
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        graphqlActionHelper({
+          method: 'UPDATE',
+          dataName: 'TEST',
+          actionState: ACTION_STATE.FAILURE,
+          result: error,
+        }),
+      );
+      console.log('setTestInterviewer error:', error);
+    }
+  };
+}
+
+function setTestInterviewer(testID, userID) {
+  return async dispatch => {
+    dispatch(
+      graphqlActionHelper({
+        method: 'UPDATE',
+        dataName: 'TEST',
+        actionState: ACTION_STATE.STARTED,
+      }),
+    );
+    try {
+      await API.graphql(
+        graphqlOperation(mutations.createTestJeUser, {
+          input: { testID, userID },
+        }),
+      );
     } catch (error) {
       dispatch(
         graphqlActionHelper({
@@ -103,4 +140,4 @@ function updateTestEndTimeData(id) {
   };
 }
 
-export { deleteTestAction, updateTestEndTimeData };
+export { deleteTestAction, updateTestEndTimeData, setTestInterviewer };

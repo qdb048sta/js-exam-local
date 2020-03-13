@@ -40,7 +40,7 @@ class SignOnModal extends React.Component {
       .map(name => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase())
       .join(' ');
     try {
-      //message.success(`Signed on as "${username}"`);
+      // message.success(`Signed on as "${username}"`);
       this.props.deleteExpiredRoomsAction();
       this.props.onSetUsername(capitalUsername);
       message.success(`Signed on as "${capitalUsername}"`);
@@ -49,7 +49,7 @@ class SignOnModal extends React.Component {
         username: '',
       });
     } catch (error) {
-      //message.error('Fail to sign on!');
+      // message.error('Fail to sign on!');
     }
   };
 

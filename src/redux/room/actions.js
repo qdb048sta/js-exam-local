@@ -30,6 +30,11 @@ function getRoomInfo(id) {
             timeEnd
             status
             tags
+            users {
+              items {
+                userID
+              }
+            }
           }
           subjectId
           description
@@ -252,7 +257,7 @@ function deleteExpiredRoomsAction() {
     );
     try {
       const expiredDate = moment()
-        .subtract('days', roomShelfLife)
+        .subtract(roomShelfLife, 'days')
         .format('YYYY-MM-DD');
       const expiredRoomsList = `query ListRoom(
         $filter: ModelRoomFilterInput,
