@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
 
 import { List, Avatar, Icon, Button, Modal, Tooltip } from 'antd';
-import { deleteTestAction } from '../../../redux/test/actions';
-
-import style from './TestList.module.scss';
-
+import { deleteTestAction } from 'redux/test/actions';
 import AddSummaryModal from 'components/Summary/AddSummaryModal';
 import InterviewSummaryModal from 'components/Summary/InterviewSummaryModal';
+import style from './TestList.module.scss';
 
 class TestList extends React.Component {
   state = {
@@ -116,71 +114,78 @@ class TestList extends React.Component {
         <List
           itemLayout="horizontal"
           dataSource={testListData}
-          renderItem={item => (
-            <List.Item
-              className={
-                delAnime && delTest && delTest.id === item.id
-                  ? style.delAnime
-                  : ''
-              }
-              actions={[
+          renderItem={item => {
+            const actions = [];
+            const atLeastOneEndRecord =
+              item.records.items.filter(v => v.status === 'closed').length > 0;
+            const isInterviewer =
+              item.users.items &&
+              item.users.items.map(v => v && v.user.id).includes(jeUser.id) &&
+              !item.results.items.map(v => v.author).includes(jeUser.name);
+            if (isInterviewer) {
+              actions.push(
+                <Tooltip
+                  placement="top"
+                  title="write summary"
+                  onClick={this.handleSummaryEdit}
+                >
+                  <Button
+                    type="link"
+                    icon="edit"
+                    candidate={item.subjectId}
+                    testid={item.id}
+                    onClick={this.showAddSummaryModal}
+                  >
+                    Write Summary
+                  </Button>
+                </Tooltip>,
+              );
+            }
+            if (atLeastOneEndRecord) {
+              actions.push(
                 <Button
-                  size="small"
+                  type="link"
+                  icon="bar-chart"
                   onClick={this.showTestResultModal}
                   candidate={item.subjectId}
                   testid={item.id}
                 >
                   Open Summary
                 </Button>,
-                <Link
-                  to={{
-                    pathname: `/admin/playback/${item.id}`,
-                  }}
-                >
-                  Playback
+                <Link to={{ pathname: `/admin/playback/${item.id}` }}>
+                  <Button type="link" icon="play-square">
+                    Playback
+                  </Button>
                 </Link>,
-              ]}
-            >
-              <List.Item.Meta
-                avatar={<Avatar icon="code" className={style.avatar} />}
-                title={item.subjectId}
-                description={formatTime(item.timeBegin)}
-              />
-              {item.host && item.host.name === localStorage.username && (
-                <button
-                  type="button"
-                  className={style.floatTop}
-                  onClick={this.handleDeleteButton(item)}
-                >
-                  <Icon type="delete" theme="twoTone" twoToneColor="#f00" />
-                </button>
-              )}
-              {item.users.items &&
-                item.users.items.map(v => v.user.id).includes(jeUser.id) &&
-                !item.results.items
-                  .map(v => v.author)
-                  .includes(jeUser.name) && (
-                  <Tooltip
-                    placement="top"
-                    title="write summary"
-                    onClick={this.handleSummaryEdit}
+              );
+            }
+
+            return (
+              <List.Item
+                className={
+                  delAnime && delTest && delTest.id === item.id
+                    ? style.delAnime
+                    : ''
+                }
+                actions={actions}
+              >
+                <List.Item.Meta
+                  avatar={<Avatar icon="code" className={style.avatar} />}
+                  title={item.subjectId}
+                  description={formatTime(item.timeBegin)}
+                />
+                {item.host && item.host.name === localStorage.username && (
+                  <button
+                    type="button"
+                    className={style.floatTop}
+                    onClick={this.handleDeleteButton(item)}
                   >
-                    <Button
-                      type="link"
-                      icon="edit"
-                      style={{
-                        fontSize: '18px',
-                        cursor: 'pointer',
-                        margin: '0 -20px 0 20px',
-                      }}
-                      candidate={item.subjectId}
-                      testid={item.id}
-                      onClick={this.showAddSummaryModal}
-                    />
-                  </Tooltip>
+                    <Icon type="delete" theme="twoTone" twoToneColor="#f00" />
+                  </button>
                 )}
-            </List.Item>
-          )}
+              </List.Item>
+            );
+          }}
         />
         <InterviewSummaryModal
           testID={testId}
