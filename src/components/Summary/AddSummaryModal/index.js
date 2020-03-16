@@ -53,6 +53,7 @@ class AddSummaryModal extends React.Component {
       ...formDatas,
     });
     message.success('Add Summary successfully');
+    this.props.onCancel();
   };
 
   render() {
