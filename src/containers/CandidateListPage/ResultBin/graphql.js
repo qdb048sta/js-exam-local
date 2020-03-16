@@ -9,6 +9,12 @@ export const listTests = `query ListTests(
         subjectId
         description
         timeBegin
+        records {
+          items {
+            id
+            status
+          }
+        }
         host {
           id
           name

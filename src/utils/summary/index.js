@@ -1,11 +1,12 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import { createResult } from 'graphql/mutations';
+import moment from 'moment';
 
 const createSummary = async values => {
   const params = {
     input: {
       ...values,
-      time: Date.now(),
+      time: moment().format(),
     },
   };
 

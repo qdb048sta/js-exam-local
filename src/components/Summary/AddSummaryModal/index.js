@@ -52,7 +52,6 @@ class AddSummaryModal extends React.Component {
       author: localStorage.username,
       ...formDatas,
     });
-    // console.log(`You submitted:\n\n${JSON.stringify(formDatas, null, 2)}`);
     message.success('Add Summary successfully');
   };
 
@@ -155,7 +154,7 @@ class AddSummaryModal extends React.Component {
                             <Button
                               htmlType="submit"
                               type="primary"
-                              style={{ margin: '16px 0 0 550px' }}
+                              style={{ marginTop: '16px', float: 'right' }}
                               disabled={this.props.submitting}
                             >
                               Add Summary
