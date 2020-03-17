@@ -5,8 +5,8 @@ import { Connect } from 'aws-amplify-react';
 import { graphqlOperation } from 'aws-amplify';
 import PageEmpty from 'components/PageEmpty';
 import PageSpin from 'components/PageSpin';
-
 import QuestionComment from 'components/Summary/QuestionComment';
+import { onCreateResult } from 'graphql/subscriptions';
 import { getTest } from './queries';
 
 const toInterviewResult = data => {
@@ -28,6 +28,14 @@ const toInterviewResult = data => {
   return { interviewers, questions, comments, summaries };
 };
 
+const handleSummarySubscription = (prev, { onCreateResult: newResult }) => {
+  if (prev.getTest.results.items) {
+    prev.getTest.results.items = [];
+  }
+  prev.getTest.results.items.push(newResult);
+  return prev;
+};
+
 const InterviewSummaryModal = props => (
   <Modal
     title={props.title}
@@ -40,6 +48,8 @@ const InterviewSummaryModal = props => (
       query={graphqlOperation(getTest, {
         id: props.testID,
       })}
+      subscription={graphqlOperation(onCreateResult)}
+      onSubscriptionMsg={handleSummarySubscription}
     >
       {({ data, loading, error }) => {
         const test = data && data.getTest;
@@ -81,13 +91,13 @@ const InterviewSummaryModal = props => (
                   />
                 ))}
                 <h2 style={{ fontWeight: '600' }}>Summary</h2>
-                <Row type="flex" align="left" justify="space-around">
+                <Row type="flex" justify="space-around">
                   {interviewers.map(interviewer => {
                     const summary = summaries.find(
                       v => v.author === interviewer.name,
                     );
                     return (
-                      <Col span={20 / interviewers.length}>
+                      <Col key={interviewer.id} span={20 / interviewers.length}>
                         <Row type="flex" align="middle" justify="space-around">
                           <h3>Interviewer：{interviewer.name}</h3>
                         </Row>

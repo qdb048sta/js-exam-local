@@ -9,7 +9,7 @@ import {
 const initialState = {
   isLogin: false,
   username: localStorage.getItem('username'),
-  hostings: JSON.parse(localStorage.getItem('hostings')) || [],
+  hostings: JSON.parse(localStorage.getItem('hostings') || '[]'),
   permission: false,
 };
 
