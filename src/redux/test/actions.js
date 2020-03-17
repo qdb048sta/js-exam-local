@@ -1,6 +1,6 @@
 import { API, graphqlOperation } from 'aws-amplify';
 import * as mutations from 'graphql/mutations';
-import { getTest, get } from 'graphql/queries';
+import { getTest } from 'graphql/queries';
 import graphqlActionHelper, { ACTION_STATE } from 'utils/graphqlActionHelper';
 import { deleteRoomAction } from 'redux/room/actions';
 import { updateTestEndTime } from 'utils/test';

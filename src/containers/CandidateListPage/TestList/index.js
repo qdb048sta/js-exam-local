@@ -76,25 +76,6 @@ class TestList extends React.Component {
     });
   };
 
-  toInterviewResult = data => {
-    const interviewers = data.users.items.map(v => v.user);
-    const questions = data.records.items.map(v => ({
-      id: v.id,
-      name: v.ques.name,
-    }));
-    const comments = [];
-    data.records.items.forEach(r => {
-      r.comment.items.forEach(c => {
-        comments.push({
-          questionID: r.id,
-          ...c,
-        });
-      });
-    });
-    const summaries = data.results.items;
-    return { interviewers, questions, comments, summaries };
-  };
-
   render() {
     const { testListData } = this.props;
     const {
