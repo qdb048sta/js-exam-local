@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Row, Col, Card, Button, message } from 'antd';
+import { Typography, Modal, Row, Col, Card, Button, message } from 'antd';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { RfRate, RfTextArea } from 'components/RfInput';
@@ -13,9 +13,11 @@ import { getTest } from './queries';
 
 const validate = values => {
   const errors = {};
-  if (!values.logic) errors.logic = 'logic Required';
+  if (!values.logic) errors.logic = 'Logic Required';
   if (!values.language) errors.language = 'JavaScript Familiarity Required';
   if (!values.workwith) errors.workwith = 'Enjoy to work with Required';
+  if (!values.techreview) errors.techreview = 'Tech review Required';
+  if (!values.perstyreview) errors.perstyreview = 'Personality review Required';
   return errors;
 };
 
@@ -100,7 +102,9 @@ class AddSummaryModal extends React.Component {
 
                   {!loading && !error && data && (
                     <>
-                      <h2>Interview Questions</h2>
+                      <Typography.Title level={4}>
+                        Interview Questions
+                      </Typography.Title>
                       {interviewer && (
                         <QuestionComment
                           key={interviewer.id}
@@ -109,9 +113,12 @@ class AddSummaryModal extends React.Component {
                           comments={comments}
                         />
                       )}
-                      <h2>Summary</h2>
+                      <Typography.Title level={4}>
+                        Please leave your summary below
+                        {/* <Icon type="edit" /> */}
+                      </Typography.Title>
                       <Row type="flex" align="middle" justify="space-around">
-                        <Col span={16}>
+                        <Col span={24}>
                           <form onSubmit={this.handleSubmit}>
                             <Card>
                               <h4>Technical Skills：</h4>
@@ -134,6 +141,7 @@ class AddSummaryModal extends React.Component {
                                 component={RfTextArea}
                                 label="techreview"
                                 value={summary.techreview}
+                                defaultValue=""
                               />
                               <h4 style={{ marginTop: '12px' }}>
                                 Personality：
@@ -150,16 +158,17 @@ class AddSummaryModal extends React.Component {
                                 component={RfTextArea}
                                 label="perstyreview"
                                 value={summary.perstyreview}
+                                defaultValue=""
                               />
+                              <Button
+                                htmlType="submit"
+                                type="primary"
+                                style={{ marginTop: '16px', float: 'right' }}
+                                disabled={this.props.submitting}
+                              >
+                                Add Summary
+                              </Button>
                             </Card>
-                            <Button
-                              htmlType="submit"
-                              type="primary"
-                              style={{ marginTop: '16px', float: 'right' }}
-                              disabled={this.props.submitting}
-                            >
-                              Add Summary
-                            </Button>
                           </form>
                         </Col>
                       </Row>

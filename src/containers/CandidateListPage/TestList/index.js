@@ -112,7 +112,7 @@ class TestList extends React.Component {
                 >
                   <Button
                     type="link"
-                    icon="edit"
+                    icon="form"
                     candidate={item.subjectId}
                     testid={item.id}
                     onClick={this.showAddSummaryModal}
