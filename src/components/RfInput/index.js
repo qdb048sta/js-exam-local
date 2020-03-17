@@ -3,48 +3,55 @@ import PropTypes from 'prop-types';
 import { Input, Rate, Icon, Tooltip, Tag, Typography, Row, Col } from 'antd';
 import { rateTips, rateDesc, hintDesc } from './constants';
 import './checkableTag.css';
+import './rfTextArea.css';
 
 const { TextArea } = Input;
 const { Text } = Typography;
 const { CheckableTag } = Tag;
 const RfInput = ({ input, ...custom }) => <Input {...input} {...custom} />;
 
-const RfTextArea = ({ input }) => (
-  <div>
-    <TextArea {...input} rows={3} placeholder="Write your comments..." />
-  </div>
-);
-
-const RfRate = ({ input, label, type, meta: { touched, error } }) => {
+const RfTextArea = ({ input, meta: { active, touched, error } }) => {
+  const isError = !active && touched && error;
   return (
-    <Row type="flex" align="middle">
-      <Col span={5}>
-        <label>{label}</label>
-      </Col>
-      <Col span={2}>
-        <Tooltip title={rateTips[label]} placement="right">
-          <Icon type="info-circle" />
-        </Tooltip>
-      </Col>
-      <Col span={8}>
-        {label === 'Hint' ? (
-          <Rate
-            character={<Icon type="bulb" theme="filled" />}
-            style={{ color: 'grey' }}
-            {...input}
-            tooltips={[hintDesc]}
-            type={type}
-          />
-        ) : (
-          <Rate {...input} tooltips={[rateDesc]} type={type} />
-        )}
-      </Col>
-      <Col span={9}>
-        {touched && error && <Text type="warning">{error}</Text>}
-      </Col>
-    </Row>
+    <div>
+      <TextArea
+        {...input}
+        className={isError && 'rf-textarea--error'}
+        rows={3}
+        placeholder="Write your comments..."
+      />
+    </div>
   );
 };
+
+const RfRate = ({ input, label, type, meta: { touched, error } }) => (
+  <Row type="flex" align="middle">
+    <Col span={5}>
+      <label>{label}</label>
+    </Col>
+    <Col span={2}>
+      <Tooltip title={rateTips[label]} placement="right">
+        <Icon type="info-circle" />
+      </Tooltip>
+    </Col>
+    <Col span={8}>
+      {label === 'Hint' ? (
+        <Rate
+          character={<Icon type="bulb" theme="filled" />}
+          style={{ color: 'grey' }}
+          {...input}
+          tooltips={[hintDesc]}
+          type={type}
+        />
+      ) : (
+        <Rate {...input} tooltips={[rateDesc]} type={type} />
+      )}
+    </Col>
+    <Col span={9}>
+      {touched && error && <Text type="warning">{error}</Text>}
+    </Col>
+  </Row>
+);
 
 class CheckTagGroup extends React.Component {
   checkTagGroup() {

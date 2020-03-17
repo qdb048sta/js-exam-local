@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Row, Col, Card, Rate, Empty } from 'antd';
+import { Typography, Modal, Row, Col, Card, Rate, Empty } from 'antd';
 import PropTypes from 'prop-types';
 import { Connect } from 'aws-amplify-react';
 import { graphqlOperation } from 'aws-amplify';
@@ -79,7 +79,9 @@ const InterviewSummaryModal = props => (
 
             {!loading && test && (
               <>
-                <h2 style={{ fontWeight: '600' }}>Interview Questions</h2>
+                <Typography.Title level={4}>
+                  Interview Questions
+                </Typography.Title>
                 {interviewers.map(interviewer => (
                   <QuestionComment
                     key={interviewer.id}
@@ -90,7 +92,7 @@ const InterviewSummaryModal = props => (
                     )}
                   />
                 ))}
-                <h2 style={{ fontWeight: '600' }}>Summary</h2>
+                <Typography.Title level={4}>Summary</Typography.Title>
                 <Row type="flex" justify="space-around">
                   {interviewers.map(interviewer => {
                     const summary = summaries.find(
