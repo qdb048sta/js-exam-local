@@ -9,6 +9,9 @@ export const listRooms = `query ListRooms(
         subjectId
         description
         createTime
+        host {
+          id
+        }
       }
       nextToken
     }

@@ -21,6 +21,7 @@ const Grid = makeResponsive(measureItems(SpringGrid), {
 const AVATAR_LIST = [avatarIcon1, avatarIcon2, avatarIcon3, avatarIcon4];
 
 const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
+  const jeUser = JSON.parse(localStorage.jeUser || '{}');
   const handleDelButton = (room, event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -44,7 +45,7 @@ const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
 
         return (
           <li key={room.id} className={style.listItem}>
-            {signedOn && includes(hostings, room.id) && (
+            {signedOn && room.host && room.host.id === jeUser.id && (
               <Tag className={style.tag} color="#108ee9">
                 Host
               </Tag>
@@ -60,7 +61,7 @@ const RoomList = ({ rooms = [], signedOn, hostings, triggerDelRoom }) => {
                   <div className={style.cover}>
                     <span className={style.room}>Room</span>
                     {room.description}
-                    {signedOn && includes(hostings, room.id) && (
+                    {signedOn && room.host && room.host.id === jeUser.id && (
                       <button
                         type="button"
                         className={style.floatTop}
