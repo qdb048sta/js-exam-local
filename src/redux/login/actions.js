@@ -1,8 +1,7 @@
-import { Auth } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import filter from 'lodash/filter';
-import { API, graphqlOperation } from 'aws-amplify';
-import { listJeUsers } from 'graphql/queries';
 import { createJeUser } from 'graphql/mutations';
+import { listJeUsers } from './queries';
 import {
   AUTO_LOGIN,
   SET_USERNAME,
