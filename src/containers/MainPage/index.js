@@ -135,9 +135,7 @@ class MainPage extends Component {
                           room.description.toLowerCase().includes(searchKeyword)
                         );
                       })
-                      .sort((a, b) => {
-                        return b.createTimeByDate - a.createTimeByDate;
-                      });
+                      .sort((a, b) => b.createTimeByDate - a.createTimeByDate);
 
                   return (
                     <PageSpin spinning={loading}>

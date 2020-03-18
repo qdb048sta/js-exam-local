@@ -6,17 +6,16 @@ import notFoundIcon from 'asset/image/not-found.jpg';
 
 import styles from './PageEmpty.module.scss';
 
-const PageEmpty = ({ image, description }) => {
-  const imageFinal = image === 'default' ? '' : notFoundIcon;
-
-  return (
+const PageEmpty = ({ image, description }) =>
+  image === 'default' ? (
+    <Empty className={styles.empty} description={description} />
+  ) : (
     <Empty
       className={styles.empty}
-      image={imageFinal}
+      image={notFoundIcon}
       description={description}
     />
   );
-};
 
 PageEmpty.propTypes = {
   image: PropTypes.string,
