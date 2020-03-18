@@ -1,20 +1,20 @@
 {
-    "prod": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-js-exam-prod-143156-authRole",
-            "UnauthRoleArn": "arn:aws:iam::602307824922:role/amplify-js-exam-prod-143156-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::602307824922:role/amplify-js-exam-prod-143156-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-js-exam-prod-143156-deployment",
-            "UnauthRoleName": "amplify-js-exam-prod-143156-unauthRole",
-            "StackName": "amplify-js-exam-prod-143156",
-            "StackId": "arn:aws:cloudformation:us-east-1:602307824922:stack/amplify-js-exam-prod-143156/dd642dd0-592a-11ea-a8c7-12505ef78976",
-            "AmplifyAppId": "d3kfbonkvlp4tz"
-        },
-        "categories": {
-            "auth": {
-                "jsexam6d4f91c1": {}
-            }
-        }
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-js-exam-prod-143156-authRole",
+      "UnauthRoleArn": "arn:aws:iam::602307824922:role/amplify-js-exam-prod-143156-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::602307824922:role/amplify-js-exam-prod-143156-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-js-exam-prod-143156-deployment",
+      "UnauthRoleName": "amplify-js-exam-prod-143156-unauthRole",
+      "StackName": "amplify-js-exam-prod-143156",
+      "StackId": "arn:aws:cloudformation:us-east-1:602307824922:stack/amplify-js-exam-prod-143156/dd642dd0-592a-11ea-a8c7-12505ef78976",
+      "AmplifyAppId": "d3kfbonkvlp4tz"
+    },
+    "categories": {
+      "auth": {
+        "jsexam6d4f91c1": {}
+      }
     }
+  }
 }

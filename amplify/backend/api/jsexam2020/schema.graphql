@@ -15,7 +15,7 @@ type JEUser @model {
   name: String
   room: Room @connection(name: "RoomJEUsers") # after leave the room, must clear the value
   team: Team @connection(name: "TeamJEUsers")
-  test: Test @connection(name: "TestJEUsers")
+  tests: [TestJEUser] @connection(keyName: "byJEUser", fields: ["id"])
   hostTest: Test @connection(name: "TestHost") # the test this JEUser host
 }
 
@@ -32,7 +32,7 @@ type Test @model {
   room: Room @connection(name: "RoomTests")
   team: Team
   subjectId: String # could be email
-  users: [JEUser] @connection(name: "TestJEUsers") # host & observers
+  users: [TestJEUser] @connection(keyName: "byTest", fields: ["id"])
   host: JEUser @connection(name: "TestHost") # ID for current JEUser
   description: String
   timeBegin: AWSDateTime
@@ -41,6 +41,18 @@ type Test @model {
   results: [Result] @connection(name: "TestResults")
   status: String! # open/closed
   tags: [String]
+}
+
+# Many to many join model(Test & JEUser)
+type TestJEUser
+  @model
+  @key(name: "byJEUser", fields: ["userID", "testID"])
+  @key(name: "byTest", fields: ["testID", "userID"]) {
+  id: ID!
+  userID: ID!
+  testID: ID!
+  user: JEUser! @connection(fields: ["userID"])
+  test: Test! @connection(fields: ["testID"])
 }
 
 type Record @model {
@@ -68,6 +80,7 @@ type Result @model {
   author: String!
   role: Reviewer
   test: Test @connection(name: "TestResults")
+  time: AWSDateTime
 }
 
 enum Reviewer {
@@ -150,4 +163,3 @@ type Subscription {
   onUpdateRecordByRecordId(id: String): Record
     @aws_subscribe(mutations: ["updateRecord"])
 }
-

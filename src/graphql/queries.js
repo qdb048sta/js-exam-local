@@ -71,14 +71,8 @@ export const getJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -196,6 +190,44 @@ export const listTests = /* GraphQL */ `
     }
   }
 `;
+export const getTestJeUser = /* GraphQL */ `
+  query GetTestJeUser($id: ID!) {
+    getTestJEUser(id: $id) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const listTestJeUsers = /* GraphQL */ `
+  query ListTestJeUsers(
+    $filter: ModelTestJEUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTestJEUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        testID
+      }
+      nextToken
+    }
+  }
+`;
 export const getRecord = /* GraphQL */ `
   query GetRecord($id: ID!) {
     getRecord(id: $id) {
@@ -285,6 +317,7 @@ export const getResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -303,6 +336,7 @@ export const listResults = /* GraphQL */ `
         perstyreview
         author
         role
+        time
       }
       nextToken
     }

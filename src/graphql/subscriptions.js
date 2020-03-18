@@ -18,14 +18,8 @@ export const onUpdateJeUserByJeUserId = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -300,14 +294,8 @@ export const onCreateJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -338,14 +326,8 @@ export const onUpdateJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -376,14 +358,8 @@ export const onDeleteJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -553,6 +529,72 @@ export const onDeleteTest = /* GraphQL */ `
       }
       status
       tags
+    }
+  }
+`;
+export const onCreateTestJeUser = /* GraphQL */ `
+  subscription OnCreateTestJeUser {
+    onCreateTestJEUser {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onUpdateTestJeUser = /* GraphQL */ `
+  subscription OnUpdateTestJeUser {
+    onUpdateTestJEUser {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const onDeleteTestJeUser = /* GraphQL */ `
+  subscription OnDeleteTestJeUser {
+    onDeleteTestJEUser {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
     }
   }
 `;
@@ -728,6 +770,7 @@ export const onCreateResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -750,6 +793,7 @@ export const onUpdateResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -772,6 +816,7 @@ export const onDeleteResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;

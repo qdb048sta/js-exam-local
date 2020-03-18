@@ -27,7 +27,7 @@ class JavaScriptPage extends Component {
       addTape,
       resetTape,
     } = this.props;
-    const { compiledCode, tape } = nextProps;
+    const { compiledCode } = nextProps;
     if (previousCompiledCode !== compiledCode) {
       resetTape();
       debouncedRunCode({ code: compiledCode, onTapeUpdate: addTape });

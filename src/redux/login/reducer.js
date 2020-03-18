@@ -1,5 +1,4 @@
 import {
-  LOGIN,
   AUTO_LOGIN,
   SET_USERNAME,
   SET_HOSTINGS,
@@ -10,18 +9,12 @@ import {
 const initialState = {
   isLogin: false,
   username: localStorage.getItem('username'),
-  hostings: JSON.parse(localStorage.getItem('hostings')) || [],
+  hostings: JSON.parse(localStorage.getItem('hostings') || '[]'),
   permission: false,
 };
 
 const login = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN: {
-      return {
-        ...state,
-        isLogin: action.isLogin,
-      };
-    }
     case AUTO_LOGIN: {
       return {
         ...state,

@@ -135,14 +135,8 @@ export const createJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -176,14 +170,8 @@ export const updateJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -217,14 +205,8 @@ export const deleteJeUser = /* GraphQL */ `
         name
         description
       }
-      test {
-        id
-        subjectId
-        description
-        timeBegin
-        timeEnd
-        status
-        tags
+      tests {
+        nextToken
       }
       hostTest {
         id
@@ -415,6 +397,81 @@ export const deleteTest = /* GraphQL */ `
     }
   }
 `;
+export const createTestJeUser = /* GraphQL */ `
+  mutation CreateTestJeUser(
+    $input: CreateTestJEUserInput!
+    $condition: ModelTestJEUserConditionInput
+  ) {
+    createTestJEUser(input: $input, condition: $condition) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const updateTestJeUser = /* GraphQL */ `
+  mutation UpdateTestJeUser(
+    $input: UpdateTestJEUserInput!
+    $condition: ModelTestJEUserConditionInput
+  ) {
+    updateTestJEUser(input: $input, condition: $condition) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
+export const deleteTestJeUser = /* GraphQL */ `
+  mutation DeleteTestJeUser(
+    $input: DeleteTestJEUserInput!
+    $condition: ModelTestJEUserConditionInput
+  ) {
+    deleteTestJEUser(input: $input, condition: $condition) {
+      id
+      userID
+      testID
+      user {
+        id
+        name
+      }
+      test {
+        id
+        subjectId
+        description
+        timeBegin
+        timeEnd
+        status
+        tags
+      }
+    }
+  }
+`;
 export const createRecord = /* GraphQL */ `
   mutation CreateRecord(
     $input: CreateRecordInput!
@@ -599,6 +656,7 @@ export const createResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -624,6 +682,7 @@ export const updateResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;
@@ -649,6 +708,7 @@ export const deleteResult = /* GraphQL */ `
         status
         tags
       }
+      time
     }
   }
 `;

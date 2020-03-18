@@ -9,7 +9,30 @@ export const listTests = `query ListTests(
         subjectId
         description
         timeBegin
-        tags
+        records {
+          items {
+            id
+            status
+          }
+        }
+        host {
+          id
+          name
+        }
+        users {
+          items {
+            id
+            user {
+              id
+              name
+            }
+          }
+        }
+        results {
+          items {
+            author
+          }
+        }
       }
       nextToken
     }

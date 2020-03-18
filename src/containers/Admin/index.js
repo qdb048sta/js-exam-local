@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withAuthenticator, SignIn, VerifyContact } from 'aws-amplify-react';
+import { withAuthenticator, SignIn } from 'aws-amplify-react';
 import { checkPermission } from 'utils/auth/auth';
 
 import NotFoundPage from 'containers/NotFoundPage';

@@ -15,6 +15,9 @@ describe('TestList index', () => {
       subjectId: 'Zone',
       description: null,
       timeBegin: '2020-01-17T04:02:09.202Z',
+      records: { items: [] },
+      users: { items: [] },
+      results: { items: [] },
       tags: ['Hank'],
     },
     {
@@ -22,6 +25,9 @@ describe('TestList index', () => {
       subjectId: 'testerror',
       description: null,
       timeBegin: '2020-01-17T02:35:53.776Z',
+      records: { items: [] },
+      users: { items: [] },
+      results: { items: [] },
       tags: ['Kenny'],
     },
   ];
@@ -47,7 +53,7 @@ describe('TestList index', () => {
     localStorage.setItem('username', 'Kenny');
     wrapper = withProvider(<TestList data={tests} />);
     list = wrapper.find('TestList').instance();
-    renderedItem = wrapper.find(List.Item.Meta);
+    renderedItem = wrapper.find(List);
     deleteButton = wrapper.find('.floatTop');
   });
 
