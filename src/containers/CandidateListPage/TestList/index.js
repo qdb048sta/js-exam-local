@@ -103,26 +103,26 @@ class TestList extends React.Component {
               item.users.items &&
               item.users.items.map(v => v && v.user.id).includes(jeUser.id) &&
               !item.results.items.map(v => v.author).includes(jeUser.name);
-            if (isInterviewer) {
-              actions.push(
-                <Tooltip
-                  placement="top"
-                  title="write summary"
-                  onClick={this.handleSummaryEdit}
-                >
-                  <Button
-                    type="link"
-                    icon="form"
-                    candidate={item.subjectId}
-                    testid={item.id}
-                    onClick={this.showAddSummaryModal}
-                  >
-                    Write Summary
-                  </Button>
-                </Tooltip>,
-              );
-            }
             if (atLeastOneEndRecord) {
+              if (isInterviewer) {
+                actions.push(
+                  <Tooltip
+                    placement="top"
+                    title="write summary"
+                    onClick={this.handleSummaryEdit}
+                  >
+                    <Button
+                      type="link"
+                      icon="form"
+                      candidate={item.subjectId}
+                      testid={item.id}
+                      onClick={this.showAddSummaryModal}
+                    >
+                      Write Summary
+                    </Button>
+                  </Tooltip>,
+                );
+              }
               actions.push(
                 <Button
                   type="link"
@@ -138,6 +138,12 @@ class TestList extends React.Component {
                     Playback
                   </Button>
                 </Link>,
+              );
+            } else {
+              actions.push(
+                <>
+                  <Icon type="loading" /> Ongoing
+                </>,
               );
             }
 
