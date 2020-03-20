@@ -116,7 +116,7 @@ class TestList extends React.Component {
               );
             }
             if (atLeastOneEndRecord) {
-              if (!isInterviewer) {
+              if (isInterviewer) {
                 actions.push(
                   <Tooltip
                     placement="top"

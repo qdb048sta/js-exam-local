@@ -68,7 +68,7 @@ class Page extends Component {
 
   async componentDidMount() {
     const roomId = this.props.match.params.roomId;
-    if (this.props.hostings.includes(roomId)) {
+    if (this.props.hostings && this.props.hostings.includes(roomId)) {
       this.props.actions.setRoomHost(true);
     } else {
       this.props.actions.setRoomHost(false);

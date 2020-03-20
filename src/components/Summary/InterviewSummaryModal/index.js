@@ -29,7 +29,7 @@ const toInterviewResult = data => {
 };
 
 const handleSummarySubscription = (prev, { onCreateResult: newResult }) => {
-  if (prev.getTest.results.items) {
+  if (!prev.getTest.results.items) {
     prev.getTest.results.items = [];
   }
   prev.getTest.results.items.push(newResult);
@@ -147,7 +147,7 @@ const InterviewSummaryModal = props => (
                                   }}
                                 >
                                   <h4 style={{ width: '49%' }}>
-                                    Enjoy to work with
+                                    Good to work with
                                   </h4>
                                   <Rate value={summary.workwith} disabled />
                                 </div>
