@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
 
-import { List, Avatar, Icon, Button, Modal, Tooltip, Typography } from 'antd';
+import { List, Avatar, Icon, Button, Modal, Tooltip } from 'antd';
 import { deleteTestAction } from 'redux/test/actions';
 import AddSummaryModal from 'components/Summary/AddSummaryModal';
 import InterviewSummaryModal from 'components/Summary/InterviewSummaryModal';
