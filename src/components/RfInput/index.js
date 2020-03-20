@@ -30,7 +30,7 @@ const RfRate = ({ input, label, type, meta: { touched, error } }) => (
       <label>{label}</label>
     </Col>
     <Col span={2}>
-      <Tooltip title={rateTips[label]} placement="right">
+      <Tooltip title={rateTips[label.split(' ').join('')]} placement="right">
         <Icon type="info-circle" />
       </Tooltip>
     </Col>

@@ -125,23 +125,21 @@ class AddSummaryModal extends React.Component {
                               <Field
                                 name="logic"
                                 component={RfRate}
-                                label="logic"
+                                label="Logic"
                                 format={rateValueFormatter}
                                 value={summary.logic}
                               />
                               <Field
                                 name="language"
                                 component={RfRate}
-                                label="language"
+                                label="Language"
                                 format={rateValueFormatter}
                                 value={summary.language}
                               />
                               <Field
                                 name="techreview"
                                 component={RfTextArea}
-                                label="techreview"
                                 value={summary.techreview}
-                                defaultValue=""
                               />
                               <h4 style={{ marginTop: '12px' }}>
                                 Personality：
@@ -149,16 +147,14 @@ class AddSummaryModal extends React.Component {
                               <Field
                                 name="workwith"
                                 component={RfRate}
-                                label="workwith"
+                                label="Good to work with"
                                 format={rateValueFormatter}
                                 value={summary.workwith}
                               />
                               <Field
                                 name="perstyreview"
                                 component={RfTextArea}
-                                label="perstyreview"
                                 value={summary.perstyreview}
-                                defaultValue=""
                               />
                               <Button
                                 htmlType="submit"
