@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { formatTime } from 'utils/format';
 
-import { List, Avatar, Icon, Button, Modal, Tooltip } from 'antd';
+import { List, Avatar, Icon, Button, Modal, Tooltip, Typography } from 'antd';
 import { deleteTestAction } from 'redux/test/actions';
 import AddSummaryModal from 'components/Summary/AddSummaryModal';
 import InterviewSummaryModal from 'components/Summary/InterviewSummaryModal';
@@ -102,9 +102,21 @@ class TestList extends React.Component {
             const isInterviewer =
               item.users.items &&
               item.users.items.map(v => v && v.user.id).includes(jeUser.id) &&
-              !item.results.items.map(v => v.author).includes(jeUser.name);
+              item.results.items.map(v => v.author).includes(jeUser.name);
+            const isHost = item.host && item.host.id === jeUser.id;
+            if (isHost) {
+              actions.push(
+                <Button
+                  type="button"
+                  className={style.floatTop}
+                  onClick={this.handleDeleteButton(item)}
+                >
+                  <Icon type="delete" theme="twoTone" twoToneColor="#f00" />
+                </Button>,
+              );
+            }
             if (atLeastOneEndRecord) {
-              if (isInterviewer) {
+              if (!isInterviewer) {
                 actions.push(
                   <Tooltip
                     placement="top"
@@ -141,9 +153,10 @@ class TestList extends React.Component {
               );
             } else {
               actions.push(
-                <>
-                  <Icon type="loading" /> Ongoing
-                </>,
+                <Button style={{ cursor: 'default' }} type="link">
+                  <Icon spin type="sync" />
+                  Ongoing
+                </Button>,
               );
             }
 
@@ -161,15 +174,6 @@ class TestList extends React.Component {
                   title={item.subjectId}
                   description={formatTime(item.timeBegin)}
                 />
-                {item.host && item.host.name === localStorage.username && (
-                  <button
-                    type="button"
-                    className={style.floatTop}
-                    onClick={this.handleDeleteButton(item)}
-                  >
-                    <Icon type="delete" theme="twoTone" twoToneColor="#f00" />
-                  </button>
-                )}
               </List.Item>
             );
           }}
