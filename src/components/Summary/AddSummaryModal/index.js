@@ -115,7 +115,6 @@ class AddSummaryModal extends React.Component {
                       )}
                       <Typography.Title level={4}>
                         Please leave your summary below
-                        {/* <Icon type="edit" /> */}
                       </Typography.Title>
                       <Row type="flex" align="middle" justify="space-around">
                         <Col span={24}>
