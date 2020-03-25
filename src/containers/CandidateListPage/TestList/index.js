@@ -102,7 +102,7 @@ class TestList extends React.Component {
             const isInterviewer =
               item.users.items &&
               item.users.items.map(v => v && v.user.id).includes(jeUser.id) &&
-              item.results.items.map(v => v.author).includes(jeUser.name);
+              !item.results.items.map(v => v.author).includes(jeUser.name);
             const isHost = item.host && item.host.id === jeUser.id;
             if (isHost) {
               actions.push(
