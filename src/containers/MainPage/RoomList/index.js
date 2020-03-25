@@ -1,5 +1,4 @@
 import React from 'react';
-import includes from 'lodash/includes';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
