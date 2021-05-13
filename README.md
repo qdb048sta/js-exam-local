@@ -68,7 +68,7 @@ v0.1.0
 1. Go into the project directory `cd /path/to/js-exam`
 2. Run the cammand `amplify init` and finish few prompt question as below
 	* **? Do you want to use an existing environment?** `Yes`
-	* **? Choose the environment you would like to use:** `dev`
+	* **? Choose the environment you would like to use:** `Prod`
 	* **? Choose your default editor:** `(select yours)`
 	* **? Do you want to use an AWS profile?** `Yes`
 	* **? Please choose the profile you want to use** `amplify-user`
