@@ -1,6 +1,6 @@
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import filter from 'lodash/filter';
-import { createJeUser } from 'graphql/mutations';
+import { createJEUser } from 'graphql/mutations';
 import { listJeUsers } from './queries';
 import {
   AUTO_LOGIN,
@@ -25,10 +25,9 @@ const getJEUserByName = name =>
       return resp.data.listJEUsers.items[0];
     })
     .catch(err => console.warn('getJEUserByName error:', err));
-
-const createJEUser = name =>
+const createJEUser2 = name =>
   API.graphql(
-    graphqlOperation(createJeUser, {
+    graphqlOperation(createJEUser, {
       input: { name },
     }),
   )
